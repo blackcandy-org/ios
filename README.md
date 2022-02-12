@@ -1,1 +1,1 @@
-# black_candy_ios
+# Black Candy for iOS
