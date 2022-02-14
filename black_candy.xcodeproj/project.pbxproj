@@ -15,7 +15,6 @@
 		94662F9B27B3838E00D4E170 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94662F9927B3838E00D4E170 /* LaunchScreen.storyboard */; };
 		94F5709427B62284001E8EBB /* Turbo in Frameworks */ = {isa = PBXBuildFile; productRef = 94F5709327B62284001E8EBB /* Turbo */; };
 		94F8337927B646A40023C69E /* TurboNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F8337827B646A40023C69E /* TurboNavigationController.swift */; };
-		94F8337B27B64ABC0023C69E /* ServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F8337A27B64ABC0023C69E /* ServerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,7 +27,6 @@
 		94662F9A27B3838E00D4E170 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		94662F9C27B3838E00D4E170 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		94F8337827B646A40023C69E /* TurboNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboNavigationController.swift; sourceTree = "<group>"; };
-		94F8337A27B64ABC0023C69E /* ServerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +71,6 @@
 				94662F9927B3838E00D4E170 /* LaunchScreen.storyboard */,
 				94662F9C27B3838E00D4E170 /* Info.plist */,
 				94F8337827B646A40023C69E /* TurboNavigationController.swift */,
-				94F8337A27B64ABC0023C69E /* ServerViewController.swift */,
 			);
 			path = black_candy;
 			sourceTree = "<group>";
@@ -165,7 +162,6 @@
 				94662F9327B3838B00D4E170 /* ViewController.swift in Sources */,
 				94662F8F27B3838B00D4E170 /* AppDelegate.swift in Sources */,
 				94F8337927B646A40023C69E /* TurboNavigationController.swift in Sources */,
-				94F8337B27B64ABC0023C69E /* ServerViewController.swift in Sources */,
 				94662F9127B3838B00D4E170 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

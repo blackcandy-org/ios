@@ -1,0 +1,13 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: macos-11
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Lint Swift
+        run: |
+          swiftlint
