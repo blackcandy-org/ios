@@ -5,12 +5,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   var window: UIWindow?
   private lazy var navigationController = TurboNavigationController()
   fileprivate let url = URL(string: "https://yourblackcandy.server")!
-  
+
   func scene(
     _ scene: UIScene, willConnectTo session: UISceneSession,
     options connectionOptions: UIScene.ConnectionOptions
   ) {
-    guard let _ = (scene as? UIWindowScene) else { return }
+    guard scene as? UIWindowScene != nil else { return }
     window!.rootViewController = navigationController
     visit(url: url)
   }

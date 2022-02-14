@@ -1,0 +1,11 @@
+disabled_rules:
+  - identifier_name
+  - force_try
+  - force_cast
+  - line_length
+
+opt_in_rules:
+  - indentation_width
+
+indentation_width:
+  indentation_width: 2
