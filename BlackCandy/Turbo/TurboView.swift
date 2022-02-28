@@ -3,9 +3,15 @@ import SwiftUI
 import Turbo
 
 struct TurboView: UIViewControllerRepresentable {
-  let session = Session()
-  let url: String
+  @EnvironmentObject var store: Store
+
+  let path: String
   let navigationController = UINavigationController()
+  let session = TurboSession.create()
+
+  var url: String {
+    store.state.serverUrl + path
+  }
 
   func makeCoordinator() -> Coordinator {
     Coordinator(navigationController: self.navigationController)
@@ -23,7 +29,7 @@ struct TurboView: UIViewControllerRepresentable {
 
     func session(_ session: Session, didProposeVisit proposal: VisitProposal) {
       let viewController = VisitableViewController(url: proposal.url)
-      navigationController.pushViewController(viewController, animated: false)
+      navigationController.pushViewController(viewController, animated: true)
       session.visit(viewController)
     }
 
@@ -35,7 +41,7 @@ struct TurboView: UIViewControllerRepresentable {
   func makeUIViewController(context: Context) -> UINavigationController {
     let viewController = VisitableViewController(url: URL(string: url)!)
 
-    navigationController.pushViewController(viewController, animated: false)
+    navigationController.setViewControllers([viewController], animated: true)
     session.delegate = context.coordinator
     session.visit(viewController)
 
@@ -43,5 +49,8 @@ struct TurboView: UIViewControllerRepresentable {
   }
 
   func updateUIViewController(_ visitableViewController: UINavigationController, context: Context) {
+    let viewController = VisitableViewController(url: URL(string: url)!)
+    navigationController.setViewControllers([viewController], animated: true)
+    session.visit(viewController)
   }
 }
