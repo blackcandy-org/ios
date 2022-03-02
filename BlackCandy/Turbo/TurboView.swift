@@ -6,7 +6,7 @@ struct TurboView: UIViewControllerRepresentable {
   @EnvironmentObject var store: Store
 
   let path: String
-  let navigationController = UINavigationController()
+  let navigationController = TurboNavigationController()
   let session = TurboSession.create()
 
   var url: String {
@@ -28,7 +28,7 @@ struct TurboView: UIViewControllerRepresentable {
     }
 
     func session(_ session: Session, didProposeVisit proposal: VisitProposal) {
-      let viewController = VisitableViewController(url: proposal.url)
+      let viewController = TurboVisitableViewController(url: proposal.url)
       navigationController.pushViewController(viewController, animated: true)
       session.visit(viewController)
     }
@@ -39,7 +39,8 @@ struct TurboView: UIViewControllerRepresentable {
   }
 
   func makeUIViewController(context: Context) -> UINavigationController {
-    let viewController = VisitableViewController(url: URL(string: url)!)
+    let viewController = TurboVisitableViewController(url: URL(string: url)!)
+    viewController.hasSearchBar = true
 
     navigationController.setViewControllers([viewController], animated: true)
     session.delegate = context.coordinator
@@ -49,7 +50,9 @@ struct TurboView: UIViewControllerRepresentable {
   }
 
   func updateUIViewController(_ visitableViewController: UINavigationController, context: Context) {
-    let viewController = VisitableViewController(url: URL(string: url)!)
+    let viewController = TurboVisitableViewController(url: URL(string: url)!)
+    viewController.hasSearchBar = true
+
     navigationController.setViewControllers([viewController], animated: true)
     session.visit(viewController)
   }
