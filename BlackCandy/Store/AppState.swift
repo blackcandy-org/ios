@@ -1,3 +1,5 @@
-struct AppState {
-  var serverUrl = "http://localhost:3000"
+import Foundation
+
+struct AppState: Equatable {
+  var serverAddress = "http://localhost:3000"
 }

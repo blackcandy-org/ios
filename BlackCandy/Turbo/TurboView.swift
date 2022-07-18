@@ -1,16 +1,17 @@
 import UIKit
 import SwiftUI
 import Turbo
+import ComposableArchitecture
 
 struct TurboView: UIViewControllerRepresentable {
-  @EnvironmentObject var store: Store
+  @Environment(\.serverAddress) var serverAddress
 
   let path: String
   let navigationController = TurboNavigationController()
   let session = TurboSession.create()
 
   var url: String {
-    store.state.serverUrl + path
+    serverAddress + path
   }
 
   func makeCoordinator() -> Coordinator {
@@ -34,7 +35,26 @@ struct TurboView: UIViewControllerRepresentable {
     }
 
     func session(_ session: Session, didFailRequestForVisitable visitable: Visitable, error: Error) {
-      NSLog("didFailRequestForVisitable: \(error)")
+      if let turboError = error as? TurboError {
+        switch turboError {
+        case .http(let statusCode):
+          if statusCode == 401 {
+            let view = SessionNewView()
+            let controller = UIHostingController(rootView: view)
+
+            controller.isModalInPresentation = true
+            navigationController.present(controller, animated: true)
+          }
+        case .networkFailure, .timeoutFailure:
+          return
+        case .contentTypeMismatch:
+          return
+        case .pageLoadFailure:
+          return
+        }
+      } else {
+        NSLog("didFailRequestForVisitable: \(error)")
+      }
     }
   }
 
