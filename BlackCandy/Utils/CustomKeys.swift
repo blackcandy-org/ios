@@ -1,7 +1,7 @@
 import SwiftUI
 
 private struct ServerAddressKey: EnvironmentKey {
-  static let defaultValue: String = "http://localhost:3000"
+  static let defaultValue: String = ""
 }
 
 extension EnvironmentValues {

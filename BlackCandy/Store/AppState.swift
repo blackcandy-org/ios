@@ -1,5 +1,7 @@
+import ComposableArchitecture
 import Foundation
 
 struct AppState: Equatable {
-  var serverAddress = "http://localhost:3000"
+  var alert: AlertState<AppAction>?
+  var serverAddress = ""
 }

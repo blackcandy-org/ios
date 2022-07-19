@@ -6,6 +6,7 @@ import ComposableArchitecture
 struct TurboView: UIViewControllerRepresentable {
   @Environment(\.serverAddress) var serverAddress
 
+  let store: Store<AppState, AppAction>
   let path: String
   let navigationController = TurboNavigationController()
   let session = TurboSession.create()
@@ -15,14 +16,19 @@ struct TurboView: UIViewControllerRepresentable {
   }
 
   func makeCoordinator() -> Coordinator {
-    Coordinator(navigationController: self.navigationController)
+    Coordinator(
+      navigationController: self.navigationController,
+      store: self.store
+    )
   }
 
   class Coordinator: NSObject, SessionDelegate {
     var navigationController: UINavigationController
+    var store: Store<AppState, AppAction>
 
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, store: Store<AppState, AppAction>) {
       self.navigationController = navigationController
+      self.store = store
     }
 
     func sessionWebViewProcessDidTerminate(_ session: Session) {
@@ -39,7 +45,7 @@ struct TurboView: UIViewControllerRepresentable {
         switch turboError {
         case .http(let statusCode):
           if statusCode == 401 {
-            let view = SessionNewView()
+            let view = SessionNewView(store: store)
             let controller = UIHostingController(rootView: view)
 
             controller.isModalInPresentation = true

@@ -23,6 +23,9 @@
 		DD6E0EA92885011300F39DB3 /* AppAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6E0EA82885011300F39DB3 /* AppAction.swift */; };
 		DD6E0EAC2885345E00F39DB3 /* CustomKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6E0EAB2885345E00F39DB3 /* CustomKeys.swift */; };
 		DD6E0EAE2885380C00F39DB3 /* SessionNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6E0EAD2885380C00F39DB3 /* SessionNewView.swift */; };
+		DD751E052886835600B8128E /* SessionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD751E042886835600B8128E /* SessionState.swift */; };
+		DD751E0728868A3D00B8128E /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD751E0628868A3D00B8128E /* HomeView.swift */; };
+		DD751E0928869C4700B8128E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD751E0828869C4600B8128E /* Localizable.strings */; };
 		DDA4922227CF15710063A35B /* TurboVisitableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA4922127CF15710063A35B /* TurboVisitableViewController.swift */; };
 		DDB453A127CF11EF003BA1F9 /* TurboNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB453A027CF11EF003BA1F9 /* TurboNavigationController.swift */; };
 /* End PBXBuildFile section */
@@ -62,6 +65,9 @@
 		DD6E0EA82885011300F39DB3 /* AppAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAction.swift; sourceTree = "<group>"; };
 		DD6E0EAB2885345E00F39DB3 /* CustomKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomKeys.swift; sourceTree = "<group>"; };
 		DD6E0EAD2885380C00F39DB3 /* SessionNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionNewView.swift; sourceTree = "<group>"; };
+		DD751E042886835600B8128E /* SessionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionState.swift; sourceTree = "<group>"; };
+		DD751E0628868A3D00B8128E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		DD751E0828869C4600B8128E /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		DDA4922127CF15710063A35B /* TurboVisitableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboVisitableViewController.swift; sourceTree = "<group>"; };
 		DDB453A027CF11EF003BA1F9 /* TurboNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboNavigationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -117,6 +123,7 @@
 		DD18368F27CC79EF0018ECF5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DD751E0628868A3D00B8128E /* HomeView.swift */,
 				DD6E0EAD2885380C00F39DB3 /* SessionNewView.swift */,
 			);
 			path = Views;
@@ -151,8 +158,10 @@
 				DD18368D27CC79BF0018ECF5 /* Turbo */,
 				DD18368427CC75870018ECF5 /* Store */,
 				DD6E0EAA2885344400F39DB3 /* Utils */,
+				DD751E032886832800B8128E /* State */,
 				DD62F4CF27C769CE005A5D0B /* Assets.xcassets */,
 				DD62F4D127C769CE005A5D0B /* Preview Content */,
+				DD751E0828869C4600B8128E /* Localizable.strings */,
 			);
 			path = BlackCandy;
 			sourceTree = "<group>";
@@ -188,6 +197,14 @@
 				DD6E0EAB2885345E00F39DB3 /* CustomKeys.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		DD751E032886832800B8128E /* State */ = {
+			isa = PBXGroup;
+			children = (
+				DD751E042886835600B8128E /* SessionState.swift */,
+			);
+			path = State;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -303,6 +320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD62F4D327C769CE005A5D0B /* Preview Assets.xcassets in Resources */,
+				DD751E0928869C4700B8128E /* Localizable.strings in Resources */,
 				DD62F4D027C769CE005A5D0B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,10 +348,12 @@
 			files = (
 				DDA4922227CF15710063A35B /* TurboVisitableViewController.swift in Sources */,
 				DD62F4CE27C769CC005A5D0B /* BlackCandyView.swift in Sources */,
+				DD751E0728868A3D00B8128E /* HomeView.swift in Sources */,
 				DD6E0EA52885005E00F39DB3 /* AppState.swift in Sources */,
 				DD62F4F927C76D06005A5D0B /* TurboView.swift in Sources */,
 				DD6E0EAC2885345E00F39DB3 /* CustomKeys.swift in Sources */,
 				DD6E0EA92885011300F39DB3 /* AppAction.swift in Sources */,
+				DD751E052886835600B8128E /* SessionState.swift in Sources */,
 				DD6E0EAE2885380C00F39DB3 /* SessionNewView.swift in Sources */,
 				DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */,
 				DD6E0EA7288500DA00F39DB3 /* AppEnvironment.swift in Sources */,
