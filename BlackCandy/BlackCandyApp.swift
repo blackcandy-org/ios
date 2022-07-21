@@ -9,7 +9,10 @@ struct BlackCandyApp: App {
         initialState: AppState(),
         reducer: appReducer,
         environment: AppEnvironment(
-          mainQueue: .main
+          mainQueue: .main,
+          apiClient: .live,
+          userDefaultsClient: .live,
+          cookiesClient: .live
         )
       ))
     }

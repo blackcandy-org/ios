@@ -6,29 +6,36 @@ struct HomeView: View {
 
   var body: some View {
     WithViewStore(self.store) { viewStore in
-      if viewStore.serverAddress.isEmpty {
-        SessionNewView(store: store)
+      if viewStore.serverAddress == nil {
+        LoginView(store: store)
       } else {
         TabView {
-          TurboView(store: store, path: "/albums")
+          TurboView(viewStore: viewStore, path: "/albums")
             .tabItem {
               Label("Albums", systemImage: "square.stack")
             }
 
-          TurboView(store: store, path: "/artists")
+          TurboView(viewStore: viewStore, path: "/artists")
             .tabItem {
               Label("Artists", systemImage: "music.mic")
             }
 
-          TurboView(store: store, path: "/songs")
+          TurboView(viewStore: viewStore, path: "/songs")
             .tabItem {
               Label("Songs", systemImage: "music.note")
             }
 
-          TurboView(store: store, path: "/setting")
+          TurboView(viewStore: viewStore, path: "/setting")
             .tabItem {
               Label("Settings", systemImage: "gear")
             }
+        }
+        .sheet(isPresented: viewStore.binding(
+          get: { $0.isLoginSheetVisible },
+          send: { AppAction.updateLoginSheetVisibility($0) }
+        )) {
+          LoginView(store: store)
+            .alert(self.store.scope(state: \.alert), dismiss: .dismissAlert)
         }
         .environment(\.serverAddress, viewStore.serverAddress)
       }

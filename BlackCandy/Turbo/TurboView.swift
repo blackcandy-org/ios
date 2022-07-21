@@ -6,29 +6,29 @@ import ComposableArchitecture
 struct TurboView: UIViewControllerRepresentable {
   @Environment(\.serverAddress) var serverAddress
 
-  let store: Store<AppState, AppAction>
+  let viewStore: ViewStore<AppState, AppAction>
   let path: String
   let navigationController = TurboNavigationController()
   let session = TurboSession.create()
 
-  var url: String {
-    serverAddress + path
+  var url: URL {
+    serverAddress!.appendingPathComponent(path)
   }
 
   func makeCoordinator() -> Coordinator {
     Coordinator(
       navigationController: self.navigationController,
-      store: self.store
+      viewStore: self.viewStore
     )
   }
 
   class Coordinator: NSObject, SessionDelegate {
     var navigationController: UINavigationController
-    var store: Store<AppState, AppAction>
+    var viewStore: ViewStore<AppState, AppAction>
 
-    init(navigationController: UINavigationController, store: Store<AppState, AppAction>) {
+    init(navigationController: UINavigationController, viewStore: ViewStore<AppState, AppAction>) {
       self.navigationController = navigationController
-      self.store = store
+      self.viewStore = viewStore
     }
 
     func sessionWebViewProcessDidTerminate(_ session: Session) {
@@ -45,11 +45,8 @@ struct TurboView: UIViewControllerRepresentable {
         switch turboError {
         case .http(let statusCode):
           if statusCode == 401 {
-            let view = SessionNewView(store: store)
-            let controller = UIHostingController(rootView: view)
-
-            controller.isModalInPresentation = true
-            navigationController.present(controller, animated: true)
+            viewStore.send(.updateCurrentSession(session))
+            viewStore.send(.updateLoginSheetVisibility(true))
           }
         case .networkFailure, .timeoutFailure:
           return
@@ -65,7 +62,7 @@ struct TurboView: UIViewControllerRepresentable {
   }
 
   func makeUIViewController(context: Context) -> UINavigationController {
-    let viewController = TurboVisitableViewController(url: URL(string: url)!)
+    let viewController = TurboVisitableViewController(url: url)
     viewController.hasSearchBar = true
 
     navigationController.setViewControllers([viewController], animated: true)
@@ -76,7 +73,7 @@ struct TurboView: UIViewControllerRepresentable {
   }
 
   func updateUIViewController(_ visitableViewController: UINavigationController, context: Context) {
-    let viewController = TurboVisitableViewController(url: URL(string: url)!)
+    let viewController = TurboVisitableViewController(url: url)
     viewController.hasSearchBar = true
 
     navigationController.setViewControllers([viewController], animated: true)

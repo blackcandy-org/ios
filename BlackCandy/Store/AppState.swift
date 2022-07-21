@@ -1,7 +1,10 @@
-import ComposableArchitecture
 import Foundation
+import ComposableArchitecture
+import Turbo
 
 struct AppState: Equatable {
   var alert: AlertState<AppAction>?
-  var serverAddress = ""
+  var serverAddress: URL?
+  var currentSession: Session?
+  var isLoginSheetVisible = false
 }
