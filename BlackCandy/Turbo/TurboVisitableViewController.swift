@@ -12,7 +12,6 @@ class TurboVisitableViewController: VisitableViewController, UITextFieldDelegate
 
       searchController.searchBar.searchTextField.delegate = self
       navigationItem.searchController = searchController
-      navigationItem.hidesSearchBarWhenScrolling = false
     }
   }
 

@@ -1,16 +1,77 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Turbo",
-        "repositoryURL": "https://github.com/hotwired/turbo-ios",
-        "state": {
-          "branch": "main",
-          "revision": "fadb1f3888427a839f1e102ec5f38125f96172ba",
-          "version": null
-        }
+  "pins" : [
+    {
+      "identity" : "combine-schedulers",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/combine-schedulers",
+      "state" : {
+        "revision" : "0ba3a562716efabb585ccb169450c5389107286b",
+        "version" : "0.6.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "swift-case-paths",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/swift-case-paths",
+      "state" : {
+        "revision" : "a09839348486db8866f85a727b8550be1d671c50",
+        "version" : "0.9.1"
+      }
+    },
+    {
+      "identity" : "swift-collections",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-collections",
+      "state" : {
+        "revision" : "48254824bb4248676bf7ce56014ff57b142b77eb",
+        "version" : "1.0.2"
+      }
+    },
+    {
+      "identity" : "swift-composable-architecture",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/swift-composable-architecture",
+      "state" : {
+        "revision" : "0a38f2c860a64a005afeb8a6fe186eb2818c9a3f",
+        "version" : "0.38.3"
+      }
+    },
+    {
+      "identity" : "swift-custom-dump",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/swift-custom-dump",
+      "state" : {
+        "revision" : "21ec1d717c07cea5a026979cb0471dd95c7087e7",
+        "version" : "0.5.0"
+      }
+    },
+    {
+      "identity" : "swift-identified-collections",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/swift-identified-collections",
+      "state" : {
+        "revision" : "2d6b7ffcc67afd9077fac5e5a29bcd6d39b71076",
+        "version" : "0.4.0"
+      }
+    },
+    {
+      "identity" : "turbo-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hotwired/turbo-ios",
+      "state" : {
+        "branch" : "main",
+        "revision" : "fadb1f3888427a839f1e102ec5f38125f96172ba"
+      }
+    },
+    {
+      "identity" : "xctest-dynamic-overlay",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",
+      "state" : {
+        "revision" : "ef8e14e7ce1c0c304c644c6ba365d06c468ded6b",
+        "version" : "0.3.3"
+      }
+    }
+  ],
+  "version" : 2
 }

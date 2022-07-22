@@ -1,0 +1,10 @@
+"label.serverAddress" = "Server Address";
+"label.email" = "Email";
+"label.password" = "Password";
+"label.login" = "Login";
+
+"text.loginToBC" = "Login to Black Candy";
+"text.invalidServerAddress" = "Invalid Server Address";
+"text.invalidUserCredential" = "Wrong email or password";
+"text.invalidRequest" = "Invalid Request";
+"text.invalidResponse" = "Invalid Response";
