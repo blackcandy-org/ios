@@ -5,7 +5,7 @@ enum AppAction: Equatable {
   case dismissAlert
   case login(LoginState)
   case loginResponse(Result<APIClient.AuthenticationResponse, APIClient.Error>)
-  case restoreUserDefaults
+  case restoreStates
   case updateLoginSheetVisibility(Bool)
   case updateCurrentSession(Session)
 }
@@ -29,6 +29,7 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
   case let .loginResponse(.success(response)):
     environment.userDefaultsClient.updateServerAddress(response.serverAddress)
     environment.cookiesClient.updateCookies(response.cookies)
+    environment.keychainClient.updateAPIToken(response.token)
 
     state.serverAddress = response.serverAddress
     state.isLoginSheetVisible = false
@@ -48,8 +49,10 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
     state.alert = .init(title: .init("text.invalidResponse"))
     return .none
 
-  case .restoreUserDefaults:
+  case .restoreStates:
     state.serverAddress = environment.userDefaultsClient.serverAddress()
+    state.apiToken = environment.keychainClient.apiToken()
+
     return .none
 
   case let .updateLoginSheetVisibility(isVisible):

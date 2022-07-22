@@ -7,4 +7,5 @@ struct AppState: Equatable {
   var serverAddress: URL?
   var currentSession: Session?
   var isLoginSheetVisible = false
+  var apiToken: String?
 }

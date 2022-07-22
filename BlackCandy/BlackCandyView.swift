@@ -11,7 +11,7 @@ struct BlackCandyView: View {
         .onChange(of: scenePhase) { phase in
           switch phase {
           case .active:
-            viewStore.send(.restoreUserDefaults)
+            viewStore.send(.restoreStates)
           case .background, .inactive:
             return
           @unknown default:

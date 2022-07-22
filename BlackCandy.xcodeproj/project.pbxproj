@@ -31,6 +31,7 @@
 		DD751E102888F2DD00B8128E /* UserDefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD751E0F2888F2DD00B8128E /* UserDefaultsClient.swift */; };
 		DDA4922227CF15710063A35B /* TurboVisitableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA4922127CF15710063A35B /* TurboVisitableViewController.swift */; };
 		DDB453A127CF11EF003BA1F9 /* TurboNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB453A027CF11EF003BA1F9 /* TurboNavigationController.swift */; };
+		DDE9D26D288A3FDC009EFCEE /* KeychainClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE9D26C288A3FDC009EFCEE /* KeychainClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		DD751E0F2888F2DD00B8128E /* UserDefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsClient.swift; sourceTree = "<group>"; };
 		DDA4922127CF15710063A35B /* TurboVisitableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboVisitableViewController.swift; sourceTree = "<group>"; };
 		DDB453A027CF11EF003BA1F9 /* TurboNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboNavigationController.swift; sourceTree = "<group>"; };
+		DDE9D26C288A3FDC009EFCEE /* KeychainClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +222,7 @@
 				DD751E0B2887A3A500B8128E /* APIClient.swift */,
 				DD751E0F2888F2DD00B8128E /* UserDefaultsClient.swift */,
 				DD751E0D2888F19100B8128E /* CookiesClient.swift */,
+				DDE9D26C288A3FDC009EFCEE /* KeychainClient.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 				DD6E0EAC2885345E00F39DB3 /* CustomKeys.swift in Sources */,
 				DD6E0EA92885011300F39DB3 /* AppAction.swift in Sources */,
 				DD751E052886835600B8128E /* LoginState.swift in Sources */,
+				DDE9D26D288A3FDC009EFCEE /* KeychainClient.swift in Sources */,
 				DD751E102888F2DD00B8128E /* UserDefaultsClient.swift in Sources */,
 				DD6E0EAE2885380C00F39DB3 /* LoginView.swift in Sources */,
 				DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */,
