@@ -10,26 +10,31 @@ struct LoginView: View {
     WithViewStore(self.store) { viewStore in
       NavigationView {
         Form {
-          TextField("label.serverAddress", text: $loginState.serverAddress)
-            .textInputAutocapitalization(.never)
+          Section(content: {
+            TextField("label.serverAddress", text: $loginState.serverAddress)
+              .textInputAutocapitalization(.never)
 
-          TextField("label.email", text: $loginState.email)
-            .textInputAutocapitalization(.never)
+            TextField("label.email", text: $loginState.email)
+              .textInputAutocapitalization(.never)
 
-          SecureField("label.password", text: $loginState.password)
+            SecureField("label.password", text: $loginState.password)
+
+          }, header: {
+            Image("BlackCandyLogo")
+              .frame(maxWidth: .infinity)
+              .padding(.bottom)
+          })
+
+          Button(action: {
+            viewStore.send(.login(loginState))
+          }, label: {
+            Text("label.login")
+          })
+          .frame(maxWidth: .infinity)
+          .disabled(loginState.hasEmptyField)
         }
         .navigationTitle("text.loginToBC")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-          ToolbarItem(placement: .confirmationAction) {
-            Button(action: {
-              viewStore.send(.login(loginState))
-            }, label: {
-              Text("label.login")
-            })
-            .disabled(loginState.hasEmptyField)
-          }
-        }
         .onAppear {
           loginState.serverAddress = viewStore.serverAddress?.absoluteString ?? ""
         }
