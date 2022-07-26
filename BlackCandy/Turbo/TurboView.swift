@@ -65,7 +65,7 @@ struct TurboView: UIViewControllerRepresentable {
     let viewController = TurboVisitableViewController(url: url)
     viewController.hasSearchBar = true
 
-    navigationController.setViewControllers([viewController], animated: true)
+    navigationController.setViewControllers([viewController], animated: false)
     session.delegate = context.coordinator
     session.visit(viewController)
 
@@ -76,7 +76,7 @@ struct TurboView: UIViewControllerRepresentable {
     let viewController = TurboVisitableViewController(url: url)
     viewController.hasSearchBar = true
 
-    navigationController.setViewControllers([viewController], animated: true)
+    navigationController.setViewControllers([viewController], animated: false)
     session.visit(viewController)
   }
 }

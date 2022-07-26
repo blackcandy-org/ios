@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD18369227CC9FF60018ECF5 /* TurboSession.swift */; };
 		DD62F4CC27C769CC005A5D0B /* BlackCandyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD62F4CB27C769CC005A5D0B /* BlackCandyApp.swift */; };
-		DD62F4CE27C769CC005A5D0B /* BlackCandyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD62F4CD27C769CC005A5D0B /* BlackCandyView.swift */; };
 		DD62F4D027C769CE005A5D0B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD62F4CF27C769CE005A5D0B /* Assets.xcassets */; };
 		DD62F4D327C769CE005A5D0B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD62F4D227C769CE005A5D0B /* Preview Assets.xcassets */; };
 		DD62F4DD27C769CE005A5D0B /* BlackCandyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD62F4DC27C769CE005A5D0B /* BlackCandyTests.swift */; };
@@ -55,7 +54,6 @@
 		DD18369227CC9FF60018ECF5 /* TurboSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboSession.swift; sourceTree = "<group>"; };
 		DD62F4C827C769CC005A5D0B /* BlackCandy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlackCandy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD62F4CB27C769CC005A5D0B /* BlackCandyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackCandyApp.swift; sourceTree = "<group>"; };
-		DD62F4CD27C769CC005A5D0B /* BlackCandyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackCandyView.swift; sourceTree = "<group>"; };
 		DD62F4CF27C769CE005A5D0B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD62F4D227C769CE005A5D0B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DD62F4D827C769CE005A5D0B /* BlackCandyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlackCandyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,7 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				DD62F4CB27C769CC005A5D0B /* BlackCandyApp.swift */,
-				DD62F4CD27C769CC005A5D0B /* BlackCandyView.swift */,
 				DD18368F27CC79EF0018ECF5 /* Views */,
 				DD18368D27CC79BF0018ECF5 /* Turbo */,
 				DD18368427CC75870018ECF5 /* Store */,
@@ -368,7 +365,6 @@
 			files = (
 				DDA4922227CF15710063A35B /* TurboVisitableViewController.swift in Sources */,
 				DD751E0C2887A3A500B8128E /* APIClient.swift in Sources */,
-				DD62F4CE27C769CC005A5D0B /* BlackCandyView.swift in Sources */,
 				DD751E0728868A3D00B8128E /* HomeView.swift in Sources */,
 				DD6E0EA52885005E00F39DB3 /* AppState.swift in Sources */,
 				DD62F4F927C76D06005A5D0B /* TurboView.swift in Sources */,
