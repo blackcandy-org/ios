@@ -6,4 +6,5 @@ struct AppEnvironment {
   var userDefaultsClient: UserDefaultsClient
   var cookiesClient: CookiesClient
   var keychainClient: KeychainClient
+  var jsonDataClient: JSONDataClient
 }

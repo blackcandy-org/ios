@@ -7,6 +7,7 @@ struct APIClient {
   struct AuthenticationResponse: Equatable {
     let serverAddress: URL
     let token: String
+    let user: User
     let cookies: [HTTPCookie]
   }
 
@@ -86,11 +87,17 @@ extension APIClient {
 
           switch responseResult {
           case .success(let responseData):
-            let token = responseData.json["api_token"] as! String
+            let response = responseData.json["user"] as! [String: Any]
+
+            let token = response["api_token"] as! String
+            let id = response["id"] as! Int
+            let email = response["email"] as! String
+            let isAdmin = response["is_admin"] as! Bool
 
             callback(.success(AuthenticationResponse(
               serverAddress: serverAddress,
               token: token,
+              user: User(id: id, email: email, isAdmin: isAdmin),
               cookies: HTTPCookie.cookies(withResponseHeaderFields: responseData.headers, for: serverAddress)
             )))
           case .failure(let response):

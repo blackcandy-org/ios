@@ -5,6 +5,7 @@ struct KeychainClient {
 
   var apiToken: () -> String?
   var updateAPIToken: (String) -> Void
+  var deleteAPIToken: () -> Void
 }
 
 extension KeychainClient {
@@ -40,6 +41,15 @@ extension KeychainClient {
 
       SecItemDelete(query as CFDictionary)
       SecItemAdd(query as CFDictionary, nil)
+    },
+
+    deleteAPIToken: {
+      let query: [String: Any] = [
+        kSecClass as String: kSecClassGenericPassword as String,
+        kSecAttrAccount as String: apiTokenKey
+      ]
+
+      SecItemDelete(query as CFDictionary)
     }
   )
 }

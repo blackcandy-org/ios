@@ -3,6 +3,7 @@ import WebKit
 
 struct CookiesClient {
   var updateCookies: ([HTTPCookie]) -> Void
+  var cleanCookies: () -> Void
 }
 
 extension CookiesClient {
@@ -12,6 +13,16 @@ extension CookiesClient {
 
       cookies.forEach { cookie in
         cookieStore.setCookie(cookie, completionHandler: nil)
+      }
+    },
+
+    cleanCookies: {
+      let cookieStore = WKWebsiteDataStore.default().httpCookieStore
+
+      cookieStore.getAllCookies { cookies in
+        cookies.forEach { cookie in
+          cookieStore.delete(cookie)
+        }
       }
     }
   )

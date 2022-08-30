@@ -8,6 +8,9 @@ struct TurboView: UIViewControllerRepresentable {
 
   let viewStore: ViewStore<AppState, AppAction>
   let path: String
+  var hasSearchBar = true
+  var hasNavigationBar = true
+
   let navigationController = TurboNavigationController()
   let session = TurboSession.create()
 
@@ -46,7 +49,7 @@ struct TurboView: UIViewControllerRepresentable {
         case .http(let statusCode):
           if statusCode == 401 {
             viewStore.send(.updateCurrentSession(session))
-            viewStore.send(.updateLoginSheetVisibility(true))
+            viewStore.send(.logout)
           }
         case .networkFailure, .timeoutFailure:
           return
@@ -63,9 +66,10 @@ struct TurboView: UIViewControllerRepresentable {
 
   func makeUIViewController(context: Context) -> UINavigationController {
     let viewController = TurboVisitableViewController(url: url)
-    viewController.hasSearchBar = true
+    viewController.hasSearchBar = hasSearchBar
 
     navigationController.setViewControllers([viewController], animated: false)
+    navigationController.setNavigationBarHidden(!hasNavigationBar, animated: false)
     session.delegate = context.coordinator
     session.visit(viewController)
 
@@ -74,9 +78,10 @@ struct TurboView: UIViewControllerRepresentable {
 
   func updateUIViewController(_ visitableViewController: UINavigationController, context: Context) {
     let viewController = TurboVisitableViewController(url: url)
-    viewController.hasSearchBar = true
+    viewController.hasSearchBar = hasSearchBar
 
     navigationController.setViewControllers([viewController], animated: false)
+    navigationController.setNavigationBarHidden(!hasNavigationBar, animated: false)
     session.visit(viewController)
   }
 }

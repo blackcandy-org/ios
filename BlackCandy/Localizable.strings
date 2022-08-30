@@ -1,7 +1,14 @@
+"label.home" = "Home";
+"label.library" = "Library";
+"label.account" = "Account";
 "label.serverAddress" = "Server Address";
 "label.email" = "Email";
 "label.password" = "Password";
 "label.login" = "Login";
+"label.settings" = "Settings";
+"label.manageUsers" = "Manage Users";
+"label.updateProfile" = "Update Profile";
+"label.logout" = "Logout";
 
 "text.loginToBC" = "Login to Black Candy";
 "text.invalidServerAddress" = "Invalid Server Address";
