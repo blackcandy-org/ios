@@ -6,8 +6,6 @@ struct AccountView: View {
 
   var body: some View {
     WithViewStore(self.store) { viewStore in
-      let currentUser = viewStore.currentUser
-
       NavigationView {
         VStack {
           List {
@@ -21,7 +19,7 @@ struct AccountView: View {
               ).navigationTitle("label.settings")
             )
 
-            if currentUser?.isAdmin ?? false {
+            if viewStore.isAdmin {
               NavigationLink(
                 "label.manageUsers",
                 destination: TurboView(
@@ -33,15 +31,17 @@ struct AccountView: View {
               )
             }
 
-            NavigationLink(
-              "label.updateProfile",
-              destination: TurboView(
-                viewStore: viewStore,
-                path: "/users/\(currentUser!.id)/edit",
-                hasSearchBar: false,
-                hasNavigationBar: false
-              ).navigationTitle("label.updateProfile")
-            )
+            if viewStore.isLoggedIn {
+              NavigationLink(
+                "label.updateProfile",
+                destination: TurboView(
+                  viewStore: viewStore,
+                  path: "/users/\(viewStore.currentUser!.id)/edit",
+                  hasSearchBar: false,
+                  hasNavigationBar: false
+                ).navigationTitle("label.updateProfile")
+              )
+            }
 
             Section {
               Button(

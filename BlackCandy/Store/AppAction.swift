@@ -6,7 +6,6 @@ enum AppAction: Equatable {
   case login(LoginState)
   case loginResponse(Result<APIClient.AuthenticationResponse, APIClient.Error>)
   case restoreStates
-  case updateCurrentSession(Session)
   case logout
 }
 
@@ -34,7 +33,6 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
 
     state.currentUser = response.user
     state.serverAddress = response.serverAddress
-    state.currentSession?.reload()
 
     return .none
 
@@ -55,10 +53,6 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment> { state, action, e
     state.apiToken = environment.keychainClient.apiToken()
     state.currentUser = environment.jsonDataClient.currentUser()
 
-    return .none
-
-  case let .updateCurrentSession(session):
-    state.currentSession = session
     return .none
 
   case .logout:

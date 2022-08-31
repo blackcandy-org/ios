@@ -11,30 +11,31 @@ struct TurboView: UIViewControllerRepresentable {
   var hasSearchBar = true
   var hasNavigationBar = true
 
-  let navigationController = TurboNavigationController()
-  let session = TurboSession.create()
-
   var url: URL {
     serverAddress!.appendingPathComponent(path)
   }
 
   func makeCoordinator() -> Coordinator {
-    Coordinator(
-      navigationController: self.navigationController,
-      viewStore: self.viewStore
-    )
+    .init(viewStore: viewStore)
   }
 
   class Coordinator: NSObject, SessionDelegate {
-    var navigationController: UINavigationController
     var viewStore: ViewStore<AppState, AppAction>
+    var navigationController: UINavigationController = TurboNavigationController()
 
-    init(navigationController: UINavigationController, viewStore: ViewStore<AppState, AppAction>) {
-      self.navigationController = navigationController
+    lazy var session: Session = {
+      let session = TurboSession.create()
+      session.delegate = self
+
+      return session
+    }()
+
+    init(viewStore: ViewStore<AppState, AppAction>) {
       self.viewStore = viewStore
     }
 
     func sessionWebViewProcessDidTerminate(_ session: Session) {
+      session.reload()
     }
 
     func session(_ session: Session, didProposeVisit proposal: VisitProposal) {
@@ -48,7 +49,6 @@ struct TurboView: UIViewControllerRepresentable {
         switch turboError {
         case .http(let statusCode):
           if statusCode == 401 {
-            viewStore.send(.updateCurrentSession(session))
             viewStore.send(.logout)
           }
         case .networkFailure, .timeoutFailure:
@@ -66,22 +66,17 @@ struct TurboView: UIViewControllerRepresentable {
 
   func makeUIViewController(context: Context) -> UINavigationController {
     let viewController = TurboVisitableViewController(url: url)
-    viewController.hasSearchBar = hasSearchBar
+    let navigationController = context.coordinator.navigationController
+    let session = context.coordinator.session
 
+    viewController.hasSearchBar = hasSearchBar
     navigationController.setViewControllers([viewController], animated: false)
     navigationController.setNavigationBarHidden(!hasNavigationBar, animated: false)
-    session.delegate = context.coordinator
+
     session.visit(viewController)
 
     return navigationController
   }
 
-  func updateUIViewController(_ visitableViewController: UINavigationController, context: Context) {
-    let viewController = TurboVisitableViewController(url: url)
-    viewController.hasSearchBar = hasSearchBar
-
-    navigationController.setViewControllers([viewController], animated: false)
-    navigationController.setNavigationBarHidden(!hasNavigationBar, animated: false)
-    session.visit(viewController)
-  }
+  func updateUIViewController(_ visitableViewController: UINavigationController, context: Context) {}
 }
