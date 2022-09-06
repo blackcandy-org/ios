@@ -23,4 +23,13 @@ class TurboVisitableViewController: VisitableViewController, UITextFieldDelegate
 
     visitableView.webView?.evaluateJavaScript(searchScript)
   }
+
+  override func visitableDidRender() {
+    let titleScript = "document.querySelector('meta[data-native-title]').dataset.nativeTitle"
+
+    visitableView.webView?.evaluateJavaScript(titleScript) { (title, error) -> Void in
+      guard error == nil && title != nil else { return }
+      self.title = title as? String
+    }
+  }
 }
