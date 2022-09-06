@@ -8,6 +8,7 @@ struct TurboView: UIViewControllerRepresentable {
 
   let viewStore: ViewStore<AppState, AppAction>
   let path: String
+  var session: Session?
   var hasSearchBar = true
   var hasNavigationBar = true
 
@@ -16,26 +17,22 @@ struct TurboView: UIViewControllerRepresentable {
   }
 
   func makeCoordinator() -> Coordinator {
-    .init(viewStore: viewStore)
+    .init(viewStore: viewStore, session: session)
   }
 
   class Coordinator: NSObject, SessionDelegate {
     var viewStore: ViewStore<AppState, AppAction>
     var navigationController: UINavigationController = TurboNavigationController()
+    var session: Session
 
-    lazy var session: Session = {
-      let session = TurboSession.create()
-      session.delegate = self
+    init(viewStore: ViewStore<AppState, AppAction>, session: Session?) {
+      let session: Session = session ?? TurboSession.create()
 
-      return session
-    }()
-
-    init(viewStore: ViewStore<AppState, AppAction>) {
       self.viewStore = viewStore
+      self.session = session
     }
 
     func sessionWebViewProcessDidTerminate(_ session: Session) {
-      session.reload()
     }
 
     func session(_ session: Session, didProposeVisit proposal: VisitProposal) {
@@ -73,10 +70,17 @@ struct TurboView: UIViewControllerRepresentable {
     navigationController.setViewControllers([viewController], animated: false)
     navigationController.setNavigationBarHidden(!hasNavigationBar, animated: false)
 
+    session.delegate = context.coordinator
     session.visit(viewController)
 
     return navigationController
   }
 
   func updateUIViewController(_ visitableViewController: UINavigationController, context: Context) {}
+
+  static func dismantleUIViewController(_ uiViewController: UINavigationController, coordinator: Coordinator) {
+    uiViewController.popViewController(animated: false)
+    uiViewController.viewControllers = []
+    coordinator.session.webView.stopLoading()
+  }
 }

@@ -3,6 +3,7 @@ import ComposableArchitecture
 
 struct AccountView: View {
   let store: Store<AppState, AppAction>
+  let session = TurboSession.create()
 
   var body: some View {
     WithViewStore(self.store) { viewStore in
@@ -14,6 +15,7 @@ struct AccountView: View {
               destination: TurboView(
                 viewStore: viewStore,
                 path: "/setting",
+                session: session,
                 hasSearchBar: false,
                 hasNavigationBar: false
               ).navigationTitle("label.settings")
@@ -25,6 +27,7 @@ struct AccountView: View {
                 destination: TurboView(
                   viewStore: viewStore,
                   path: "/users",
+                  session: session,
                   hasSearchBar: false,
                   hasNavigationBar: false
                 ).navigationTitle("label.manageUsers")
@@ -37,6 +40,7 @@ struct AccountView: View {
                 destination: TurboView(
                   viewStore: viewStore,
                   path: "/users/\(viewStore.currentUser!.id)/edit",
+                  session: session,
                   hasSearchBar: false,
                   hasNavigationBar: false
                 ).navigationTitle("label.updateProfile")
