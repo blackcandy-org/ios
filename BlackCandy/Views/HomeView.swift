@@ -1,8 +1,10 @@
 import SwiftUI
 import ComposableArchitecture
+import LNPopupUI
 
 struct HomeView: View {
   let store: Store<AppState, AppAction>
+  @State var isPlayerPresented = true
 
   var body: some View {
     WithViewStore(self.store) { viewStore in
@@ -25,6 +27,12 @@ struct HomeView: View {
               Label("label.account", systemImage: "person")
             }
         }
+        .popup(isBarPresented: $isPlayerPresented, popupContent: {
+          PlayerView(store: store)
+        })
+        .popupBarCustomView(popupBarContent: {
+          MiniPlayerView(currentSong: viewStore.currentSong)
+        })
         .environment(\.serverAddress, viewStore.serverAddress)
       }
     }

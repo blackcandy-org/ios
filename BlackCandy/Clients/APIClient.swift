@@ -3,6 +3,7 @@ import ComposableArchitecture
 
 struct APIClient {
   var authentication: (LoginState) -> Effect<AuthenticationResponse, Error>
+  var currentPlaylistSongs: (_ serverAddress: URL, _ token: String) -> Effect<[Song], Error>
 
   struct AuthenticationResponse: Equatable {
     let serverAddress: URL
@@ -12,7 +13,7 @@ struct APIClient {
   }
 
   struct ResponseData {
-    let json: [String: Any]
+    let data: Data
     let headers: [String: String]
   }
 
@@ -28,12 +29,24 @@ struct APIClient {
     case error(Error)
   }
 
-  static func request(_ url: URL, method: String = "GET", body: Data?) -> URLRequest {
+  static var jsonDecode: JSONDecoder {
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+    return decoder
+  }
+
+  static func request(_ url: URL, method: String = "GET", token: String? = nil, body: Data? = nil) -> URLRequest {
     var request = URLRequest(url: url)
 
     request.httpMethod = method
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     request.setValue("Turbo Native iOS", forHTTPHeaderField: "User-Agent")
+
+    if token != nil {
+      request.setValue("Bearer: \(token!)", forHTTPHeaderField: "Authorization")
+    }
+
     request.httpBody = body
 
     return request
@@ -50,12 +63,11 @@ struct APIClient {
 
     guard
       let data = data,
-      let json = decodeJSON(data),
       let headers = response.allHeaderFields as? [String: String] else {
       return .error(.invalidResponse)
     }
 
-    return .success(ResponseData(json: json, headers: headers))
+    return .success(ResponseData(data: data, headers: headers))
   }
 
   static func encodeJSON(_ value: [String: Any]) -> Data? {
@@ -87,7 +99,10 @@ extension APIClient {
 
           switch responseResult {
           case .success(let responseData):
-            let response = responseData.json["user"] as! [String: Any]
+            guard let response = decodeJSON(responseData.data)?["user"] as? [String: Any] else {
+              callback(.failure(.invalidResponse))
+              return
+            }
 
             let token = response["api_token"] as! String
             let id = response["id"] as! Int
@@ -104,6 +119,32 @@ extension APIClient {
             if response.statusCode == 401 {
               callback(.failure(.invalidUserCredential))
             }
+          case .error(let error):
+            callback(.failure(error))
+          }
+        }
+
+        task.resume()
+      }
+    },
+
+    currentPlaylistSongs: { serverAddress, token in
+      .future { callback in
+        let url = URLComponents(
+          url: serverAddress.appendingPathComponent("/api/v1/current_playlist/songs"),
+          resolvingAgainstBaseURL: false
+        )!.url!
+
+        let task = URLSession.shared.dataTask(with: request(url, token: token)) { data, response, error in
+          let responseResult = parseResponse(data: data, response: response, error: error)
+
+          switch responseResult {
+          case .success(let responseData):
+            let songs = try! jsonDecode.decode([Song].self, from: responseData.data)
+
+            callback(.success(songs))
+          case .failure:
+            callback(.failure(.invalidResponse))
           case .error(let error):
             callback(.failure(error))
           }
