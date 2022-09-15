@@ -44,7 +44,7 @@ struct APIClient {
     request.setValue("Turbo Native iOS", forHTTPHeaderField: "User-Agent")
 
     if token != nil {
-      request.setValue("Bearer: \(token!)", forHTTPHeaderField: "Authorization")
+      request.setValue("Token \(token!)", forHTTPHeaderField: "Authorization")
     }
 
     request.httpBody = body

@@ -4,7 +4,7 @@ struct Song: Codable, Equatable, Identifiable {
   let id: Int
   let name: String
   let duration: Double
-  let url: String
+  let url: URL
   let albumName: String
   let artistName: String
   let isFavorited: Bool

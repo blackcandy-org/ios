@@ -7,15 +7,6 @@ struct AppState: Equatable {
   var serverAddress: URL?
   var apiToken: String?
   var currentUser: User?
-  var player: Player?
-
-  var playlist: Playlist? {
-    player?.playlist
-  }
-
-  var currentSong: Song? {
-    playlist?.songs.first
-  }
 
   var isLoggedIn: Bool {
     currentUser != nil
@@ -25,8 +16,15 @@ struct AppState: Equatable {
     currentUser?.isAdmin ?? false
   }
 
-  var hasPlaylistSongs: Bool {
-    guard let playlist = playlist else { return false }
-    return !playlist.songs.isEmpty
+  var playerState = PlayerState()
+
+  struct PlayerState: Equatable {
+    var playlist = Playlist()
+    var isPlaying = false
+    var currentIndex = 0
+
+    var currentSong: Song? {
+      playlist.songs?[currentIndex]
+    }
   }
 }

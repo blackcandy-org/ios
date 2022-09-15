@@ -28,10 +28,19 @@ struct HomeView: View {
             }
         }
         .popup(isBarPresented: $isPlayerPresented, popupContent: {
-          PlayerView(store: store)
+          PlayerView(store: self.store.scope(
+            state: \.playerState,
+            action: AppAction.player
+          ))
         })
         .popupBarCustomView(popupBarContent: {
-          MiniPlayerView(currentSong: viewStore.currentSong)
+          MiniPlayerView(store: self.store.scope(
+            state: \.playerState,
+            action: AppAction.player
+          ))
+          .onAppear {
+            viewStore.send(.getCurrentPlaylist)
+          }
         })
         .environment(\.serverAddress, viewStore.serverAddress)
       }
