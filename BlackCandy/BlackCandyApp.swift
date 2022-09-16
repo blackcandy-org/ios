@@ -12,7 +12,8 @@ struct BlackCandyApp: App {
       userDefaultsClient: .live,
       cookiesClient: .live,
       keychainClient: .live,
-      jsonDataClient: .live
+      jsonDataClient: .live,
+      playerClient: .live
     )
   )
 

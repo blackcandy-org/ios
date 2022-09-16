@@ -9,6 +9,8 @@
 "label.manageUsers" = "Manage Users";
 "label.updateProfile" = "Update Profile";
 "label.logout" = "Logout";
+"label.noItems" = "No items";
+"label.notPlaying" = "Not Playing";
 
 "text.loginToBC" = "Login to Black Candy";
 "text.invalidServerAddress" = "Invalid Server Address";

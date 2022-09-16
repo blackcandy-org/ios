@@ -31,8 +31,17 @@
 		DD751E0C2887A3A500B8128E /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD751E0B2887A3A500B8128E /* APIClient.swift */; };
 		DD751E0E2888F19100B8128E /* CookiesClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD751E0D2888F19100B8128E /* CookiesClient.swift */; };
 		DD751E102888F2DD00B8128E /* UserDefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD751E0F2888F2DD00B8128E /* UserDefaultsClient.swift */; };
+		DD87EAE028CED7880062DFE6 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD87EADF28CED7880062DFE6 /* PlayerView.swift */; };
+		DD87EAE228CF0A940062DFE6 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD87EAE128CF0A940062DFE6 /* Playlist.swift */; };
+		DDA1A70828D3041F009D80C6 /* PlayerClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA1A70728D3041F009D80C6 /* PlayerClient.swift */; };
 		DDA4922227CF15710063A35B /* TurboVisitableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA4922127CF15710063A35B /* TurboVisitableViewController.swift */; };
 		DDB453A127CF11EF003BA1F9 /* TurboNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB453A027CF11EF003BA1F9 /* TurboNavigationController.swift */; };
+		DDBE510128D1A4FD0049D754 /* CustomFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBE510028D1A4FD0049D754 /* CustomFormatter.swift */; };
+		DDE36BAB28CF3C7900B1C0AB /* LNPopupUI in Frameworks */ = {isa = PBXBuildFile; productRef = DDE36BAA28CF3C7900B1C0AB /* LNPopupUI */; };
+		DDE710EC28D04A6800CE7494 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE710EB28D04A6800CE7494 /* Song.swift */; };
+		DDE710EE28D05DED00CE7494 /* PlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE710ED28D05DEC00CE7494 /* PlaylistView.swift */; };
+		DDE710F028D0748D00CE7494 /* MiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE710EF28D0748D00CE7494 /* MiniPlayerView.swift */; };
+		DDE710F228D077C900CE7494 /* CustomStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE710F128D077C900CE7494 /* CustomStyle.swift */; };
 		DDE9D26D288A3FDC009EFCEE /* KeychainClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE9D26C288A3FDC009EFCEE /* KeychainClient.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,8 +88,16 @@
 		DD751E0B2887A3A500B8128E /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		DD751E0D2888F19100B8128E /* CookiesClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookiesClient.swift; sourceTree = "<group>"; };
 		DD751E0F2888F2DD00B8128E /* UserDefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsClient.swift; sourceTree = "<group>"; };
+		DD87EADF28CED7880062DFE6 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		DD87EAE128CF0A940062DFE6 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
+		DDA1A70728D3041F009D80C6 /* PlayerClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerClient.swift; sourceTree = "<group>"; };
 		DDA4922127CF15710063A35B /* TurboVisitableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboVisitableViewController.swift; sourceTree = "<group>"; };
 		DDB453A027CF11EF003BA1F9 /* TurboNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboNavigationController.swift; sourceTree = "<group>"; };
+		DDBE510028D1A4FD0049D754 /* CustomFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormatter.swift; sourceTree = "<group>"; };
+		DDE710EB28D04A6800CE7494 /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
+		DDE710ED28D05DEC00CE7494 /* PlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistView.swift; sourceTree = "<group>"; };
+		DDE710EF28D0748D00CE7494 /* MiniPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerView.swift; sourceTree = "<group>"; };
+		DDE710F128D077C900CE7494 /* CustomStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStyle.swift; sourceTree = "<group>"; };
 		DDE9D26C288A3FDC009EFCEE /* KeychainClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +107,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD6E0EA32884FEE100F39DB3 /* ComposableArchitecture in Frameworks */,
+				DDE36BAB28CF3C7900B1C0AB /* LNPopupUI in Frameworks */,
 				DD62F4F727C76C13005A5D0B /* Turbo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,6 +156,9 @@
 				DD751E0628868A3D00B8128E /* HomeView.swift */,
 				DD6E0EAD2885380C00F39DB3 /* LoginView.swift */,
 				DD4D059F28BDA3410035D26D /* AccountView.swift */,
+				DD87EADF28CED7880062DFE6 /* PlayerView.swift */,
+				DDE710EF28D0748D00CE7494 /* MiniPlayerView.swift */,
+				DDE710ED28D05DEC00CE7494 /* PlaylistView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -146,6 +167,8 @@
 			isa = PBXGroup;
 			children = (
 				DD4D05A228BDE7810035D26D /* User.swift */,
+				DD87EAE128CF0A940062DFE6 /* Playlist.swift */,
+				DDE710EB28D04A6800CE7494 /* Song.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -217,6 +240,8 @@
 			isa = PBXGroup;
 			children = (
 				DD6E0EAB2885345E00F39DB3 /* CustomKeys.swift */,
+				DDE710F128D077C900CE7494 /* CustomStyle.swift */,
+				DDBE510028D1A4FD0049D754 /* CustomFormatter.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -237,6 +262,7 @@
 				DD751E0D2888F19100B8128E /* CookiesClient.swift */,
 				DDE9D26C288A3FDC009EFCEE /* KeychainClient.swift */,
 				DD4D05A428BDE9520035D26D /* JSONDataClient.swift */,
+				DDA1A70728D3041F009D80C6 /* PlayerClient.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -260,6 +286,7 @@
 			packageProductDependencies = (
 				DD62F4F627C76C13005A5D0B /* Turbo */,
 				DD6E0EA22884FEE100F39DB3 /* ComposableArchitecture */,
+				DDE36BAA28CF3C7900B1C0AB /* LNPopupUI */,
 			);
 			productName = BlackCandy;
 			productReference = DD62F4C827C769CC005A5D0B /* BlackCandy.app */;
@@ -336,6 +363,7 @@
 			packageReferences = (
 				DD62F4F527C76C13005A5D0B /* XCRemoteSwiftPackageReference "turbo-ios" */,
 				DD6E0EA12884FEE100F39DB3 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				DDE36BA928CF3C7900B1C0AB /* XCRemoteSwiftPackageReference "LNPopupUI" */,
 			);
 			productRefGroup = DD62F4C927C769CC005A5D0B /* Products */;
 			projectDirPath = "";
@@ -388,17 +416,25 @@
 				DD6E0EA52885005E00F39DB3 /* AppState.swift in Sources */,
 				DD62F4F927C76D06005A5D0B /* TurboView.swift in Sources */,
 				DD6E0EAC2885345E00F39DB3 /* CustomKeys.swift in Sources */,
+				DDE710F228D077C900CE7494 /* CustomStyle.swift in Sources */,
+				DD87EAE028CED7880062DFE6 /* PlayerView.swift in Sources */,
+				DDE710EC28D04A6800CE7494 /* Song.swift in Sources */,
 				DD6E0EA92885011300F39DB3 /* AppAction.swift in Sources */,
 				DD751E052886835600B8128E /* LoginState.swift in Sources */,
+				DDE710F028D0748D00CE7494 /* MiniPlayerView.swift in Sources */,
 				DDE9D26D288A3FDC009EFCEE /* KeychainClient.swift in Sources */,
 				DD751E102888F2DD00B8128E /* UserDefaultsClient.swift in Sources */,
 				DD6E0EAE2885380C00F39DB3 /* LoginView.swift in Sources */,
 				DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */,
 				DD6E0EA7288500DA00F39DB3 /* AppEnvironment.swift in Sources */,
+				DDE710EE28D05DED00CE7494 /* PlaylistView.swift in Sources */,
 				DD4D05A328BDE7810035D26D /* User.swift in Sources */,
 				DD751E0E2888F19100B8128E /* CookiesClient.swift in Sources */,
+				DD87EAE228CF0A940062DFE6 /* Playlist.swift in Sources */,
 				DDB453A127CF11EF003BA1F9 /* TurboNavigationController.swift in Sources */,
+				DDA1A70828D3041F009D80C6 /* PlayerClient.swift in Sources */,
 				DD62F4CC27C769CC005A5D0B /* BlackCandyApp.swift in Sources */,
+				DDBE510128D1A4FD0049D754 /* CustomFormatter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -744,6 +780,14 @@
 				minimumVersion = 0.38.3;
 			};
 		};
+		DDE36BA928CF3C7900B1C0AB /* XCRemoteSwiftPackageReference "LNPopupUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/LeoNatan/LNPopupUI";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -756,6 +800,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DD6E0EA12884FEE100F39DB3 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		DDE36BAA28CF3C7900B1C0AB /* LNPopupUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDE36BA928CF3C7900B1C0AB /* XCRemoteSwiftPackageReference "LNPopupUI" */;
+			productName = LNPopupUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

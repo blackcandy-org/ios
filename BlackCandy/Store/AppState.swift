@@ -15,4 +15,17 @@ struct AppState: Equatable {
   var isAdmin: Bool {
     currentUser?.isAdmin ?? false
   }
+
+  var playerState = PlayerState()
+
+  struct PlayerState: Equatable {
+    var playlist = Playlist()
+    var isPlaying = false
+    var currentIndex = 0
+    var currentTime: Double = 0
+
+    var currentSong: Song? {
+      playlist.songs?[currentIndex]
+    }
+  }
 }
