@@ -1,5 +1,7 @@
 import Foundation
 import AVFoundation
+import ComposableArchitecture
+import Combine
 
 struct PlayerClient {
   private static let player = AVPlayer()
@@ -10,6 +12,7 @@ struct PlayerClient {
   var playOn: (Song) -> Void
   var play: () -> Void
   var pause: () -> Void
+  var getCurrentTime: () -> Effect<Double, Never>
 }
 
 extension PlayerClient {
@@ -38,6 +41,22 @@ extension PlayerClient {
 
     pause: {
       player.pause()
+    },
+
+    getCurrentTime: {
+      .run { subscriber in
+        var observer: Any?
+
+        let cancellable = AnyCancellable {
+          player.removeTimeObserver(observer!)
+        }
+
+        observer = player.addPeriodicTimeObserver(forInterval: .init(seconds: 1, preferredTimescale: 1), queue: .main, using: { _ in
+          subscriber.send(player.currentItem?.currentTime().seconds ?? 0)
+        })
+
+        return cancellable
+      }
     }
   )
 }

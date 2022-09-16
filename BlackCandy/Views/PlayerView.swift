@@ -16,13 +16,10 @@ struct PlayerView: View {
           .padding(.top, CustomStyle.spacing(.extraWide))
           .padding(.bottom, CustomStyle.spacing(.wide))
 
-        VStack {
-          songProgress(viewStore.currentSong)
-            .padding(.bottom, CustomStyle.spacing(.large))
+        songProgress(viewStore)
 
-          playerControl(viewStore)
-            .padding(.horizontal, CustomStyle.spacing(.large))
-        }
+        playerControl(viewStore)
+          .padding(CustomStyle.spacing(.large))
 
         Spacer()
 
@@ -53,15 +50,19 @@ struct PlayerView: View {
     }
   }
 
-  func songProgress(_ currentSong: Song?) -> some View {
-    let duration = currentSong != nil ? durationFormatter.string(from: TimeInterval(currentSong!.duration)) : "--:--"
+  func songProgress(_ viewStore: ViewStore<AppState.PlayerState, AppAction.PlayerAction>) -> some View {
+    let currentSong = viewStore.currentSong
+    let noneDuration = "--:--"
+    let duration = currentSong != nil ? durationFormatter.string(from: currentSong!.duration) : noneDuration
+    let currentDuration = currentSong != nil ? durationFormatter.string(from: viewStore.currentTime) : noneDuration
+    let progressValue = currentSong != nil ? viewStore.currentTime / currentSong!.duration : 0
 
     return VStack {
-      ProgressView()
+      ProgressView(value: progressValue)
         .progressViewStyle(.linear)
 
       HStack {
-        Text(currentSong != nil ? "0:00" : "--:--")
+        Text(currentDuration!)
           .font(.caption2)
           .foregroundColor(.secondary)
 
@@ -77,7 +78,9 @@ struct PlayerView: View {
   func playerControl(_ viewStore: ViewStore<AppState.PlayerState, AppAction.PlayerAction>) -> some View {
     HStack {
       Button(
-        action: {},
+        action: {
+          viewStore.send(.previous)
+        },
         label: {
           Image(systemName: "backward.fill")
             .foregroundColor(.primary)
@@ -107,10 +110,13 @@ struct PlayerView: View {
           }
         }
       )
+
       Spacer()
 
       Button(
-        action: {},
+        action: {
+          viewStore.send(.next)
+        },
         label: {
           Image(systemName: "forward.fill")
             .foregroundColor(.primary)

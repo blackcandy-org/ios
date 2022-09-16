@@ -42,7 +42,9 @@ struct MiniPlayerView: View {
           )
 
           Button(
-            action: {},
+            action: {
+              viewStore.send(.next)
+            },
             label: {
               Image(systemName: "forward.fill")
                 .foregroundColor(.primary)

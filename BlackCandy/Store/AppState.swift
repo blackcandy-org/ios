@@ -22,6 +22,7 @@ struct AppState: Equatable {
     var playlist = Playlist()
     var isPlaying = false
     var currentIndex = 0
+    var currentTime: Double = 0
 
     var currentSong: Song? {
       playlist.songs?[currentIndex]

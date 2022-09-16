@@ -14,27 +14,58 @@ enum AppAction: Equatable {
   enum PlayerAction: Equatable {
     case play
     case pause
+    case next
+    case previous
+    case playOn(Int)
+    case updateCurrentTime(Result<Double, Never>)
   }
 }
 
 let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, AppEnvironment.PlayerEnvironment> { state, action, environment in
   switch action {
   case .play:
-    guard let currentSong = state.currentSong else { return .none }
-
-    state.isPlaying = true
-
-    if environment.playerClient.hasCurrentItem() {
-      environment.playerClient.play()
-    } else {
-      environment.playerClient.playOn(currentSong)
-    }
-
-    return .none
+    return .init(value: .playOn(state.currentIndex))
 
   case .pause:
     state.isPlaying = false
     environment.playerClient.pause()
+
+    return .none
+
+  case .next:
+    return .init(value: .playOn(state.currentIndex + 1))
+
+  case .previous:
+    return .init(value: .playOn(state.currentIndex - 1))
+
+  case let .playOn(index):
+    if state.currentIndex == index && environment.playerClient.hasCurrentItem() {
+      state.isPlaying = true
+      environment.playerClient.play()
+
+      return .none
+    }
+
+    let songsCount = state.playlist.songs?.count ?? 0
+
+    if index >= songsCount {
+      state.currentIndex = 0
+    } else if index < 0 {
+      state.currentIndex = songsCount - 1
+    } else {
+      state.currentIndex = index
+    }
+
+    guard let currentSong = state.currentSong else { return .none }
+
+    state.isPlaying = true
+    environment.playerClient.playOn(currentSong)
+
+    return environment.playerClient.getCurrentTime()
+      .catchToEffect(AppAction.PlayerAction.updateCurrentTime)
+
+  case let .updateCurrentTime(.success(currentTime)):
+    state.currentTime = currentTime
 
     return .none
   }
