@@ -46,7 +46,7 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
       return .none
     }
 
-    let songsCount = state.playlist.songs?.count ?? 0
+    let songsCount = state.playlist.songs.count
 
     if index >= songsCount {
       state.currentIndex = 0

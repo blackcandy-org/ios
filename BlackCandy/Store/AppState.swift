@@ -25,7 +25,8 @@ struct AppState: Equatable {
     var currentTime: Double = 0
 
     var currentSong: Song? {
-      playlist.songs?[currentIndex]
+      guard playlist.songs.indices.contains(currentIndex) else { return nil }
+      return playlist.songs[currentIndex]
     }
   }
 }
