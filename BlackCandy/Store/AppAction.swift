@@ -18,6 +18,7 @@ enum AppAction: Equatable {
     case previous
     case playOn(Int)
     case updateCurrentTime(Result<Double, Never>)
+    case toggleFavorite
   }
 }
 
@@ -68,6 +69,14 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
     state.currentTime = currentTime
 
     return .none
+
+  case .toggleFavorite:
+    guard let currentSong = state.currentSong else { return .none }
+
+    environment.apiClient.toggleFavorite(currentSong)
+    state.currentSong?.isFavorited = !currentSong.isFavorited
+
+    return .none
   }
 }
 
@@ -78,7 +87,8 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
     environment: {
       AppEnvironment.PlayerEnvironment(
         mainQueue: $0.mainQueue,
-        playerClient: $0.playerClient
+        playerClient: $0.playerClient,
+        apiClient: $0.apiClient
       )
     }
   ),
@@ -118,6 +128,8 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
       state.apiToken = environment.keychainClient.apiToken()
 
       environment.playerClient.updateAPIToken(state.apiToken)
+      environment.apiClient.updateToken(state.apiToken)
+      environment.apiClient.updateServerAddress(state.serverAddress)
 
       return .none
 
@@ -131,7 +143,7 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
       return .none
 
     case .getCurrentPlaylist:
-      return environment.apiClient.currentPlaylistSongs(state.serverAddress!, state.apiToken!)
+      return environment.apiClient.currentPlaylistSongs()
         .receive(on: environment.mainQueue)
         .catchToEffect(AppAction.currentPlaylistResponse)
 

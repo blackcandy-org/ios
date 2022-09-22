@@ -12,5 +12,6 @@ struct AppEnvironment {
   struct PlayerEnvironment {
     var mainQueue: AnySchedulerOf<DispatchQueue>
     var playerClient: PlayerClient
+    var apiClient: APIClient
   }
 }

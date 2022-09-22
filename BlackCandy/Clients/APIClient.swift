@@ -2,8 +2,14 @@ import Foundation
 import ComposableArchitecture
 
 struct APIClient {
+  static var serverAddress: URL?
+  static var token: String?
+
+  var updateServerAddress: (URL?) -> Void
+  var updateToken: (String?) -> Void
   var authentication: (LoginState) -> Effect<AuthenticationResponse, Error>
-  var currentPlaylistSongs: (_ serverAddress: URL, _ token: String) -> Effect<[Song], Error>
+  var currentPlaylistSongs: () -> Effect<[Song], Error>
+  var toggleFavorite: (Song) -> Void
 
   struct AuthenticationResponse: Equatable {
     let serverAddress: URL
@@ -36,7 +42,7 @@ struct APIClient {
     return decoder
   }
 
-  static func request(_ url: URL, method: String = "GET", token: String? = nil, body: Data? = nil) -> URLRequest {
+  static func request(_ url: URL, method: String = "GET", body: Data? = nil) -> URLRequest {
     var request = URLRequest(url: url)
 
     request.httpMethod = method
@@ -82,6 +88,14 @@ struct APIClient {
 
 extension APIClient {
   static let live = Self(
+    updateServerAddress: { serverAddress in
+      Self.serverAddress = serverAddress
+    },
+
+    updateToken: { token in
+      Self.token = token
+    },
+
     authentication: { loginState in
       .future { callback in
         let serverAddress = URL(string: loginState.serverAddress)!
@@ -128,14 +142,16 @@ extension APIClient {
       }
     },
 
-    currentPlaylistSongs: { serverAddress, token in
+    currentPlaylistSongs: {
       .future { callback in
+        guard let serverAddress = Self.serverAddress else { return }
+
         let url = URLComponents(
           url: serverAddress.appendingPathComponent("/api/v1/current_playlist/songs"),
           resolvingAgainstBaseURL: false
         )!.url!
 
-        let task = URLSession.shared.dataTask(with: request(url, token: token)) { data, response, error in
+        let task = URLSession.shared.dataTask(with: request(url)) { data, response, error in
           let responseResult = parseResponse(data: data, response: response, error: error)
 
           switch responseResult {
@@ -152,6 +168,22 @@ extension APIClient {
 
         task.resume()
       }
+    },
+
+    toggleFavorite: { song in
+      guard let serverAddress = Self.serverAddress else { return }
+
+      var url = URLComponents(
+        url: serverAddress.appendingPathComponent("/api/v1/favorite_playlist/songs"),
+        resolvingAgainstBaseURL: false
+      )!
+
+      url.queryItems = [URLQueryItem(name: "song_id", value: String(song.id))]
+
+      let request = song.isFavorited ? request(url.url!, method: "DELETE") : request(url.url!, method: "POST")
+      let task = URLSession.shared.dataTask(with: request)
+
+      task.resume()
     }
   )
 }

@@ -23,7 +23,7 @@ struct PlayerView: View {
 
         Spacer()
 
-        playerActions
+        playerActions(viewStore)
           .padding(.horizontal, CustomStyle.spacing(.large))
       }
       .padding(.bottom, CustomStyle.spacing(.wide))
@@ -126,7 +126,7 @@ struct PlayerView: View {
     }
   }
 
-  var playerActions: some View {
+  func playerActions(_ viewStore: ViewStore<AppState.PlayerState, AppAction.PlayerAction>) -> some View {
     HStack {
       Button(
         action: {},
@@ -139,10 +139,17 @@ struct PlayerView: View {
       Spacer()
 
       Button(
-        action: {},
+        action: {
+          viewStore.send(.toggleFavorite)
+        },
         label: {
-          Image(systemName: "heart")
-            .foregroundColor(.primary)
+          if viewStore.currentSong?.isFavorited ?? false {
+            Image(systemName: "heart.fill")
+              .foregroundColor(.red)
+          } else {
+            Image(systemName: "heart")
+              .foregroundColor(.primary)
+          }
         }
       )
 

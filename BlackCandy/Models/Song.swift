@@ -7,9 +7,10 @@ struct Song: Codable, Equatable, Identifiable {
   let url: URL
   let albumName: String
   let artistName: String
-  let isFavorited: Bool
   let format: String
   let albumImageUrl: ImageURL
+
+  var isFavorited: Bool
 }
 
 extension Song {
