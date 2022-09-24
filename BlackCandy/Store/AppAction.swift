@@ -1,11 +1,12 @@
 import ComposableArchitecture
 import Turbo
+import Alamofire
 
 enum AppAction: Equatable {
   case dismissAlert
   case login(LoginState)
-  case loginResponse(Result<APIClient.AuthenticationResponse, APIClient.Error>)
-  case currentPlaylistResponse(Result<[Song], APIClient.Error>)
+  case loginResponse(TaskResult<APIClient.AuthenticationResponse>)
+  case currentPlaylistResponse(TaskResult<[Song]>)
   case restoreStates
   case logout
   case getCurrentPlaylist
@@ -17,15 +18,18 @@ enum AppAction: Equatable {
     case next
     case previous
     case playOn(Int)
-    case updateCurrentTime(Result<Double, Never>)
+    case updateCurrentTime(Double)
     case toggleFavorite
+    case toggleFavoriteResponse(TaskResult<APIClient.NoContentResponse>)
   }
 }
 
 let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, AppEnvironment.PlayerEnvironment> { state, action, environment in
   switch action {
   case .play:
-    return .init(value: .playOn(state.currentIndex))
+    return .task { [currentIndex = state.currentIndex] in
+      .playOn(currentIndex)
+    }
 
   case .pause:
     state.isPlaying = false
@@ -34,10 +38,14 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
     return .none
 
   case .next:
-    return .init(value: .playOn(state.currentIndex + 1))
+    return .task { [currentIndex = state.currentIndex] in
+      .playOn(currentIndex + 1)
+    }
 
   case .previous:
-    return .init(value: .playOn(state.currentIndex - 1))
+    return .task { [currentIndex = state.currentIndex] in
+      .playOn(currentIndex - 1)
+    }
 
   case let .playOn(index):
     if state.currentIndex == index && environment.playerClient.hasCurrentItem() {
@@ -62,10 +70,13 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
     state.isPlaying = true
     environment.playerClient.playOn(currentSong)
 
-    return environment.playerClient.getCurrentTime()
-      .catchToEffect(AppAction.PlayerAction.updateCurrentTime)
+    return .run { send in
+      for await currentTime in environment.playerClient.getCurrentTime() {
+        await send(.updateCurrentTime(currentTime))
+      }
+    }
 
-  case let .updateCurrentTime(.success(currentTime)):
+  case let .updateCurrentTime(currentTime):
     state.currentTime = currentTime
 
     return .none
@@ -73,9 +84,18 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
   case .toggleFavorite:
     guard let currentSong = state.currentSong else { return .none }
 
-    environment.apiClient.toggleFavorite(currentSong)
     state.currentSong?.isFavorited = !currentSong.isFavorited
 
+    return .task {
+      await .toggleFavoriteResponse(TaskResult { try await environment.apiClient.toggleFavorite(currentSong) })
+    }
+
+  case .toggleFavoriteResponse(.success):
+    return .none
+
+  // Toogle favorite state back if toggle favorite failed
+  case .toggleFavoriteResponse(.failure):
+    state.currentSong?.isFavorited.toggle()
     return .none
   }
 }
@@ -86,7 +106,6 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
     action: /AppAction.player,
     environment: {
       AppEnvironment.PlayerEnvironment(
-        mainQueue: $0.mainQueue,
         playerClient: $0.playerClient,
         apiClient: $0.apiClient
       )
@@ -97,9 +116,9 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
     switch action {
     case let .login(loginState):
       if loginState.hasValidServerAddress {
-        return environment.apiClient.authentication(loginState)
-          .receive(on: environment.mainQueue)
-          .catchToEffect(AppAction.loginResponse)
+        return .task {
+          await .loginResponse(TaskResult { try await environment.apiClient.authentication(loginState) })
+        }
       } else {
         state.alert = .init(title: .init("text.invalidServerAddress"))
         return .none
@@ -143,9 +162,9 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
       return .none
 
     case .getCurrentPlaylist:
-      return environment.apiClient.currentPlaylistSongs()
-        .receive(on: environment.mainQueue)
-        .catchToEffect(AppAction.currentPlaylistResponse)
+      return .task {
+        await .currentPlaylistResponse(TaskResult { try await environment.apiClient.currentPlaylistSongs() })
+      }
 
     case let .currentPlaylistResponse(.success(songs)):
       state.playerState.playlist.songs = songs
@@ -153,13 +172,27 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
       return .none
 
     case let .loginResponse(.failure(error)), let .currentPlaylistResponse(.failure(error)):
+      guard let error = error as? AFError else { return .none }
+
       switch error {
-      case .invalidResponse:
-        state.alert = .init(title: .init("text.invalidResponse"))
-      case .invalidUserCredential:
-        state.alert = .init(title: .init("text.invalidUserCredential"))
-      case .invalidRequest:
+      case .invalidURL,
+        .parameterEncodingFailed,
+        .parameterEncoderFailed,
+        .requestAdaptationFailed:
         state.alert = .init(title: .init("text.invalidRequest"))
+      case .responseSerializationFailed:
+        state.alert = .init(title: .init("text.invalidResponse"))
+      case let .responseValidationFailed(reason):
+        switch reason {
+        case .unacceptableStatusCode(code: let code):
+          if code == 401 {
+            state.alert = .init(title: .init("text.invalidUserCredential"))
+          }
+        default:
+          state.alert = .init(title: .init("text.invalidResponse"))
+        }
+      default:
+        state.alert = .init(title: .init("text.unknownNetworkError"))
       }
 
       return .none

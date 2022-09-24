@@ -31,6 +31,7 @@
 		DD751E0C2887A3A500B8128E /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD751E0B2887A3A500B8128E /* APIClient.swift */; };
 		DD751E0E2888F19100B8128E /* CookiesClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD751E0D2888F19100B8128E /* CookiesClient.swift */; };
 		DD751E102888F2DD00B8128E /* UserDefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD751E0F2888F2DD00B8128E /* UserDefaultsClient.swift */; };
+		DD83970B28DC043000BC8C11 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = DD83970A28DC043000BC8C11 /* Alamofire */; };
 		DD87EAE028CED7880062DFE6 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD87EADF28CED7880062DFE6 /* PlayerView.swift */; };
 		DD87EAE228CF0A940062DFE6 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD87EAE128CF0A940062DFE6 /* Playlist.swift */; };
 		DDA1A70828D3041F009D80C6 /* PlayerClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA1A70728D3041F009D80C6 /* PlayerClient.swift */; };
@@ -107,6 +108,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD6E0EA32884FEE100F39DB3 /* ComposableArchitecture in Frameworks */,
+				DD83970B28DC043000BC8C11 /* Alamofire in Frameworks */,
 				DDE36BAB28CF3C7900B1C0AB /* LNPopupUI in Frameworks */,
 				DD62F4F727C76C13005A5D0B /* Turbo in Frameworks */,
 			);
@@ -287,6 +289,7 @@
 				DD62F4F627C76C13005A5D0B /* Turbo */,
 				DD6E0EA22884FEE100F39DB3 /* ComposableArchitecture */,
 				DDE36BAA28CF3C7900B1C0AB /* LNPopupUI */,
+				DD83970A28DC043000BC8C11 /* Alamofire */,
 			);
 			productName = BlackCandy;
 			productReference = DD62F4C827C769CC005A5D0B /* BlackCandy.app */;
@@ -364,6 +367,7 @@
 				DD62F4F527C76C13005A5D0B /* XCRemoteSwiftPackageReference "turbo-ios" */,
 				DD6E0EA12884FEE100F39DB3 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				DDE36BA928CF3C7900B1C0AB /* XCRemoteSwiftPackageReference "LNPopupUI" */,
+				DD83970928DC043000BC8C11 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = DD62F4C927C769CC005A5D0B /* Products */;
 			projectDirPath = "";
@@ -775,9 +779,16 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
 			requirement = {
-				kind = versionRange;
-				maximumVersion = 0.39.0;
-				minimumVersion = 0.38.3;
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.40.0;
+			};
+		};
+		DD83970928DC043000BC8C11 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 5.6.0;
 			};
 		};
 		DDE36BA928CF3C7900B1C0AB /* XCRemoteSwiftPackageReference "LNPopupUI" */ = {
@@ -800,6 +811,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DD6E0EA12884FEE100F39DB3 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		DD83970A28DC043000BC8C11 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DD83970928DC043000BC8C11 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 		DDE36BAA28CF3C7900B1C0AB /* LNPopupUI */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -12,7 +12,7 @@ struct PlayerClient {
   var playOn: (Song) -> Void
   var play: () -> Void
   var pause: () -> Void
-  var getCurrentTime: () -> Effect<Double, Never>
+  var getCurrentTime: () -> AsyncStream<Double>
 }
 
 extension PlayerClient {
@@ -44,18 +44,14 @@ extension PlayerClient {
     },
 
     getCurrentTime: {
-      .run { subscriber in
-        var observer: Any?
-
-        let cancellable = AnyCancellable {
-          player.removeTimeObserver(observer!)
-        }
-
-        observer = player.addPeriodicTimeObserver(forInterval: .init(seconds: 1, preferredTimescale: 1), queue: .main, using: { _ in
-          subscriber.send(player.currentItem?.currentTime().seconds ?? 0)
+      AsyncStream { continuation in
+        let observer = player.addPeriodicTimeObserver(forInterval: .init(seconds: 1, preferredTimescale: 1), queue: .global(qos: .background), using: { _ in
+          continuation.yield(player.currentItem?.currentTime().seconds ?? 0)
         })
 
-        return cancellable
+        continuation.onTermination = { @Sendable _ in
+          player.removeTimeObserver(observer)
+        }
       }
     }
   )

@@ -1,12 +1,21 @@
 {
   "pins" : [
     {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire",
+      "state" : {
+        "revision" : "8dd85aee02e39dd280c75eef88ffdb86eed4b07b",
+        "version" : "5.6.2"
+      }
+    },
+    {
       "identity" : "combine-schedulers",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/combine-schedulers",
       "state" : {
-        "revision" : "0ba3a562716efabb585ccb169450c5389107286b",
-        "version" : "0.6.0"
+        "revision" : "aa3e575929f2bcc5bad012bd2575eae716cbcdf7",
+        "version" : "0.8.0"
       }
     },
     {
@@ -50,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-composable-architecture",
       "state" : {
-        "revision" : "0a38f2c860a64a005afeb8a6fe186eb2818c9a3f",
-        "version" : "0.38.3"
+        "revision" : "9ea8c763061287052a68d5e6723fed45e898b7d9",
+        "version" : "0.40.2"
       }
     },
     {
