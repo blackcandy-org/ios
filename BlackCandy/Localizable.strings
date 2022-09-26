@@ -18,3 +18,4 @@
 "text.invalidRequest" = "Invalid Request";
 "text.invalidResponse" = "Invalid Response";
 "text.unknownNetworkError" = "Unknown Network Error";
+"text.badRequest" = "Bad Request";

@@ -94,8 +94,12 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
     return .none
 
   // Toogle favorite state back if toggle favorite failed
-  case .toggleFavoriteResponse(.failure):
+  case let .toggleFavoriteResponse(.failure(error)):
     state.currentSong?.isFavorited.toggle()
+
+    guard let error = error as? APIClient.APIError else { return .none }
+    state.alert = .init(title: .init(error.localizedString))
+
     return .none
   }
 }
@@ -172,28 +176,8 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
       return .none
 
     case let .loginResponse(.failure(error)), let .currentPlaylistResponse(.failure(error)):
-      guard let error = error as? AFError else { return .none }
-
-      switch error {
-      case .invalidURL,
-        .parameterEncodingFailed,
-        .parameterEncoderFailed,
-        .requestAdaptationFailed:
-        state.alert = .init(title: .init("text.invalidRequest"))
-      case .responseSerializationFailed:
-        state.alert = .init(title: .init("text.invalidResponse"))
-      case let .responseValidationFailed(reason):
-        switch reason {
-        case .unacceptableStatusCode(code: let code):
-          if code == 401 {
-            state.alert = .init(title: .init("text.invalidUserCredential"))
-          }
-        default:
-          state.alert = .init(title: .init("text.invalidResponse"))
-        }
-      default:
-        state.alert = .init(title: .init("text.unknownNetworkError"))
-      }
+      guard let error = error as? APIClient.APIError else { return .none }
+      state.alert = .init(title: .init(error.localizedString))
 
       return .none
 

@@ -16,9 +16,24 @@ struct AppState: Equatable {
     currentUser?.isAdmin ?? false
   }
 
-  var playerState = PlayerState()
+  var playerState: PlayerState {
+    get {
+      var state = _playerState
+      state.alert = self.alert
+
+      return state
+    }
+
+    set {
+      self._playerState = newValue
+      self.alert = newValue.alert
+    }
+  }
+
+  private var _playerState: PlayerState = .init()
 
   struct PlayerState: Equatable {
+    var alert: AlertState<AppAction>?
     var playlist = Playlist()
     var isPlaying = false
     var currentIndex = 0

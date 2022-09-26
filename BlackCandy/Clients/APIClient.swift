@@ -26,6 +26,37 @@ struct APIClient {
     }
   }
 
+  enum APIError: Error {
+    case invalidRequest
+    case invalidResponse
+    case unauthorized
+    case badRequest(String?)
+    case unknown
+
+    var localizedString: String {
+      switch self {
+      case .invalidRequest:
+        return NSLocalizedString("text.invalidRequest", comment: "")
+
+      case .invalidResponse:
+        return NSLocalizedString("text.invalidResponse", comment: "")
+
+      case .unauthorized:
+        return NSLocalizedString("text.invalidUserCredential", comment: "")
+
+      case let .badRequest(message):
+        guard let message = message else {
+          return NSLocalizedString("text.badRequest", comment: "")
+        }
+
+        return message
+
+      case .unknown:
+        return NSLocalizedString("text.unknownNetworkError", comment: "")
+      }
+    }
+  }
+
   static var headers: HTTPHeaders {
     var basicHeaders: HTTPHeaders = [
       .userAgent("Turbo Native iOS")
@@ -52,6 +83,50 @@ struct APIClient {
   static func decodeJSON(_ data: Data) -> [String: Any]? {
     let json = try? JSONSerialization.jsonObject(with: data)
     return json as? [String: Any]
+  }
+
+  static func handleError(_ error: Error, _ responseData: Data?) -> APIError {
+    guard let error = error as? AFError else { return .unknown }
+
+    switch error {
+    case .invalidURL,
+      .parameterEncodingFailed,
+      .parameterEncoderFailed,
+      .requestAdaptationFailed:
+      return .invalidRequest
+
+    case .responseSerializationFailed:
+      return .invalidResponse
+
+    case let .responseValidationFailed(reason):
+      switch reason {
+      case let .unacceptableStatusCode(code):
+        return handleUnacceptableStatusCode(code, responseData)
+      default:
+        return .invalidResponse
+      }
+
+    default:
+      return .unknown
+    }
+  }
+
+  private static func handleUnacceptableStatusCode(_ code: Int, _ responseData: Data?) -> APIError {
+    switch code {
+    case 401:
+      return .unauthorized
+
+    case 400:
+      guard let data = responseData,
+        let errorMessage = decodeJSON(data)?["message"] as? String else {
+        return .badRequest(nil)
+      }
+
+      return .badRequest(errorMessage)
+
+    default:
+      return .invalidResponse
+    }
   }
 }
 
@@ -87,22 +162,26 @@ extension APIClient {
       .serializingData()
 
       let response = await request.response
-      let value = try await request.value
 
-      let jsonData = decodeJSON(value)?["user"] as! [String: Any]
-      let token = jsonData["api_token"] as! String
-      let id = jsonData["id"] as! Int
-      let email = jsonData["email"] as! String
-      let isAdmin = jsonData["is_admin"] as! Bool
-      let serverAddressUrl = URL(string: serverAddress)!
-      let responseHeaders = response.response?.allHeaderFields as! [String: String]
+      do {
+        let value = try await request.value
+        let jsonData = decodeJSON(value)?["user"] as! [String: Any]
+        let token = jsonData["api_token"] as! String
+        let id = jsonData["id"] as! Int
+        let email = jsonData["email"] as! String
+        let isAdmin = jsonData["is_admin"] as! Bool
+        let serverAddressUrl = URL(string: serverAddress)!
+        let responseHeaders = response.response?.allHeaderFields as! [String: String]
 
-      return AuthenticationResponse(
-        serverAddress: serverAddressUrl,
-        token: token,
-        user: User(id: id, email: email, isAdmin: isAdmin),
-        cookies: HTTPCookie.cookies(withResponseHeaderFields: responseHeaders, for: serverAddressUrl)
-      )
+        return AuthenticationResponse(
+          serverAddress: serverAddressUrl,
+          token: token,
+          user: User(id: id, email: email, isAdmin: isAdmin),
+          cookies: HTTPCookie.cookies(withResponseHeaderFields: responseHeaders, for: serverAddressUrl)
+        )
+      } catch {
+        throw handleError(error, response.data)
+      }
     },
 
     currentPlaylistSongs: {
@@ -113,7 +192,13 @@ extension APIClient {
       .validate()
       .serializingDecodable([Song].self, decoder: jsonDecoder)
 
-      return try await request.value
+      let response = await request.response
+
+      do {
+        return try await request.value
+      } catch {
+        throw handleError(error, response.data)
+      }
     },
 
     toggleFavorite: { song in
@@ -126,7 +211,13 @@ extension APIClient {
       .validate()
       .serializingDecodable(NoContentResponse.self)
 
-      return try await request.value
+      let response = await request.response
+
+      do {
+        return try await request.value
+      } catch {
+        throw handleError(error, response.data)
+      }
     }
   )
 }
