@@ -11,6 +11,7 @@
 "label.logout" = "Logout";
 "label.noItems" = "No items";
 "label.notPlaying" = "Not Playing";
+"label.tracks(%lld)" = "%lld tracks";
 
 "text.loginToBC" = "Login to Black Candy";
 "text.invalidServerAddress" = "Invalid Server Address";

@@ -20,13 +20,21 @@ struct CustomStyle {
     case large = 8
   }
 
+  enum FontSize: CGFloat {
+    case small = 12
+    case medium = 16
+    case large = 20
+  }
+
   enum Style {
     case largeSymbol
+    case smallFont
+    case mediumFont
   }
 
   static let miniPlayerImageSize: CGFloat = 40
   static let playerImageSize: CGFloat = 200
-  static let playerMaxWidth: CGFloat = 300
+  static let playerMaxWidth: CGFloat = 320
 
   static func spacing(_ spacing: Spacing) -> CGFloat {
     spacing.rawValue
@@ -35,6 +43,10 @@ struct CustomStyle {
   static func cornerRadius(_ radius: CornerRadius) -> CGFloat {
     radius.rawValue
   }
+
+  static func fontSize(_ fontSize: FontSize) -> CGFloat {
+    fontSize.rawValue
+  }
 }
 
 extension View {
@@ -42,6 +54,13 @@ extension View {
     switch style {
     case .largeSymbol:
       font(.system(size: CustomStyle.spacing(.wide)))
+
+    case .smallFont:
+      font(.system(size: CustomStyle.fontSize(.small)))
+
+    case .mediumFont:
+      font(.system(size: CustomStyle.fontSize(.medium)))
+
     }
   }
 }

@@ -21,6 +21,7 @@ enum AppAction: Equatable {
     case updateCurrentTime(Double)
     case toggleFavorite
     case toggleFavoriteResponse(TaskResult<APIClient.NoContentResponse>)
+    case togglePlaylistVisible
   }
 }
 
@@ -99,6 +100,11 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
 
     guard let error = error as? APIClient.APIError else { return .none }
     state.alert = .init(title: .init(error.localizedString))
+
+    return .none
+
+  case .togglePlaylistVisible:
+    state.isPlaylistVisible.toggle()
 
     return .none
   }

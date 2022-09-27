@@ -38,6 +38,7 @@ struct AppState: Equatable {
     var isPlaying = false
     var currentIndex = 0
     var currentTime: Double = 0
+    var isPlaylistVisible = false
 
     var currentSong: Song? {
       get {
