@@ -72,8 +72,10 @@ struct PlayerControlView: View {
     let progressValue = currentSong != nil ? viewStore.currentTime / currentSong!.duration : 0
 
     return VStack {
-      ProgressView(value: progressValue)
-        .progressViewStyle(.linear)
+      PlayerSliderView(value: viewStore.binding(
+        get: { _ in progressValue },
+        send: { AppAction.PlayerAction.seek($0) }
+      ))
 
       HStack {
         Text(currentDuration!)

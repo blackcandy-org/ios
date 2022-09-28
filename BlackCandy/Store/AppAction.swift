@@ -1,6 +1,7 @@
 import ComposableArchitecture
 import Turbo
 import Alamofire
+import CoreMedia
 
 enum AppAction: Equatable {
   case dismissAlert
@@ -22,6 +23,7 @@ enum AppAction: Equatable {
     case toggleFavorite
     case toggleFavoriteResponse(TaskResult<APIClient.NoContentResponse>)
     case togglePlaylistVisible
+    case seek(Double)
   }
 }
 
@@ -105,6 +107,14 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
 
   case .togglePlaylistVisible:
     state.isPlaylistVisible.toggle()
+
+    return .none
+
+  case let .seek(ratio):
+    guard let currentSong = state.currentSong else { return .none }
+    let time = CMTime(seconds: currentSong.duration * ratio, preferredTimescale: 1)
+
+    environment.playerClient.seek(time)
 
     return .none
   }

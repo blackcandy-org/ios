@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD0A346C28E3E02E002211AE /* PlayerSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */; };
 		DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD18369227CC9FF60018ECF5 /* TurboSession.swift */; };
 		DD4D05A028BDA3410035D26D /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4D059F28BDA3410035D26D /* AccountView.swift */; };
 		DD4D05A328BDE7810035D26D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4D05A228BDE7810035D26D /* User.swift */; };
@@ -67,6 +68,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSliderView.swift; sourceTree = "<group>"; };
 		DD18369227CC9FF60018ECF5 /* TurboSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboSession.swift; sourceTree = "<group>"; };
 		DD4D059F28BDA3410035D26D /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		DD4D05A228BDE7810035D26D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -282,6 +284,7 @@
 				DDAD9DC928E28CE200F8C96F /* PlayerControlView.swift */,
 				DDAD9DCB28E28E5900F8C96F /* PlayerActionsView.swift */,
 				DDE710ED28D05DEC00CE7494 /* PlayerPlaylistView.swift */,
+				DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				DD4D05A028BDA3410035D26D /* AccountView.swift in Sources */,
 				DD6E0EA52885005E00F39DB3 /* AppState.swift in Sources */,
 				DD62F4F927C76D06005A5D0B /* TurboView.swift in Sources */,
+				DD0A346C28E3E02E002211AE /* PlayerSliderView.swift in Sources */,
 				DDAD9DCA28E28CE200F8C96F /* PlayerControlView.swift in Sources */,
 				DD6E0EAC2885345E00F39DB3 /* CustomKeys.swift in Sources */,
 				DDAD9DCC28E28E5900F8C96F /* PlayerActionsView.swift in Sources */,
