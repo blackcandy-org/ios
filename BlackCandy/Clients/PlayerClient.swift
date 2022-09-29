@@ -14,6 +14,14 @@ struct PlayerClient {
   var pause: () -> Void
   var seek: (CMTime) -> Void
   var getCurrentTime: () -> AsyncStream<Double>
+  var getStatus: () -> AsyncStream<Status>
+
+  enum Status: String {
+    case pause
+    case playing
+    case loading
+    case end
+  }
 }
 
 extension PlayerClient {
@@ -51,11 +59,36 @@ extension PlayerClient {
     getCurrentTime: {
       AsyncStream { continuation in
         let observer = player.addPeriodicTimeObserver(forInterval: .init(seconds: 1, preferredTimescale: 1), queue: .global(qos: .background), using: { _ in
-          continuation.yield(player.currentItem?.currentTime().seconds ?? 0)
+          continuation.yield(player.currentTime().seconds )
         })
 
         continuation.onTermination = { @Sendable _ in
           player.removeTimeObserver(observer)
+        }
+      }
+    },
+
+    getStatus: {
+      AsyncStream { continuation in
+        let timeControlStatusObserver = player.observe(\AVPlayer.timeControlStatus, changeHandler: { (player, _) in
+          switch player.timeControlStatus {
+          case .paused:
+            if player.currentTime() == player.currentItem?.duration {
+              continuation.yield(.end)
+            } else {
+              continuation.yield(.pause)
+            }
+          case .waitingToPlayAtSpecifiedRate:
+            continuation.yield(.loading)
+          case .playing:
+            continuation.yield(.playing)
+          @unknown default:
+            continuation.yield(.pause)
+          }
+        })
+
+        continuation.onTermination = { @Sendable _ in
+          timeControlStatusObserver.invalidate()
         }
       }
     }

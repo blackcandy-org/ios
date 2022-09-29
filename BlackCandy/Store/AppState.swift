@@ -35,10 +35,14 @@ struct AppState: Equatable {
   struct PlayerState: Equatable {
     var alert: AlertState<AppAction>?
     var playlist = Playlist()
-    var isPlaying = false
     var currentIndex = 0
     var currentTime: Double = 0
     var isPlaylistVisible = false
+    var status = PlayerClient.Status.pause
+
+    var isPlaying: Bool {
+      status == .playing || status == .loading
+    }
 
     var currentSong: Song? {
       get {

@@ -19,11 +19,14 @@ enum AppAction: Equatable {
     case next
     case previous
     case playOn(Int)
+    case getCurrentTime
     case updateCurrentTime(Double)
     case toggleFavorite
     case toggleFavoriteResponse(TaskResult<APIClient.NoContentResponse>)
     case togglePlaylistVisible
     case seek(Double)
+    case getStatus
+    case handleStatusChange(PlayerClient.Status)
   }
 }
 
@@ -35,7 +38,6 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
     }
 
   case .pause:
-    state.isPlaying = false
     environment.playerClient.pause()
 
     return .none
@@ -52,7 +54,6 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
 
   case let .playOn(index):
     if state.currentIndex == index && environment.playerClient.hasCurrentItem() {
-      state.isPlaying = true
       environment.playerClient.play()
 
       return .none
@@ -70,9 +71,11 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
 
     guard let currentSong = state.currentSong else { return .none }
 
-    state.isPlaying = true
     environment.playerClient.playOn(currentSong)
 
+    return .none
+
+  case .getCurrentTime:
     return .run { send in
       for await currentTime in environment.playerClient.getCurrentTime() {
         await send(.updateCurrentTime(currentTime))
@@ -115,6 +118,24 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
     let time = CMTime(seconds: currentSong.duration * ratio, preferredTimescale: 1)
 
     environment.playerClient.seek(time)
+
+    return .none
+
+  case .getStatus:
+    return .run { send in
+      for await status in environment.playerClient.getStatus() {
+        await send(.handleStatusChange(status))
+      }
+    }
+
+  case let .handleStatusChange(status):
+    state.status = status
+
+    if status == .end {
+      return .task {
+        .next
+      }
+    }
 
     return .none
   }

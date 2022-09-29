@@ -8,6 +8,7 @@ struct PlayerView: View {
     WithViewStore(self.store) { viewStore in
       VStack {
         Spacer()
+
         if viewStore.isPlaylistVisible {
           PlayerPlaylistView(store: store)
         } else {

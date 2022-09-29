@@ -27,6 +27,9 @@ struct HomeView: View {
               Label("label.account", systemImage: "person")
             }
         }
+        .onAppear {
+          viewStore.send(.getCurrentPlaylist)
+        }
         .popup(isBarPresented: $isPlayerPresented, popupContent: {
           PlayerView(store: self.store.scope(
             state: \.playerState,
@@ -38,9 +41,6 @@ struct HomeView: View {
             state: \.playerState,
             action: AppAction.player
           ))
-          .onAppear {
-            viewStore.send(.getCurrentPlaylist)
-          }
         })
         .environment(\.serverAddress, viewStore.serverAddress)
       }

@@ -54,6 +54,10 @@ struct MiniPlayerView: View {
       }
       .padding(.horizontal)
       .padding(.vertical, CustomStyle.spacing(.narrow))
+      .onAppear {
+        viewStore.send(.getStatus)
+        viewStore.send(.getCurrentTime)
+      }
     }
   }
 }
