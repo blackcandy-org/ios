@@ -39,6 +39,7 @@ struct AppState: Equatable {
     var currentTime: Double = 0
     var isPlaylistVisible = false
     var status = PlayerClient.Status.pause
+    var mode = Mode.repead
 
     var isPlaying: Bool {
       status == .playing || status == .loading
@@ -55,6 +56,29 @@ struct AppState: Equatable {
           playlist.songs[currentIndex] = song
         }
       }
+    }
+  }
+}
+
+extension AppState.PlayerState {
+  enum Mode: CaseIterable {
+    case repead
+    case single
+    case shuffle
+
+    var symbol: String {
+      switch self {
+      case .repead:
+        return "repeat"
+      case .single:
+        return "repeat.1"
+      case .shuffle:
+        return "shuffle"
+      }
+    }
+
+    func next() -> Self {
+      Self.allCases[(Self.allCases.firstIndex(of: self)! + 1) % Self.allCases.count]
     }
   }
 }

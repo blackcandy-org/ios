@@ -12,6 +12,7 @@ struct PlayerClient {
   var playOn: (Song) -> Void
   var play: () -> Void
   var pause: () -> Void
+  var replay: () -> Void
   var seek: (CMTime) -> Void
   var getCurrentTime: () -> AsyncStream<Double>
   var getStatus: () -> AsyncStream<Status>
@@ -50,6 +51,11 @@ extension PlayerClient {
 
     pause: {
       player.pause()
+    },
+
+    replay: {
+      player.seek(to: CMTime.zero)
+      player.play()
     },
 
     seek: { time in

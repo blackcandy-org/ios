@@ -8,9 +8,11 @@ struct PlayerActionsView: View {
     WithViewStore(self.store) { viewStore in
       HStack {
         Button(
-          action: {},
+          action: {
+            viewStore.send(.nextMode)
+          },
           label: {
-            Image(systemName: "repeat")
+            Image(systemName: viewStore.mode.symbol)
               .foregroundColor(viewStore.isPlaylistVisible ? Color.init(.systemGray2) : .primary)
           }
         )

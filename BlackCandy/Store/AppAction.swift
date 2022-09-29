@@ -27,6 +27,7 @@ enum AppAction: Equatable {
     case seek(Double)
     case getStatus
     case handleStatusChange(PlayerClient.Status)
+    case nextMode
   }
 }
 
@@ -131,11 +132,17 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
   case let .handleStatusChange(status):
     state.status = status
 
-    if status == .end {
-      return .task {
-        .next
-      }
+    guard status == .end else { return .none }
+
+    if state.mode == .single {
+      environment.playerClient.replay()
+      return .none
+    } else {
+      return .task { .next }
     }
+
+  case .nextMode:
+    state.mode = state.mode.next()
 
     return .none
   }
