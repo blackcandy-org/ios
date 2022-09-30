@@ -78,9 +78,14 @@ struct PlayerControlView: View {
       ))
 
       HStack {
-        Text(currentDuration!)
-          .font(.caption2)
-          .foregroundColor(.secondary)
+        if viewStore.status == .loading {
+          ProgressView()
+            .customStyle(.playerProgressLoader)
+        } else {
+          Text(currentDuration!)
+            .font(.caption2)
+            .foregroundColor(.secondary)
+        }
 
         Spacer()
 

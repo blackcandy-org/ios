@@ -41,6 +41,7 @@ extension PlayerClient {
       let asset = AVURLAsset(url: song.url, options: ["AVURLAssetHTTPHeaderFieldsKey": ["Authorization": "Token \(apiToken)"]])
       let playerItem = AVPlayerItem(asset: asset)
 
+      player.pause()
       player.replaceCurrentItem(with: playerItem)
       player.play()
     },

@@ -30,6 +30,7 @@ struct CustomStyle {
     case largeSymbol
     case smallFont
     case mediumFont
+    case playerProgressLoader
   }
 
   static let miniPlayerImageSize: CGFloat = 40
@@ -61,6 +62,9 @@ extension View {
     case .mediumFont:
       font(.system(size: CustomStyle.fontSize(.medium)))
 
+    case .playerProgressLoader:
+      scaleEffect(0.6, anchor: .center)
+        .frame(width: 10, height: 10)
     }
   }
 }
