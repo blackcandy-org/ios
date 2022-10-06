@@ -63,11 +63,11 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
     let songsCount = state.playlist.songs.count
 
     if index >= songsCount {
-      state.currentIndex = 0
+      state.currentSong = state.playlist.songs.first
     } else if index < 0 {
-      state.currentIndex = songsCount - 1
+      state.currentSong = state.playlist.songs[songsCount - 1]
     } else {
-      state.currentIndex = index
+      state.currentSong = state.playlist.songs[index]
     }
 
     guard let currentSong = state.currentSong else { return .none }
@@ -143,6 +143,7 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
 
   case .nextMode:
     state.mode = state.mode.next()
+    state.playlist.isShuffled = (state.mode == .shuffle)
 
     return .none
   }
@@ -216,6 +217,7 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
 
     case let .currentPlaylistResponse(.success(songs)):
       state.playerState.playlist.songs = songs
+      state.playerState.currentSong = songs.first
 
       return .none
 

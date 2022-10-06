@@ -35,7 +35,7 @@ struct AppState: Equatable {
   struct PlayerState: Equatable {
     var alert: AlertState<AppAction>?
     var playlist = Playlist()
-    var currentIndex = 0
+    var currentSong: Song?
     var currentTime: Double = 0
     var isPlaylistVisible = false
     var status = PlayerClient.Status.pause
@@ -45,17 +45,9 @@ struct AppState: Equatable {
       status == .playing || status == .loading
     }
 
-    var currentSong: Song? {
-      get {
-        guard playlist.songs.indices.contains(currentIndex) else { return nil }
-        return playlist.songs[currentIndex]
-      }
-
-      set {
-        if let song = newValue, playlist.songs.indices.contains(currentIndex) {
-          playlist.songs[currentIndex] = song
-        }
-      }
+    var currentIndex: Int {
+      guard let currentSong = currentSong else { return 0 }
+      return playlist.songs.firstIndex(of: currentSong) ?? 0
     }
   }
 }
