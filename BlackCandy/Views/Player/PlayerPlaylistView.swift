@@ -43,6 +43,9 @@ struct PlayerPlaylistView: View {
             }
             .foregroundColor(song == viewStore.currentSong ? .accentColor : .primary)
           }
+          .onDelete { indexSet in
+            viewStore.send(.deleteSongs(indexSet))
+          }
         }
         .listStyle(.plain)
       }

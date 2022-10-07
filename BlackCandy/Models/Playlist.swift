@@ -6,13 +6,16 @@ struct Playlist: Equatable {
   private var orderedSongs: [Song] = []
 
   var songs: [Song] {
-    get {
-      isShuffled ? shuffledSongs : orderedSongs
-    }
+    isShuffled ? shuffledSongs : orderedSongs
+  }
 
-    set {
-      orderedSongs = newValue
-      shuffledSongs = newValue.shuffled()
-    }
+  mutating func update(songs: [Song]) {
+    orderedSongs = songs
+    shuffledSongs = songs.shuffled()
+  }
+
+  mutating func remove(songs: [Song]) {
+    orderedSongs.removeAll(where: { songs.contains($0) })
+    shuffledSongs.removeAll(where: { songs.contains($0) })
   }
 }

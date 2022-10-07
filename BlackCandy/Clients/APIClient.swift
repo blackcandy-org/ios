@@ -11,6 +11,7 @@ struct APIClient {
   var authentication: (LoginState) async throws -> AuthenticationResponse
   var currentPlaylistSongs: () async throws -> [Song]
   var toggleFavorite: (Song) async throws -> NoContentResponse
+  var deleteCurrentPlaylistSongs: ([Song]) async throws -> NoContentResponse
 
   struct AuthenticationResponse: Equatable {
     let serverAddress: URL
@@ -206,6 +207,25 @@ extension APIClient {
         requestURL("/api/v1/favorite_playlist/songs"),
         method: song.isFavorited ? .delete : .post,
         parameters: ["song_id": song.id],
+        headers: headers
+      )
+      .validate()
+      .serializingDecodable(NoContentResponse.self)
+
+      let response = await request.response
+
+      do {
+        return try await request.value
+      } catch {
+        throw handleError(error, response.data)
+      }
+    },
+
+    deleteCurrentPlaylistSongs: { songs in
+      let request = AF.request(
+        requestURL("/api/v1/current_playlist/songs"),
+        method: .delete,
+        parameters: ["song_ids": songs.map { $0.id }],
         headers: headers
       )
       .validate()

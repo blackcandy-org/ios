@@ -28,6 +28,8 @@ enum AppAction: Equatable {
     case getStatus
     case handleStatusChange(PlayerClient.Status)
     case nextMode
+    case deleteSongs(IndexSet)
+    case deleteSongsResponse(TaskResult<APIClient.NoContentResponse>)
   }
 }
 
@@ -146,6 +148,24 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
     state.playlist.isShuffled = (state.mode == .shuffle)
 
     return .none
+
+  case let .deleteSongs(indexSet):
+    let songs = indexSet.map { state.playlist.songs[$0] }
+
+    state.playlist.remove(songs: songs)
+
+    return .task {
+      await .deleteSongsResponse(TaskResult { try await environment.apiClient.deleteCurrentPlaylistSongs(songs) })
+    }
+
+  case .deleteSongsResponse(.success):
+    return .none
+
+  case let .deleteSongsResponse(.failure(error)):
+    guard let error = error as? APIClient.APIError else { return .none }
+    state.alert = .init(title: .init(error.localizedString))
+
+    return .none
   }
 }
 
@@ -216,7 +236,7 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
       }
 
     case let .currentPlaylistResponse(.success(songs)):
-      state.playerState.playlist.songs = songs
+      state.playerState.playlist.update(songs: songs)
       state.playerState.currentSong = songs.first
 
       return .none
