@@ -12,6 +12,7 @@ struct APIClient {
   var currentPlaylistSongs: () async throws -> [Song]
   var toggleFavorite: (Song) async throws -> NoContentResponse
   var deleteCurrentPlaylistSongs: ([Song]) async throws -> NoContentResponse
+  var moveCurrentPlaylistSongs: (Int, Int) async throws -> NoContentResponse
 
   struct AuthenticationResponse: Equatable {
     let serverAddress: URL
@@ -226,6 +227,25 @@ extension APIClient {
         requestURL("/api/v1/current_playlist/songs"),
         method: .delete,
         parameters: ["song_ids": songs.map { $0.id }],
+        headers: headers
+      )
+      .validate()
+      .serializingDecodable(NoContentResponse.self)
+
+      let response = await request.response
+
+      do {
+        return try await request.value
+      } catch {
+        throw handleError(error, response.data)
+      }
+    },
+
+    moveCurrentPlaylistSongs: { fromPosition, toPosition in
+      let request = AF.request(
+        requestURL("/api/v1/current_playlist/songs"),
+        method: .patch,
+        parameters: ["from_position": fromPosition, "to_position": toPosition],
         headers: headers
       )
       .validate()

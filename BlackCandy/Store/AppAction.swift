@@ -30,6 +30,8 @@ enum AppAction: Equatable {
     case nextMode
     case deleteSongs(IndexSet)
     case deleteSongsResponse(TaskResult<APIClient.NoContentResponse>)
+    case moveSongs(IndexSet, Int)
+    case moveSongsResponse(TaskResult<APIClient.NoContentResponse>)
   }
 }
 
@@ -158,10 +160,22 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
       await .deleteSongsResponse(TaskResult { try await environment.apiClient.deleteCurrentPlaylistSongs(songs) })
     }
 
-  case .deleteSongsResponse(.success):
+  case let .moveSongs(fromOffsets, toOffset):
+    guard let fromIndex = fromOffsets.first else { return .none }
+    let movedSong = state.playlist.orderedSongs[fromIndex]
+
+    state.playlist.orderedSongs.move(fromOffsets: fromOffsets, toOffset: toOffset)
+
+    guard let toIndex = state.playlist.orderedSongs.firstIndex(of: movedSong) else { return .none }
+
+    return .task {
+      await .moveSongsResponse(TaskResult { try await environment.apiClient.moveCurrentPlaylistSongs(fromIndex + 1, toIndex + 1) })
+    }
+
+  case .deleteSongsResponse(.success), .moveSongsResponse(.success):
     return .none
 
-  case let .deleteSongsResponse(.failure(error)):
+  case let .deleteSongsResponse(.failure(error)), let .moveSongsResponse(.failure(error)):
     guard let error = error as? APIClient.APIError else { return .none }
     state.alert = .init(title: .init(error.localizedString))
 

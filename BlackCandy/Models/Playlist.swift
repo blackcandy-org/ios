@@ -2,8 +2,8 @@ import Foundation
 
 struct Playlist: Equatable {
   var isShuffled = false
+  var orderedSongs: [Song] = []
   private var shuffledSongs: [Song] = []
-  private var orderedSongs: [Song] = []
 
   var songs: [Song] {
     isShuffled ? shuffledSongs : orderedSongs

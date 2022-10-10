@@ -13,20 +13,14 @@ struct PlayerPlaylistView: View {
 
           Spacer()
 
-          Button(
-            action: {},
-            label: {
-              Image(systemName: "ellipsis")
-                .foregroundColor(.primary)
-            }
-          )
+          EditButton()
         }
         .padding(CustomStyle.spacing(.small))
         .background(.ultraThinMaterial)
         .cornerRadius(CustomStyle.cornerRadius(.large))
 
         List {
-          ForEach(viewStore.playlist.songs) { song in
+          ForEach(viewStore.playlist.orderedSongs) { song in
             HStack {
               VStack(alignment: .leading, spacing: CustomStyle.spacing(.small)) {
                 Text(song.name)
@@ -45,6 +39,9 @@ struct PlayerPlaylistView: View {
           }
           .onDelete { indexSet in
             viewStore.send(.deleteSongs(indexSet))
+          }
+          .onMove { fromOffsets, toOffset in
+            viewStore.send(.moveSongs(fromOffsets, toOffset))
           }
         }
         .listStyle(.plain)
