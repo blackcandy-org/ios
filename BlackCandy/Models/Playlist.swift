@@ -9,6 +9,14 @@ struct Playlist: Equatable {
     isShuffled ? shuffledSongs : orderedSongs
   }
 
+  func index(of song: Song) -> Int? {
+    if isShuffled {
+      return shuffledSongs.firstIndex(of: song)
+    } else {
+      return orderedSongs.firstIndex(of: song)
+    }
+  }
+
   mutating func update(songs: [Song]) {
     orderedSongs = songs
     shuffledSongs = songs.shuffled()

@@ -36,6 +36,10 @@ struct PlayerPlaylistView: View {
                 .customStyle(.smallFont)
             }
             .foregroundColor(song == viewStore.currentSong ? .accentColor : .primary)
+            .onTapGesture {
+              guard let songIndex = viewStore.playlist.index(of: song) else { return }
+              viewStore.send(.playOn(songIndex))
+            }
           }
           .onDelete { indexSet in
             viewStore.send(.deleteSongs(indexSet))
