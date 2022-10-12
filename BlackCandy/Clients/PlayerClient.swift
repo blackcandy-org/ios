@@ -38,7 +38,13 @@ extension PlayerClient {
     playOn: { song in
       guard let apiToken = apiToken else { return }
 
-      let asset = AVURLAsset(url: song.url, options: ["AVURLAssetHTTPHeaderFieldsKey": ["Authorization": "Token \(apiToken)"]])
+      let asset = AVURLAsset(url: song.url, options: [
+        "AVURLAssetHTTPHeaderFieldsKey": [
+          "Authorization": "Token \(apiToken)",
+          "User-Agent": "Turbo Native iOS"
+        ]
+      ])
+
       let playerItem = AVPlayerItem(asset: asset)
 
       player.pause()
