@@ -18,6 +18,12 @@ struct BlackCandyApp: App {
 
   init() {
     ViewStore(store.stateless, removeDuplicates: ==).send(.restoreStates)
+
+    let navigationBarAppearance = UINavigationBarAppearance()
+    navigationBarAppearance.configureWithDefaultBackground()
+
+    UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+    UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
   }
 
   var body: some Scene {

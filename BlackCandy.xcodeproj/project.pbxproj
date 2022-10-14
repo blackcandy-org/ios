@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD05118028F8402C00104197 /* LNPopupUI in Frameworks */ = {isa = PBXBuildFile; productRef = DD05117F28F8402C00104197 /* LNPopupUI */; };
+		DD05118228F8402C00104197 /* LNPopupUI in Embed Frameworks */ = {isa = PBXBuildFile; productRef = DD05117F28F8402C00104197 /* LNPopupUI */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		DD0A346C28E3E02E002211AE /* PlayerSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */; };
 		DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD18369227CC9FF60018ECF5 /* TurboSession.swift */; };
 		DD4D05A028BDA3410035D26D /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4D059F28BDA3410035D26D /* AccountView.swift */; };
@@ -42,7 +44,6 @@
 		DDAD9DCC28E28E5900F8C96F /* PlayerActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDAD9DCB28E28E5900F8C96F /* PlayerActionsView.swift */; };
 		DDB453A127CF11EF003BA1F9 /* TurboNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB453A027CF11EF003BA1F9 /* TurboNavigationController.swift */; };
 		DDBE510128D1A4FD0049D754 /* CustomFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBE510028D1A4FD0049D754 /* CustomFormatter.swift */; };
-		DDE36BAB28CF3C7900B1C0AB /* LNPopupUI in Frameworks */ = {isa = PBXBuildFile; productRef = DDE36BAA28CF3C7900B1C0AB /* LNPopupUI */; };
 		DDE710EC28D04A6800CE7494 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE710EB28D04A6800CE7494 /* Song.swift */; };
 		DDE710EE28D05DED00CE7494 /* PlayerPlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE710ED28D05DEC00CE7494 /* PlayerPlaylistView.swift */; };
 		DDE710F028D0748D00CE7494 /* MiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE710EF28D0748D00CE7494 /* MiniPlayerView.swift */; };
@@ -66,6 +67,20 @@
 			remoteInfo = BlackCandy;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DD05118128F8402C00104197 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DD05118228F8402C00104197 /* LNPopupUI in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSliderView.swift; sourceTree = "<group>"; };
@@ -116,8 +131,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD6E0EA32884FEE100F39DB3 /* ComposableArchitecture in Frameworks */,
+				DD05118028F8402C00104197 /* LNPopupUI in Frameworks */,
 				DD83970B28DC043000BC8C11 /* Alamofire in Frameworks */,
-				DDE36BAB28CF3C7900B1C0AB /* LNPopupUI in Frameworks */,
 				DD62F4F727C76C13005A5D0B /* Turbo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -139,6 +154,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DD05117E28F8402C00104197 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DD18368427CC75870018ECF5 /* Store */ = {
 			isa = PBXGroup;
 			children = (
@@ -190,6 +212,7 @@
 				DD62F4DB27C769CE005A5D0B /* BlackCandyTests */,
 				DD62F4E527C769CE005A5D0B /* BlackCandyUITests */,
 				DD62F4C927C769CC005A5D0B /* Products */,
+				DD05117E28F8402C00104197 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -299,6 +322,7 @@
 				DD62F4C427C769CC005A5D0B /* Sources */,
 				DD62F4C527C769CC005A5D0B /* Frameworks */,
 				DD62F4C627C769CC005A5D0B /* Resources */,
+				DD05118128F8402C00104197 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -308,8 +332,8 @@
 			packageProductDependencies = (
 				DD62F4F627C76C13005A5D0B /* Turbo */,
 				DD6E0EA22884FEE100F39DB3 /* ComposableArchitecture */,
-				DDE36BAA28CF3C7900B1C0AB /* LNPopupUI */,
 				DD83970A28DC043000BC8C11 /* Alamofire */,
+				DD05117F28F8402C00104197 /* LNPopupUI */,
 			);
 			productName = BlackCandy;
 			productReference = DD62F4C827C769CC005A5D0B /* BlackCandy.app */;
@@ -826,6 +850,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		DD05117F28F8402C00104197 /* LNPopupUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDE36BA928CF3C7900B1C0AB /* XCRemoteSwiftPackageReference "LNPopupUI" */;
+			productName = LNPopupUI;
+		};
 		DD62F4F627C76C13005A5D0B /* Turbo */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DD62F4F527C76C13005A5D0B /* XCRemoteSwiftPackageReference "turbo-ios" */;
@@ -840,11 +869,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DD83970928DC043000BC8C11 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
-		};
-		DDE36BAA28CF3C7900B1C0AB /* LNPopupUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DDE36BA928CF3C7900B1C0AB /* XCRemoteSwiftPackageReference "LNPopupUI" */;
-			productName = LNPopupUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

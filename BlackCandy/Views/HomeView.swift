@@ -13,11 +13,13 @@ struct HomeView: View {
       } else {
         TabView {
           TurboView(viewStore: viewStore, path: "/")
+            .ignoresSafeArea(edges: .vertical)
             .tabItem {
               Label("label.home", systemImage: "house")
             }
 
-          TurboView(viewStore: viewStore, path: "/library")
+          TurboView(viewStore: viewStore, path: "/library", hasSearchBar: true)
+            .ignoresSafeArea(edges: .vertical)
             .tabItem {
               Label("label.library", systemImage: "square.stack")
             }

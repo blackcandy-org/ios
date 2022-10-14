@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/LeoNatan/LNPopupController.git",
       "state" : {
-        "revision" : "9f44dd1ce6d9946210deea4d19b305df0d39503e",
-        "version" : "2.13.7"
+        "revision" : "a8d9ff9af4c5b5a1251be59ccee685a25331c621",
+        "version" : "2.14.3"
       }
     },
     {
@@ -87,7 +87,7 @@
       "location" : "https://github.com/hotwired/turbo-ios",
       "state" : {
         "branch" : "main",
-        "revision" : "fadb1f3888427a839f1e102ec5f38125f96172ba"
+        "revision" : "2ace9ebe01fe3bce3e7e8df38cb82df052493663"
       }
     },
     {
@@ -95,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",
       "state" : {
-        "revision" : "ef8e14e7ce1c0c304c644c6ba365d06c468ded6b",
-        "version" : "0.3.3"
+        "revision" : "30314f1ece684dd60679d598a9b89107557b67d9",
+        "version" : "0.4.1"
       }
     }
   ],

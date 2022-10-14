@@ -9,7 +9,7 @@ struct TurboView: UIViewControllerRepresentable {
   let viewStore: ViewStore<AppState, AppAction>
   let path: String
   var session: Session?
-  var hasSearchBar = true
+  var hasSearchBar = false
   var hasNavigationBar = true
 
   var url: URL {
@@ -33,6 +33,7 @@ struct TurboView: UIViewControllerRepresentable {
     }
 
     func sessionWebViewProcessDidTerminate(_ session: Session) {
+      session.reload()
     }
 
     func session(_ session: Session, didProposeVisit proposal: VisitProposal) {
@@ -67,8 +68,8 @@ struct TurboView: UIViewControllerRepresentable {
     let session = context.coordinator.session
 
     viewController.hasSearchBar = hasSearchBar
-    navigationController.setViewControllers([viewController], animated: false)
-    navigationController.setNavigationBarHidden(!hasNavigationBar, animated: false)
+    navigationController.isNavigationBarHidden = !hasNavigationBar
+    navigationController.pushViewController(viewController, animated: false)
 
     session.delegate = context.coordinator
     session.visit(viewController)
@@ -76,7 +77,8 @@ struct TurboView: UIViewControllerRepresentable {
     return navigationController
   }
 
-  func updateUIViewController(_ visitableViewController: UINavigationController, context: Context) {}
+  func updateUIViewController(_ navigationController: UINavigationController, context: Context) {
+  }
 
   static func dismantleUIViewController(_ uiViewController: UINavigationController, coordinator: Coordinator) {
     uiViewController.popViewController(animated: false)

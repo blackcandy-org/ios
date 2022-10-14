@@ -16,9 +16,10 @@ struct AccountView: View {
                 viewStore: viewStore,
                 path: "/setting",
                 session: session,
-                hasSearchBar: false,
                 hasNavigationBar: false
-              ).navigationTitle("label.settings")
+              )
+              .navigationTitle("label.settings")
+              .ignoresSafeArea(edges: .vertical)
             )
 
             if viewStore.isAdmin {
@@ -28,9 +29,10 @@ struct AccountView: View {
                   viewStore: viewStore,
                   path: "/users",
                   session: session,
-                  hasSearchBar: false,
                   hasNavigationBar: false
-                ).navigationTitle("label.manageUsers")
+                )
+                .navigationTitle("label.manageUsers")
+                .ignoresSafeArea(edges: .vertical)
               )
             }
 
@@ -41,9 +43,10 @@ struct AccountView: View {
                   viewStore: viewStore,
                   path: "/users/\(viewStore.currentUser!.id)/edit",
                   session: session,
-                  hasSearchBar: false,
                   hasNavigationBar: false
-                ).navigationTitle("label.updateProfile")
+                )
+                .navigationTitle("label.updateProfile")
+                .ignoresSafeArea(edges: .vertical)
               )
             }
 

@@ -217,6 +217,8 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
       environment.keychainClient.updateAPIToken(response.token)
       environment.jsonDataClient.updateCurrentUser(response.user)
       environment.playerClient.updateAPIToken(response.token)
+      environment.apiClient.updateToken(response.token)
+      environment.apiClient.updateServerAddress(response.serverAddress)
 
       state.currentUser = response.user
       state.serverAddress = response.serverAddress
