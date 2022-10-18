@@ -7,10 +7,8 @@ enum AppAction: Equatable {
   case dismissAlert
   case login(LoginState)
   case loginResponse(TaskResult<APIClient.AuthenticationResponse>)
-  case currentPlaylistResponse(TaskResult<[Song]>)
   case restoreStates
   case logout
-  case getCurrentPlaylist
   case player(PlayerAction)
 
   enum PlayerAction: Equatable {
@@ -32,14 +30,23 @@ enum AppAction: Equatable {
     case deleteSongsResponse(TaskResult<APIClient.NoContentResponse>)
     case moveSongs(IndexSet, Int)
     case moveSongsResponse(TaskResult<APIClient.NoContentResponse>)
+    case getCurrentPlaylist
+    case currentPlaylistResponse(TaskResult<[Song]>)
+    case playAll
+    case playAllResponse(TaskResult<[Song]>)
   }
 }
 
 let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, AppEnvironment.PlayerEnvironment> { state, action, environment in
   switch action {
   case .play:
-    return .task { [currentIndex = state.currentIndex] in
-      .playOn(currentIndex)
+    if environment.playerClient.hasCurrentItem() {
+      environment.playerClient.play()
+      return .none
+    } else {
+      return .task { [currentIndex = state.currentIndex] in
+        .playOn(currentIndex)
+      }
     }
 
   case .pause:
@@ -58,12 +65,6 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
     }
 
   case let .playOn(index):
-    if state.currentIndex == index && environment.playerClient.hasCurrentItem() {
-      environment.playerClient.play()
-
-      return .none
-    }
-
     let songsCount = state.playlist.songs.count
 
     if index >= songsCount {
@@ -175,7 +176,34 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
   case .deleteSongsResponse(.success), .moveSongsResponse(.success):
     return .none
 
-  case let .deleteSongsResponse(.failure(error)), let .moveSongsResponse(.failure(error)):
+  case .getCurrentPlaylist:
+    return .task {
+      await .currentPlaylistResponse(TaskResult { try await environment.apiClient.currentPlaylistSongs() })
+    }
+
+  case let .currentPlaylistResponse(.success(songs)):
+    state.playlist.update(songs: songs)
+    state.currentSong = songs.first
+
+    return .none
+
+  case .playAll:
+    return .task {
+      await .playAllResponse(TaskResult { try await environment.apiClient.currentPlaylistSongs() })
+    }
+
+  case let .playAllResponse(.success(songs)):
+    state.playlist.update(songs: songs)
+    state.currentSong = songs.first
+
+    return .task {
+      .playOn(0)
+    }
+
+  case let .deleteSongsResponse(.failure(error)),
+    let .moveSongsResponse(.failure(error)),
+    let .currentPlaylistResponse(.failure(error)),
+    let .playAllResponse(.failure(error)):
     guard let error = error as? APIClient.APIError else { return .none }
     state.alert = .init(title: .init(error.localizedString))
 
@@ -246,18 +274,7 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
 
       return .none
 
-    case .getCurrentPlaylist:
-      return .task {
-        await .currentPlaylistResponse(TaskResult { try await environment.apiClient.currentPlaylistSongs() })
-      }
-
-    case let .currentPlaylistResponse(.success(songs)):
-      state.playerState.playlist.update(songs: songs)
-      state.playerState.currentSong = songs.first
-
-      return .none
-
-    case let .loginResponse(.failure(error)), let .currentPlaylistResponse(.failure(error)):
+    case let .loginResponse(.failure(error)):
       guard let error = error as? APIClient.APIError else { return .none }
       state.alert = .init(title: .init(error.localizedString))
 

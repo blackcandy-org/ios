@@ -13,7 +13,6 @@ struct AccountView: View {
             NavigationLink(
               "label.settings",
               destination: TurboView(
-                viewStore: viewStore,
                 path: "/setting",
                 session: session,
                 hasNavigationBar: false
@@ -26,7 +25,6 @@ struct AccountView: View {
               NavigationLink(
                 "label.manageUsers",
                 destination: TurboView(
-                  viewStore: viewStore,
                   path: "/users",
                   session: session,
                   hasNavigationBar: false
@@ -40,7 +38,6 @@ struct AccountView: View {
               NavigationLink(
                 "label.updateProfile",
                 destination: TurboView(
-                  viewStore: viewStore,
                   path: "/users/\(viewStore.currentUser!.id)/edit",
                   session: session,
                   hasNavigationBar: false

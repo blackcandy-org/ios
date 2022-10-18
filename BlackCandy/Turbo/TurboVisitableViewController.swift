@@ -21,16 +21,11 @@ class TurboVisitableViewController: VisitableViewController, UISearchBarDelegate
   func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
     guard let searchText = searchBar.searchTextField.text, !searchText.isEmpty else { return }
 
-    let queryUrl = "/search?query=\(searchText)"
-    let searchScript = "window.Turbo.visit('\(queryUrl)');"
-
-    visitableView.webView?.evaluateJavaScript(searchScript)
+    visitableView.webView?.evaluateJavaScript("window.NativeBridge.search('\(searchText)')")
   }
 
   override func visitableDidRender() {
-    let titleScript = "document.querySelector('meta[data-native-title]').dataset.nativeTitle"
-
-    visitableView.webView?.evaluateJavaScript(titleScript) { (title, error) -> Void in
+    visitableView.webView?.evaluateJavaScript("window.NativeBridge.nativeTitle") { (title, error) -> Void in
       guard error == nil && title != nil else { return }
       self.title = title as? String
     }

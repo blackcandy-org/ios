@@ -6,7 +6,6 @@ import ComposableArchitecture
 struct TurboView: UIViewControllerRepresentable {
   @Environment(\.serverAddress) var serverAddress
 
-  let viewStore: ViewStore<AppState, AppAction>
   let path: String
   var session: Session?
   var hasSearchBar = false
@@ -17,18 +16,16 @@ struct TurboView: UIViewControllerRepresentable {
   }
 
   func makeCoordinator() -> Coordinator {
-    .init(viewStore: viewStore, session: session)
+    .init(session: session)
   }
 
   class Coordinator: NSObject, SessionDelegate {
-    var viewStore: ViewStore<AppState, AppAction>
-    var navigationController: UINavigationController = TurboNavigationController()
-    var session: Session
+    let navigationController: UINavigationController = TurboNavigationController()
+    let viewStore = ViewStore(AppStore.shared.stateless, removeDuplicates: ==)
+    let session: Session
 
-    init(viewStore: ViewStore<AppState, AppAction>, session: Session?) {
+    init(session: Session?) {
       let session: Session = session ?? TurboSession.create()
-
-      self.viewStore = viewStore
       self.session = session
     }
 

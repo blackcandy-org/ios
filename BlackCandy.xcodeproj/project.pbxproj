@@ -11,6 +11,7 @@
 		DD05118228F8402C00104197 /* LNPopupUI in Embed Frameworks */ = {isa = PBXBuildFile; productRef = DD05117F28F8402C00104197 /* LNPopupUI */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		DD0A346C28E3E02E002211AE /* PlayerSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */; };
 		DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD18369227CC9FF60018ECF5 /* TurboSession.swift */; };
+		DD2332BE28FE49AA005E3F4F /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2332BD28FE49AA005E3F4F /* AppStore.swift */; };
 		DD4D05A028BDA3410035D26D /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4D059F28BDA3410035D26D /* AccountView.swift */; };
 		DD4D05A328BDE7810035D26D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4D05A228BDE7810035D26D /* User.swift */; };
 		DD4D05A528BDE9520035D26D /* JSONDataClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4D05A428BDE9520035D26D /* JSONDataClient.swift */; };
@@ -43,6 +44,7 @@
 		DDAD9DCA28E28CE200F8C96F /* PlayerControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDAD9DC928E28CE200F8C96F /* PlayerControlView.swift */; };
 		DDAD9DCC28E28E5900F8C96F /* PlayerActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDAD9DCB28E28E5900F8C96F /* PlayerActionsView.swift */; };
 		DDB453A127CF11EF003BA1F9 /* TurboNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB453A027CF11EF003BA1F9 /* TurboNavigationController.swift */; };
+		DDB96C2B28FD5B3300CFFD44 /* TurboScriptMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB96C2A28FD5B3300CFFD44 /* TurboScriptMessageHandler.swift */; };
 		DDBE510128D1A4FD0049D754 /* CustomFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBE510028D1A4FD0049D754 /* CustomFormatter.swift */; };
 		DDE710EC28D04A6800CE7494 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE710EB28D04A6800CE7494 /* Song.swift */; };
 		DDE710EE28D05DED00CE7494 /* PlayerPlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE710ED28D05DEC00CE7494 /* PlayerPlaylistView.swift */; };
@@ -85,6 +87,7 @@
 /* Begin PBXFileReference section */
 		DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSliderView.swift; sourceTree = "<group>"; };
 		DD18369227CC9FF60018ECF5 /* TurboSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboSession.swift; sourceTree = "<group>"; };
+		DD2332BD28FE49AA005E3F4F /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
 		DD4D059F28BDA3410035D26D /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		DD4D05A228BDE7810035D26D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		DD4D05A428BDE9520035D26D /* JSONDataClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDataClient.swift; sourceTree = "<group>"; };
@@ -117,6 +120,7 @@
 		DDAD9DC928E28CE200F8C96F /* PlayerControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerControlView.swift; sourceTree = "<group>"; };
 		DDAD9DCB28E28E5900F8C96F /* PlayerActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerActionsView.swift; sourceTree = "<group>"; };
 		DDB453A027CF11EF003BA1F9 /* TurboNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboNavigationController.swift; sourceTree = "<group>"; };
+		DDB96C2A28FD5B3300CFFD44 /* TurboScriptMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboScriptMessageHandler.swift; sourceTree = "<group>"; };
 		DDBE510028D1A4FD0049D754 /* CustomFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormatter.swift; sourceTree = "<group>"; };
 		DDE710EB28D04A6800CE7494 /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		DDE710ED28D05DEC00CE7494 /* PlayerPlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerPlaylistView.swift; sourceTree = "<group>"; };
@@ -164,6 +168,7 @@
 		DD18368427CC75870018ECF5 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				DD2332BD28FE49AA005E3F4F /* AppStore.swift */,
 				DD6E0EA42885005E00F39DB3 /* AppState.swift */,
 				DD6E0EA82885011300F39DB3 /* AppAction.swift */,
 				DD6E0EA6288500DA00F39DB3 /* AppEnvironment.swift */,
@@ -178,6 +183,7 @@
 				DD18369227CC9FF60018ECF5 /* TurboSession.swift */,
 				DDB453A027CF11EF003BA1F9 /* TurboNavigationController.swift */,
 				DDA4922127CF15710063A35B /* TurboVisitableViewController.swift */,
+				DDB96C2A28FD5B3300CFFD44 /* TurboScriptMessageHandler.swift */,
 			);
 			path = Turbo;
 			sourceTree = "<group>";
@@ -465,6 +471,7 @@
 				DD62F4F927C76D06005A5D0B /* TurboView.swift in Sources */,
 				DD0A346C28E3E02E002211AE /* PlayerSliderView.swift in Sources */,
 				DDAD9DCA28E28CE200F8C96F /* PlayerControlView.swift in Sources */,
+				DD2332BE28FE49AA005E3F4F /* AppStore.swift in Sources */,
 				DD6E0EAC2885345E00F39DB3 /* CustomKeys.swift in Sources */,
 				DDAD9DCC28E28E5900F8C96F /* PlayerActionsView.swift in Sources */,
 				DDE710F228D077C900CE7494 /* CustomStyle.swift in Sources */,
@@ -486,6 +493,7 @@
 				DDA1A70828D3041F009D80C6 /* PlayerClient.swift in Sources */,
 				DD62F4CC27C769CC005A5D0B /* BlackCandyApp.swift in Sources */,
 				DDBE510128D1A4FD0049D754 /* CustomFormatter.swift in Sources */,
+				DDB96C2B28FD5B3300CFFD44 /* TurboScriptMessageHandler.swift in Sources */,
 				DDAD9DC828E28BB200F8C96F /* PlayerSongInfoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

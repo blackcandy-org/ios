@@ -12,13 +12,13 @@ struct HomeView: View {
         LoginView(store: store)
       } else {
         TabView {
-          TurboView(viewStore: viewStore, path: "/")
+          TurboView(path: "/")
             .ignoresSafeArea(edges: .vertical)
             .tabItem {
               Label("label.home", systemImage: "house")
             }
 
-          TurboView(viewStore: viewStore, path: "/library", hasSearchBar: true)
+          TurboView(path: "/library", hasSearchBar: true)
             .ignoresSafeArea(edges: .vertical)
             .tabItem {
               Label("label.library", systemImage: "square.stack")
@@ -30,7 +30,7 @@ struct HomeView: View {
             }
         }
         .onAppear {
-          viewStore.send(.getCurrentPlaylist)
+          viewStore.send(.player(.getCurrentPlaylist))
         }
         .popup(isBarPresented: $isPlayerPresented, popupContent: {
           PlayerView(store: self.store.scope(

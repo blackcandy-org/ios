@@ -6,8 +6,11 @@ struct TurboSession {
 
   static func create() -> Session {
     let configuration = WKWebViewConfiguration()
+    let scriptMessageHandler = TurboScriptMessageHandler()
+
     configuration.applicationNameForUserAgent = "Turbo Native iOS"
     configuration.processPool = TurboSession.processPool
+    configuration.userContentController.add(scriptMessageHandler, name: "nativeApp")
 
     // Set the webview frame more than zero to avoid logs of `maximumViewportInset cannot be larger than frame`
     let webView = WKWebView(
