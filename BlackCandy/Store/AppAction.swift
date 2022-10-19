@@ -34,6 +34,8 @@ enum AppAction: Equatable {
     case currentPlaylistResponse(TaskResult<[Song]>)
     case playAll
     case playAllResponse(TaskResult<[Song]>)
+    case playSong(Int)
+    case playSongResponse(TaskResult<Song>)
   }
 }
 
@@ -178,7 +180,7 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
 
   case .getCurrentPlaylist:
     return .task {
-      await .currentPlaylistResponse(TaskResult { try await environment.apiClient.currentPlaylistSongs() })
+      await .currentPlaylistResponse(TaskResult { try await environment.apiClient.getCurrentPlaylistSongs() })
     }
 
   case let .currentPlaylistResponse(.success(songs)):
@@ -189,7 +191,7 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
 
   case .playAll:
     return .task {
-      await .playAllResponse(TaskResult { try await environment.apiClient.currentPlaylistSongs() })
+      await .playAllResponse(TaskResult { try await environment.apiClient.getCurrentPlaylistSongs() })
     }
 
   case let .playAllResponse(.success(songs)):
@@ -200,10 +202,30 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
       .playOn(0)
     }
 
+  case let .playSong(songId):
+    if let songIndex = state.playlist.index(by: songId) {
+      return .task {
+        .playOn(songIndex)
+      }
+    } else {
+      return .task {
+        await .playSongResponse(TaskResult { try await environment.apiClient.getSong(songId) })
+      }
+    }
+
+  case let .playSongResponse(.success(song)):
+    let insertIndex = state.currentIndex + 1
+    state.playlist.insert(song, at: insertIndex)
+
+    return .task {
+      .playOn(insertIndex)
+    }
+
   case let .deleteSongsResponse(.failure(error)),
     let .moveSongsResponse(.failure(error)),
     let .currentPlaylistResponse(.failure(error)),
-    let .playAllResponse(.failure(error)):
+    let .playAllResponse(.failure(error)),
+    let .playSongResponse(.failure(error)):
     guard let error = error as? APIClient.APIError else { return .none }
     state.alert = .init(title: .init(error.localizedString))
 

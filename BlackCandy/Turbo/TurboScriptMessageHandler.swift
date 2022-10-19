@@ -12,6 +12,9 @@ class TurboScriptMessageHandler: NSObject, WKScriptMessageHandler {
     switch actionName {
     case "playAll":
       viewStore.send(.player(.playAll))
+    case "playSong":
+      guard let songId = body["songId"] as? Int else { return }
+      viewStore.send(.player(.playSong(songId)))
     default:
       return
     }

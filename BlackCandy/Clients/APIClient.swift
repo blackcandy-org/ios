@@ -9,10 +9,11 @@ struct APIClient {
   var updateServerAddress: (URL?) -> Void
   var updateToken: (String?) -> Void
   var authentication: (LoginState) async throws -> AuthenticationResponse
-  var currentPlaylistSongs: () async throws -> [Song]
+  var getCurrentPlaylistSongs: () async throws -> [Song]
   var toggleFavorite: (Song) async throws -> NoContentResponse
   var deleteCurrentPlaylistSongs: ([Song]) async throws -> NoContentResponse
   var moveCurrentPlaylistSongs: (Int, Int) async throws -> NoContentResponse
+  var getSong: (Int) async throws -> Song
 
   struct AuthenticationResponse: Equatable {
     let serverAddress: URL
@@ -186,7 +187,7 @@ extension APIClient {
       }
     },
 
-    currentPlaylistSongs: {
+    getCurrentPlaylistSongs: {
       let request = AF.request(
         requestURL("/api/v1/current_playlist/songs"),
         headers: headers
@@ -250,6 +251,23 @@ extension APIClient {
       )
       .validate()
       .serializingDecodable(NoContentResponse.self)
+
+      let response = await request.response
+
+      do {
+        return try await request.value
+      } catch {
+        throw handleError(error, response.data)
+      }
+    },
+
+    getSong: { songId in
+      let request = AF.request(
+        requestURL("/api/v1/songs/\(songId)"),
+        headers: headers
+      )
+      .validate()
+      .serializingDecodable(Song.self, decoder: jsonDecoder)
 
       let response = await request.response
 
