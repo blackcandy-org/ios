@@ -16,17 +16,30 @@ struct TurboView: UIViewControllerRepresentable {
   }
 
   func makeCoordinator() -> Coordinator {
-    .init(session: session)
+    .init(sharedSession: session)
   }
 
   class Coordinator: NSObject, SessionDelegate {
     let navigationController: UINavigationController = TurboNavigationController()
     let viewStore = ViewStore(AppStore.shared.stateless, removeDuplicates: ==)
-    let session: Session
+    private let sharedSession: Session?
 
-    init(session: Session?) {
-      let session: Session = session ?? TurboSession.create()
-      self.session = session
+    lazy var viewSession: Session = {
+      let session = self.sharedSession ?? TurboSession.create()
+      session.delegate = self
+
+      return session
+    }()
+
+    private lazy var modalSession: Session = {
+      let session = TurboSession.create()
+      session.delegate = self
+
+      return session
+    }()
+
+    init(sharedSession: Session?) {
+      self.sharedSession = sharedSession
     }
 
     func sessionWebViewProcessDidTerminate(_ session: Session) {
@@ -35,8 +48,22 @@ struct TurboView: UIViewControllerRepresentable {
 
     func session(_ session: Session, didProposeVisit proposal: VisitProposal) {
       let viewController = TurboVisitableViewController(url: proposal.url)
-      navigationController.pushViewController(viewController, animated: true)
-      session.visit(viewController)
+      let presentation = proposal.properties["presentation"] as? String
+
+      // Dismiss any modals when receiving a new navigation
+      if navigationController.presentedViewController != nil {
+        navigationController.dismiss(animated: true)
+      }
+
+      if presentation == "modal" {
+        let modalViewController = UINavigationController(rootViewController: viewController)
+
+        navigationController.present(modalViewController, animated: true)
+        modalSession.visit(viewController)
+      } else {
+        navigationController.pushViewController(viewController, animated: true)
+        session.visit(viewController)
+      }
     }
 
     func session(_ session: Session, didFailRequestForVisitable visitable: Visitable, error: Error) {
@@ -62,14 +89,11 @@ struct TurboView: UIViewControllerRepresentable {
   func makeUIViewController(context: Context) -> UINavigationController {
     let viewController = TurboVisitableViewController(url: url)
     let navigationController = context.coordinator.navigationController
-    let session = context.coordinator.session
 
     viewController.hasSearchBar = hasSearchBar
     navigationController.isNavigationBarHidden = !hasNavigationBar
     navigationController.pushViewController(viewController, animated: false)
-
-    session.delegate = context.coordinator
-    session.visit(viewController)
+    context.coordinator.viewSession.visit(viewController)
 
     return navigationController
   }
@@ -80,6 +104,6 @@ struct TurboView: UIViewControllerRepresentable {
   static func dismantleUIViewController(_ uiViewController: UINavigationController, coordinator: Coordinator) {
     uiViewController.popViewController(animated: false)
     uiViewController.viewControllers = []
-    coordinator.session.webView.stopLoading()
+    coordinator.viewSession.webView.stopLoading()
   }
 }

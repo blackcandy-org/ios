@@ -7,6 +7,9 @@ struct TurboSession {
   static func create() -> Session {
     let configuration = WKWebViewConfiguration()
     let scriptMessageHandler = TurboScriptMessageHandler()
+    let pathConfiguration = PathConfiguration(sources: [
+      .file(Bundle.main.url(forResource: "path-configuration", withExtension: "json")!)
+    ])
 
     configuration.applicationNameForUserAgent = "Turbo Native iOS"
     configuration.processPool = TurboSession.processPool
@@ -18,6 +21,9 @@ struct TurboSession {
       configuration: configuration
     )
 
-    return Session(webView: webView)
+    let session = Session(webView: webView)
+    session.pathConfiguration = pathConfiguration
+
+    return session
   }
 }

@@ -15,6 +15,7 @@
 		DD4D05A028BDA3410035D26D /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4D059F28BDA3410035D26D /* AccountView.swift */; };
 		DD4D05A328BDE7810035D26D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4D05A228BDE7810035D26D /* User.swift */; };
 		DD4D05A528BDE9520035D26D /* JSONDataClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4D05A428BDE9520035D26D /* JSONDataClient.swift */; };
+		DD522C312900EACB008FE88D /* path-configuration.json in Resources */ = {isa = PBXBuildFile; fileRef = DD522C302900EACB008FE88D /* path-configuration.json */; };
 		DD62F4CC27C769CC005A5D0B /* BlackCandyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD62F4CB27C769CC005A5D0B /* BlackCandyApp.swift */; };
 		DD62F4D027C769CE005A5D0B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD62F4CF27C769CE005A5D0B /* Assets.xcassets */; };
 		DD62F4D327C769CE005A5D0B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD62F4D227C769CE005A5D0B /* Preview Assets.xcassets */; };
@@ -91,6 +92,7 @@
 		DD4D059F28BDA3410035D26D /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		DD4D05A228BDE7810035D26D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		DD4D05A428BDE9520035D26D /* JSONDataClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDataClient.swift; sourceTree = "<group>"; };
+		DD522C302900EACB008FE88D /* path-configuration.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "path-configuration.json"; sourceTree = "<group>"; };
 		DD62F4C827C769CC005A5D0B /* BlackCandy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlackCandy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD62F4CB27C769CC005A5D0B /* BlackCandyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackCandyApp.swift; sourceTree = "<group>"; };
 		DD62F4CF27C769CE005A5D0B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				DD62F4CF27C769CE005A5D0B /* Assets.xcassets */,
 				DD62F4D127C769CE005A5D0B /* Preview Content */,
 				DD751E0828869C4600B8128E /* Localizable.strings */,
+				DD522C302900EACB008FE88D /* path-configuration.json */,
 			);
 			path = BlackCandy;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD62F4D327C769CE005A5D0B /* Preview Assets.xcassets in Resources */,
+				DD522C312900EACB008FE88D /* path-configuration.json in Resources */,
 				DD751E0928869C4700B8128E /* Localizable.strings in Resources */,
 				DD62F4D027C769CE005A5D0B /* Assets.xcassets in Resources */,
 			);
