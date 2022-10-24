@@ -49,6 +49,7 @@ struct TurboView: UIViewControllerRepresentable {
     func session(_ session: Session, didProposeVisit proposal: VisitProposal) {
       let viewController = TurboVisitableViewController(url: proposal.url)
       let presentation = proposal.properties["presentation"] as? String
+      let visitOptions = proposal.options
 
       // Dismiss any modals when receiving a new navigation
       if navigationController.presentedViewController != nil {
@@ -59,11 +60,20 @@ struct TurboView: UIViewControllerRepresentable {
         let modalViewController = UINavigationController(rootViewController: viewController)
 
         navigationController.present(modalViewController, animated: true)
-        modalSession.visit(viewController)
-      } else {
-        navigationController.pushViewController(viewController, animated: true)
-        session.visit(viewController)
+        modalSession.visit(viewController, options: visitOptions)
+        return
       }
+
+      if session.activeVisitable?.visitableURL == proposal.url || visitOptions.action == .replace {
+        let viewControllers = Array(navigationController.viewControllers.dropLast()) + [viewController]
+
+        navigationController.setViewControllers(viewControllers, animated: false)
+        session.visit(viewController, options: visitOptions)
+        return
+      }
+
+      navigationController.pushViewController(viewController, animated: true)
+      session.visit(viewController, options: visitOptions)
     }
 
     func session(_ session: Session, didFailRequestForVisitable visitable: Visitable, error: Error) {
