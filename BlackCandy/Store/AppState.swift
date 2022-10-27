@@ -1,12 +1,14 @@
 import Foundation
 import ComposableArchitecture
 import Turbo
+import SwiftUI
 
 struct AppState: Equatable {
   var alert: AlertState<AppAction>?
   var serverAddress: URL?
   var apiToken: String?
   var currentUser: User?
+  var currentTheme = Theme.auto
 
   var isLoggedIn: Bool {
     currentUser != nil
@@ -48,6 +50,23 @@ struct AppState: Equatable {
     var currentIndex: Int {
       guard let currentSong = currentSong else { return 0 }
       return playlist.songs.firstIndex(of: currentSong) ?? 0
+    }
+  }
+
+  enum Theme: String {
+    case auto
+    case light
+    case dark
+
+    var colorScheme: ColorScheme? {
+      switch self {
+      case .dark:
+        return ColorScheme.dark
+      case .light:
+        return ColorScheme.light
+      case .auto:
+        return nil
+      }
     }
   }
 }

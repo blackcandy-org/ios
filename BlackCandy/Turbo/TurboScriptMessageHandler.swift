@@ -15,6 +15,12 @@ class TurboScriptMessageHandler: NSObject, WKScriptMessageHandler {
     case "playSong":
       guard let songId = body["songId"] as? Int else { return }
       viewStore.send(.player(.playSong(songId)))
+    case "updateTheme":
+      guard
+        let theme = body["theme"] as? String,
+        let currentTheme = AppState.Theme(rawValue: theme) else { return }
+
+      viewStore.send(.updateTheme(currentTheme))
     default:
       return
     }

@@ -45,6 +45,7 @@ struct HomeView: View {
           ))
         })
         .environment(\.serverAddress, viewStore.serverAddress)
+        .preferredColorScheme(viewStore.currentTheme.colorScheme)
       }
     }
   }

@@ -10,6 +10,7 @@ enum AppAction: Equatable {
   case restoreStates
   case logout
   case player(PlayerAction)
+  case updateTheme(AppState.Theme)
 
   enum PlayerAction: Equatable {
     case play
@@ -302,6 +303,10 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
 
       return .none
 
+    case let .updateTheme(theme):
+      state.currentTheme = theme
+
+      return .none
     case .player:
       return .none
     }
