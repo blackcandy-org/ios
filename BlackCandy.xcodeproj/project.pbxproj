@@ -36,6 +36,9 @@
 		DD751E0C2887A3A500B8128E /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD751E0B2887A3A500B8128E /* APIClient.swift */; };
 		DD751E0E2888F19100B8128E /* CookiesClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD751E0D2888F19100B8128E /* CookiesClient.swift */; };
 		DD751E102888F2DD00B8128E /* UserDefaultsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD751E0F2888F2DD00B8128E /* UserDefaultsClient.swift */; };
+		DD7671C6290B6E1600F92825 /* AudioSessionControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7671C5290B6E1600F92825 /* AudioSessionControl.swift */; };
+		DD7671C9290B76AE00F92825 /* RemoteControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7671C8290B76AE00F92825 /* RemoteControl.swift */; };
+		DD7671CB290BA7B600F92825 /* NowPlayingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7671CA290BA7B600F92825 /* NowPlayingClient.swift */; };
 		DD83970B28DC043000BC8C11 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = DD83970A28DC043000BC8C11 /* Alamofire */; };
 		DD87EAE028CED7880062DFE6 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD87EADF28CED7880062DFE6 /* PlayerView.swift */; };
 		DD87EAE228CF0A940062DFE6 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD87EAE128CF0A940062DFE6 /* Playlist.swift */; };
@@ -114,6 +117,9 @@
 		DD751E0B2887A3A500B8128E /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		DD751E0D2888F19100B8128E /* CookiesClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookiesClient.swift; sourceTree = "<group>"; };
 		DD751E0F2888F2DD00B8128E /* UserDefaultsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsClient.swift; sourceTree = "<group>"; };
+		DD7671C5290B6E1600F92825 /* AudioSessionControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSessionControl.swift; sourceTree = "<group>"; };
+		DD7671C8290B76AE00F92825 /* RemoteControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteControl.swift; sourceTree = "<group>"; };
+		DD7671CA290BA7B600F92825 /* NowPlayingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingClient.swift; sourceTree = "<group>"; };
 		DD87EADF28CED7880062DFE6 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		DD87EAE128CF0A940062DFE6 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		DDA1A70728D3041F009D80C6 /* PlayerClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerClient.swift; sourceTree = "<group>"; };
@@ -284,6 +290,8 @@
 				DD6E0EAB2885345E00F39DB3 /* CustomKeys.swift */,
 				DDE710F128D077C900CE7494 /* CustomStyle.swift */,
 				DDBE510028D1A4FD0049D754 /* CustomFormatter.swift */,
+				DD7671C5290B6E1600F92825 /* AudioSessionControl.swift */,
+				DD7671C8290B76AE00F92825 /* RemoteControl.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -305,6 +313,7 @@
 				DDE9D26C288A3FDC009EFCEE /* KeychainClient.swift */,
 				DD4D05A428BDE9520035D26D /* JSONDataClient.swift */,
 				DDA1A70728D3041F009D80C6 /* PlayerClient.swift */,
+				DD7671CA290BA7B600F92825 /* NowPlayingClient.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -471,6 +480,7 @@
 				DD751E0C2887A3A500B8128E /* APIClient.swift in Sources */,
 				DD751E0728868A3D00B8128E /* HomeView.swift in Sources */,
 				DD4D05A028BDA3410035D26D /* AccountView.swift in Sources */,
+				DD7671C6290B6E1600F92825 /* AudioSessionControl.swift in Sources */,
 				DD6E0EA52885005E00F39DB3 /* AppState.swift in Sources */,
 				DD62F4F927C76D06005A5D0B /* TurboView.swift in Sources */,
 				DD0A346C28E3E02E002211AE /* PlayerSliderView.swift in Sources */,
@@ -485,11 +495,13 @@
 				DD751E052886835600B8128E /* LoginState.swift in Sources */,
 				DDE710F028D0748D00CE7494 /* MiniPlayerView.swift in Sources */,
 				DDE9D26D288A3FDC009EFCEE /* KeychainClient.swift in Sources */,
+				DD7671CB290BA7B600F92825 /* NowPlayingClient.swift in Sources */,
 				DD751E102888F2DD00B8128E /* UserDefaultsClient.swift in Sources */,
 				DD6E0EAE2885380C00F39DB3 /* LoginView.swift in Sources */,
 				DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */,
 				DD6E0EA7288500DA00F39DB3 /* AppEnvironment.swift in Sources */,
 				DDE710EE28D05DED00CE7494 /* PlayerPlaylistView.swift in Sources */,
+				DD7671C9290B76AE00F92825 /* RemoteControl.swift in Sources */,
 				DD4D05A328BDE7810035D26D /* User.swift in Sources */,
 				DD751E0E2888F19100B8128E /* CookiesClient.swift in Sources */,
 				DD87EAE228CF0A940062DFE6 /* Playlist.swift in Sources */,
@@ -662,6 +674,7 @@
 				DEVELOPMENT_TEAM = G8A3H8HY7R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BlackCandy/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -691,6 +704,7 @@
 				DEVELOPMENT_TEAM = G8A3H8HY7R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BlackCandy/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

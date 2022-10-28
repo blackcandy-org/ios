@@ -15,6 +15,7 @@ enum AppAction: Equatable {
   enum PlayerAction: Equatable {
     case play
     case pause
+    case stop
     case next
     case previous
     case playOn(Int)
@@ -23,7 +24,8 @@ enum AppAction: Equatable {
     case toggleFavorite
     case toggleFavoriteResponse(TaskResult<APIClient.NoContentResponse>)
     case togglePlaylistVisible
-    case seek(Double)
+    case seekToRatio(Double)
+    case seekToPosition(TimeInterval)
     case getStatus
     case handleStatusChange(PlayerClient.Status)
     case nextMode
@@ -57,6 +59,11 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
 
     return .none
 
+  case .stop:
+    environment.playerClient.stop()
+
+    return .none
+
   case .next:
     return .task { [currentIndex = state.currentIndex] in
       .playOn(currentIndex + 1)
@@ -81,6 +88,7 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
     guard let currentSong = state.currentSong else { return .none }
 
     environment.playerClient.playOn(currentSong)
+    environment.nowPlayingClient.updateInfo(currentSong)
 
     return .none
 
@@ -122,11 +130,19 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
 
     return .none
 
-  case let .seek(ratio):
+  case let .seekToRatio(ratio):
     guard let currentSong = state.currentSong else { return .none }
-    let time = CMTime(seconds: currentSong.duration * ratio, preferredTimescale: 1)
+    let position = currentSong.duration * ratio
+
+    return .task {
+      .seekToPosition(position)
+    }
+
+  case let .seekToPosition(position):
+    let time = CMTime(seconds: position, preferredTimescale: 1)
 
     environment.playerClient.seek(time)
+    environment.nowPlayingClient.updatePlaybackPosition(position)
 
     return .none
 
@@ -241,7 +257,8 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
     environment: {
       AppEnvironment.PlayerEnvironment(
         playerClient: $0.playerClient,
-        apiClient: $0.apiClient
+        apiClient: $0.apiClient,
+        nowPlayingClient: $0.nowPlayingClient
       )
     }
   ),

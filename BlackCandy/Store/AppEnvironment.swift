@@ -7,9 +7,11 @@ struct AppEnvironment {
   var keychainClient: KeychainClient
   var jsonDataClient: JSONDataClient
   var playerClient: PlayerClient
+  var nowPlayingClient: NowPlayingClient
 
   struct PlayerEnvironment {
     var playerClient: PlayerClient
     var apiClient: APIClient
+    var nowPlayingClient: NowPlayingClient
   }
 }

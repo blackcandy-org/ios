@@ -74,7 +74,7 @@ struct PlayerControlView: View {
     return VStack {
       PlayerSliderView(value: viewStore.binding(
         get: { _ in progressValue },
-        send: { AppAction.PlayerAction.seek($0) }
+        send: { AppAction.PlayerAction.seekToRatio($0) }
       ))
 
       HStack {

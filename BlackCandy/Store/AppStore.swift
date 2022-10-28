@@ -11,7 +11,8 @@ struct AppStore {
       cookiesClient: .live,
       keychainClient: .live,
       jsonDataClient: .live,
-      playerClient: .live
+      playerClient: .live,
+      nowPlayingClient: .live
     )
   )
 }

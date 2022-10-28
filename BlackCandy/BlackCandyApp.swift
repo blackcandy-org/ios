@@ -11,6 +11,9 @@ struct BlackCandyApp: App {
 
     UINavigationBar.appearance().standardAppearance = navigationBarAppearance
     UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
+
+    AudioSessionControl.shared.setup()
+    RemoteControl.shared.setup()
   }
 
   var body: some Scene {
