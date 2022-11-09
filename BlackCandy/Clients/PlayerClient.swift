@@ -92,11 +92,7 @@ extension PlayerClient {
         let timeControlStatusObserver = player.observe(\AVPlayer.timeControlStatus, changeHandler: { (player, _) in
           switch player.timeControlStatus {
           case .paused:
-            if player.currentTime() == player.currentItem?.duration {
-              continuation.yield(.end)
-            } else {
-              continuation.yield(.pause)
-            }
+            continuation.yield(.pause)
           case .waitingToPlayAtSpecifiedRate:
             continuation.yield(.loading)
           case .playing:
@@ -106,8 +102,13 @@ extension PlayerClient {
           }
         })
 
+        let playToEndObserver = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main, using: { _ in
+          continuation.yield(.end)
+        })
+
         continuation.onTermination = { @Sendable _ in
           timeControlStatusObserver.invalidate()
+          NotificationCenter.default.removeObserver(playToEndObserver)
         }
       }
     }

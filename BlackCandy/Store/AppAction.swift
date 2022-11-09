@@ -56,12 +56,10 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
 
   case .pause:
     environment.playerClient.pause()
-
     return .none
 
   case .stop:
     environment.playerClient.stop()
-
     return .none
 
   case .next:

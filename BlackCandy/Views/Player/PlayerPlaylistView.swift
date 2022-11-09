@@ -50,7 +50,7 @@ struct PlayerPlaylistView: View {
         }
         .listStyle(.plain)
       }
-      .padding(.top, CustomStyle.spacing(.ultraWide))
+      .padding(.top, CustomStyle.spacing(.extraWide))
     }
   }
 }
