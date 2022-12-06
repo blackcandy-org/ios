@@ -21,7 +21,7 @@ struct PlayerControlView: View {
         },
         label: {
           Image(systemName: "backward.fill")
-            .foregroundColor(.primary)
+            .tint(.primary)
             .customStyle(.largeSymbol)
         }
       )
@@ -39,11 +39,11 @@ struct PlayerControlView: View {
         label: {
           if viewStore.isPlaying {
             Image(systemName: "pause.fill")
-              .foregroundColor(.primary)
+              .tint(.primary)
               .customStyle(.largeSymbol)
           } else {
             Image(systemName: "play.fill")
-              .foregroundColor(.primary)
+              .tint(.primary)
               .customStyle(.largeSymbol)
           }
         }
@@ -57,7 +57,7 @@ struct PlayerControlView: View {
         },
         label: {
           Image(systemName: "forward.fill")
-            .foregroundColor(.primary)
+            .tint(.primary)
             .customStyle(.largeSymbol)
         }
       )

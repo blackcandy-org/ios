@@ -14,6 +14,7 @@ struct PlayerView: View {
         } else {
           PlayerSongInfoView(currentSong: viewStore.currentSong)
           PlayerControlView(store: store)
+            .disabled(!viewStore.hasCurrentSong)
         }
 
         Spacer()

@@ -51,6 +51,10 @@ struct AppState: Equatable {
       guard let currentSong = currentSong else { return 0 }
       return playlist.songs.firstIndex(of: currentSong) ?? 0
     }
+
+    var hasCurrentSong: Bool {
+      currentSong != nil
+    }
   }
 
   enum Theme: String {

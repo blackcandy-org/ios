@@ -13,7 +13,7 @@ struct PlayerActionsView: View {
           },
           label: {
             Image(systemName: viewStore.mode.symbol)
-              .foregroundColor(viewStore.isPlaylistVisible ? Color.init(.systemGray2) : .primary)
+              .tint(.primary)
           }
         )
         .padding(CustomStyle.spacing(.tiny))
@@ -28,15 +28,15 @@ struct PlayerActionsView: View {
           label: {
             if viewStore.currentSong?.isFavorited ?? false {
               Image(systemName: "heart.fill")
-                .foregroundColor(viewStore.isPlaylistVisible ? Color.init(.systemGray2) : .red)
+                .tint(.primary)
             } else {
               Image(systemName: "heart")
-                .foregroundColor(viewStore.isPlaylistVisible ? Color.init(.systemGray2) : .primary)
+                .tint(.primary)
             }
           }
         )
         .padding(CustomStyle.spacing(.tiny))
-        .disabled(viewStore.isPlaylistVisible)
+        .disabled(viewStore.isPlaylistVisible || !viewStore.hasCurrentSong)
 
         Spacer()
 
@@ -46,7 +46,7 @@ struct PlayerActionsView: View {
           },
           label: {
             Image(systemName: "list.bullet")
-              .foregroundColor(.primary)
+              .tint(.primary)
           }
         )
         .padding(CustomStyle.spacing(.tiny))

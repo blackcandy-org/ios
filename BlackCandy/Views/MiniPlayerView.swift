@@ -33,13 +33,14 @@ struct MiniPlayerView: View {
             label: {
               if viewStore.isPlaying {
                 Image(systemName: "pause.fill")
-                  .foregroundColor(.primary)
+                  .tint(.primary)
               } else {
                 Image(systemName: "play.fill")
-                  .foregroundColor(.primary)
+                  .tint(.primary)
               }
             }
           )
+          .disabled(!viewStore.hasCurrentSong)
 
           Button(
             action: {
@@ -47,9 +48,10 @@ struct MiniPlayerView: View {
             },
             label: {
               Image(systemName: "forward.fill")
-                .foregroundColor(.primary)
+                .tint(.primary)
             }
           )
+          .disabled(!viewStore.hasCurrentSong)
         }
       }
       .padding(.horizontal)
