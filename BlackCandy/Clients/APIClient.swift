@@ -3,8 +3,8 @@ import ComposableArchitecture
 import Alamofire
 
 struct APIClient {
-  static var serverAddress: URL?
-  static var token: String?
+  private static var serverAddress: URL?
+  private static var token: String?
 
   var updateServerAddress: (URL?) -> Void
   var updateToken: (String?) -> Void

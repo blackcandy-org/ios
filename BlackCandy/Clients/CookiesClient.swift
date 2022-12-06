@@ -2,18 +2,30 @@ import Foundation
 import WebKit
 
 struct CookiesClient {
+  private static var serverAddress: URL?
+
+  var updateServerAddress: (URL?) -> Void
   var updateCookies: ([HTTPCookie]) -> Void
   var cleanCookies: () -> Void
+  var createCookie: (String, String) -> Void
+
+  static func updateCookies(_ cookies: [HTTPCookie]) {
+    let cookieStore = WKWebsiteDataStore.default().httpCookieStore
+
+    cookies.forEach { cookie in
+      cookieStore.setCookie(cookie, completionHandler: nil)
+    }
+  }
 }
 
 extension CookiesClient {
   static let live = Self(
-    updateCookies: { cookies in
-      let cookieStore = WKWebsiteDataStore.default().httpCookieStore
+    updateServerAddress: { serverAddress in
+      Self.serverAddress = serverAddress
+    },
 
-      cookies.forEach { cookie in
-        cookieStore.setCookie(cookie, completionHandler: nil)
-      }
+    updateCookies: { cookies in
+      Self.updateCookies(cookies)
     },
 
     cleanCookies: {
@@ -24,6 +36,21 @@ extension CookiesClient {
           cookieStore.delete(cookie)
         }
       }
+    },
+
+    createCookie: { name, value in
+      guard let serverAddress = Self.serverAddress else { return }
+
+      guard let cookie = HTTPCookie(properties: [
+        .name: name,
+        .value: value,
+        .originURL: serverAddress,
+        .path: "/"
+      ]) else {
+        return
+      }
+
+      Self.updateCookies([cookie])
     }
   )
 }

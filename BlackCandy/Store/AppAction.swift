@@ -85,6 +85,7 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
 
     guard let currentSong = state.currentSong else { return .none }
 
+    environment.cookiesClient.createCookie("current_song_id", String(currentSong.id))
     environment.playerClient.playOn(currentSong)
     environment.nowPlayingClient.updateInfo(currentSong)
 
@@ -256,7 +257,8 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
       AppEnvironment.PlayerEnvironment(
         playerClient: $0.playerClient,
         apiClient: $0.apiClient,
-        nowPlayingClient: $0.nowPlayingClient
+        nowPlayingClient: $0.nowPlayingClient,
+        cookiesClient: $0.cookiesClient
       )
     }
   ),
@@ -280,6 +282,7 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
     case let .loginResponse(.success(response)):
       environment.userDefaultsClient.updateServerAddress(response.serverAddress)
       environment.cookiesClient.updateCookies(response.cookies)
+      environment.cookiesClient.updateServerAddress(response.serverAddress)
       environment.keychainClient.updateAPIToken(response.token)
       environment.jsonDataClient.updateCurrentUser(response.user)
       environment.playerClient.updateAPIToken(response.token)
@@ -300,6 +303,7 @@ let appReducer = Reducer<AppState, AppAction, AppEnvironment>.combine(
       environment.playerClient.updateAPIToken(state.apiToken)
       environment.apiClient.updateToken(state.apiToken)
       environment.apiClient.updateServerAddress(state.serverAddress)
+      environment.cookiesClient.updateServerAddress(state.serverAddress)
 
       return .none
 

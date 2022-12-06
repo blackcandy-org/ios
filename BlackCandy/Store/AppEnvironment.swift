@@ -13,5 +13,6 @@ struct AppEnvironment {
     var playerClient: PlayerClient
     var apiClient: APIClient
     var nowPlayingClient: NowPlayingClient
+    var cookiesClient: CookiesClient
   }
 }
