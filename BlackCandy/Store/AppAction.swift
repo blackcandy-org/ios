@@ -59,7 +59,9 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
     return .none
 
   case .stop:
+    state.currentSong = nil
     environment.playerClient.stop()
+
     return .none
 
   case .next:
@@ -174,6 +176,11 @@ let playerStateReducer = Reducer<AppState.PlayerState, AppAction.PlayerAction, A
     let songs = indexSet.map { state.playlist.songs[$0] }
 
     state.playlist.remove(songs: songs)
+
+    if let currentSong = state.currentSong, songs.contains(currentSong) {
+      state.currentSong = nil
+      environment.playerClient.stop()
+    }
 
     return .task {
       await .deleteSongsResponse(TaskResult { try await environment.apiClient.deleteCurrentPlaylistSongs(songs) })
