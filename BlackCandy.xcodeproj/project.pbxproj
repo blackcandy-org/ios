@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DD05118028F8402C00104197 /* LNPopupUI in Frameworks */ = {isa = PBXBuildFile; productRef = DD05117F28F8402C00104197 /* LNPopupUI */; };
-		DD05118228F8402C00104197 /* LNPopupUI in Embed Frameworks */ = {isa = PBXBuildFile; productRef = DD05117F28F8402C00104197 /* LNPopupUI */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		642B47912946C44300D6FE68 /* LNPopupUI in Frameworks */ = {isa = PBXBuildFile; productRef = 642B47902946C44300D6FE68 /* LNPopupUI */; };
 		DD0A346C28E3E02E002211AE /* PlayerSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */; };
 		DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD18369227CC9FF60018ECF5 /* TurboSession.swift */; };
 		DD2332BE28FE49AA005E3F4F /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2332BD28FE49AA005E3F4F /* AppStore.swift */; };
@@ -81,7 +80,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				DD05118228F8402C00104197 /* LNPopupUI in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,7 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD6E0EA32884FEE100F39DB3 /* ComposableArchitecture in Frameworks */,
-				DD05118028F8402C00104197 /* LNPopupUI in Frameworks */,
+				642B47912946C44300D6FE68 /* LNPopupUI in Frameworks */,
 				DD83970B28DC043000BC8C11 /* Alamofire in Frameworks */,
 				DD62F4F727C76C13005A5D0B /* Turbo in Frameworks */,
 			);
@@ -351,7 +349,7 @@
 				DD62F4F627C76C13005A5D0B /* Turbo */,
 				DD6E0EA22884FEE100F39DB3 /* ComposableArchitecture */,
 				DD83970A28DC043000BC8C11 /* Alamofire */,
-				DD05117F28F8402C00104197 /* LNPopupUI */,
+				642B47902946C44300D6FE68 /* LNPopupUI */,
 			);
 			productName = BlackCandy;
 			productReference = DD62F4C827C769CC005A5D0B /* BlackCandy.app */;
@@ -428,8 +426,8 @@
 			packageReferences = (
 				DD62F4F527C76C13005A5D0B /* XCRemoteSwiftPackageReference "turbo-ios" */,
 				DD6E0EA12884FEE100F39DB3 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
-				DDE36BA928CF3C7900B1C0AB /* XCRemoteSwiftPackageReference "LNPopupUI" */,
 				DD83970928DC043000BC8C11 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				642B478F2946C44300D6FE68 /* XCRemoteSwiftPackageReference "LNPopupUI" */,
 			);
 			productRefGroup = DD62F4C927C769CC005A5D0B /* Products */;
 			projectDirPath = "";
@@ -841,6 +839,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		642B478F2946C44300D6FE68 /* XCRemoteSwiftPackageReference "LNPopupUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/LeoNatan/LNPopupUI";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.4.0;
+			};
+		};
 		DD62F4F527C76C13005A5D0B /* XCRemoteSwiftPackageReference "turbo-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hotwired/turbo-ios";
@@ -865,20 +871,12 @@
 				minimumVersion = 5.6.0;
 			};
 		};
-		DDE36BA928CF3C7900B1C0AB /* XCRemoteSwiftPackageReference "LNPopupUI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/LeoNatan/LNPopupUI";
-			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 1.3.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		DD05117F28F8402C00104197 /* LNPopupUI */ = {
+		642B47902946C44300D6FE68 /* LNPopupUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = DDE36BA928CF3C7900B1C0AB /* XCRemoteSwiftPackageReference "LNPopupUI" */;
+			package = 642B478F2946C44300D6FE68 /* XCRemoteSwiftPackageReference "LNPopupUI" */;
 			productName = LNPopupUI;
 		};
 		DD62F4F627C76C13005A5D0B /* Turbo */ = {
