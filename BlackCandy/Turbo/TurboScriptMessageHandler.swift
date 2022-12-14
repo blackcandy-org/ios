@@ -18,7 +18,7 @@ class TurboScriptMessageHandler: NSObject, WKScriptMessageHandler {
     case "updateTheme":
       guard
         let theme = body["theme"] as? String,
-        let currentTheme = AppState.Theme(rawValue: theme) else { return }
+        let currentTheme = AppReducer.State.Theme(rawValue: theme) else { return }
 
       viewStore.send(.updateTheme(currentTheme))
     default:

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		642B47912946C44300D6FE68 /* LNPopupUI in Frameworks */ = {isa = PBXBuildFile; productRef = 642B47902946C44300D6FE68 /* LNPopupUI */; };
+		647623782949A77C00333378 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647623772949A77C00333378 /* AppReducer.swift */; };
+		6476237A2949B1C200333378 /* AppDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647623792949B1C200333378 /* AppDependency.swift */; };
+		6476237C2949B60300333378 /* PlayerReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6476237B2949B60300333378 /* PlayerReducer.swift */; };
 		DD0A346C28E3E02E002211AE /* PlayerSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */; };
 		DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD18369227CC9FF60018ECF5 /* TurboSession.swift */; };
 		DD2332BE28FE49AA005E3F4F /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2332BD28FE49AA005E3F4F /* AppStore.swift */; };
@@ -24,9 +27,6 @@
 		DD62F4F727C76C13005A5D0B /* Turbo in Frameworks */ = {isa = PBXBuildFile; productRef = DD62F4F627C76C13005A5D0B /* Turbo */; };
 		DD62F4F927C76D06005A5D0B /* TurboView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD62F4F827C76D06005A5D0B /* TurboView.swift */; };
 		DD6E0EA32884FEE100F39DB3 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = DD6E0EA22884FEE100F39DB3 /* ComposableArchitecture */; };
-		DD6E0EA52885005E00F39DB3 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6E0EA42885005E00F39DB3 /* AppState.swift */; };
-		DD6E0EA7288500DA00F39DB3 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6E0EA6288500DA00F39DB3 /* AppEnvironment.swift */; };
-		DD6E0EA92885011300F39DB3 /* AppAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6E0EA82885011300F39DB3 /* AppAction.swift */; };
 		DD6E0EAC2885345E00F39DB3 /* CustomKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6E0EAB2885345E00F39DB3 /* CustomKeys.swift */; };
 		DD6E0EAE2885380C00F39DB3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6E0EAD2885380C00F39DB3 /* LoginView.swift */; };
 		DD751E052886835600B8128E /* LoginState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD751E042886835600B8128E /* LoginState.swift */; };
@@ -87,6 +87,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		647623772949A77C00333378 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
+		647623792949B1C200333378 /* AppDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependency.swift; sourceTree = "<group>"; };
+		6476237B2949B60300333378 /* PlayerReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerReducer.swift; sourceTree = "<group>"; };
 		DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSliderView.swift; sourceTree = "<group>"; };
 		DD18369227CC9FF60018ECF5 /* TurboSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboSession.swift; sourceTree = "<group>"; };
 		DD2332BD28FE49AA005E3F4F /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
@@ -104,9 +107,6 @@
 		DD62F4E627C769CE005A5D0B /* BlackCandyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackCandyUITests.swift; sourceTree = "<group>"; };
 		DD62F4E827C769CE005A5D0B /* BlackCandyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackCandyUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		DD62F4F827C76D06005A5D0B /* TurboView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboView.swift; sourceTree = "<group>"; };
-		DD6E0EA42885005E00F39DB3 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
-		DD6E0EA6288500DA00F39DB3 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
-		DD6E0EA82885011300F39DB3 /* AppAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAction.swift; sourceTree = "<group>"; };
 		DD6E0EAB2885345E00F39DB3 /* CustomKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomKeys.swift; sourceTree = "<group>"; };
 		DD6E0EAD2885380C00F39DB3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		DD751E042886835600B8128E /* LoginState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginState.swift; sourceTree = "<group>"; };
@@ -175,9 +175,9 @@
 			isa = PBXGroup;
 			children = (
 				DD2332BD28FE49AA005E3F4F /* AppStore.swift */,
-				DD6E0EA42885005E00F39DB3 /* AppState.swift */,
-				DD6E0EA82885011300F39DB3 /* AppAction.swift */,
-				DD6E0EA6288500DA00F39DB3 /* AppEnvironment.swift */,
+				647623772949A77C00333378 /* AppReducer.swift */,
+				6476237B2949B60300333378 /* PlayerReducer.swift */,
+				647623792949B1C200333378 /* AppDependency.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -479,29 +479,29 @@
 				DD751E0728868A3D00B8128E /* HomeView.swift in Sources */,
 				DD4D05A028BDA3410035D26D /* AccountView.swift in Sources */,
 				DD7671C6290B6E1600F92825 /* AudioSessionControl.swift in Sources */,
-				DD6E0EA52885005E00F39DB3 /* AppState.swift in Sources */,
 				DD62F4F927C76D06005A5D0B /* TurboView.swift in Sources */,
 				DD0A346C28E3E02E002211AE /* PlayerSliderView.swift in Sources */,
 				DDAD9DCA28E28CE200F8C96F /* PlayerControlView.swift in Sources */,
 				DD2332BE28FE49AA005E3F4F /* AppStore.swift in Sources */,
 				DD6E0EAC2885345E00F39DB3 /* CustomKeys.swift in Sources */,
 				DDAD9DCC28E28E5900F8C96F /* PlayerActionsView.swift in Sources */,
+				647623782949A77C00333378 /* AppReducer.swift in Sources */,
 				DDE710F228D077C900CE7494 /* CustomStyle.swift in Sources */,
 				DD87EAE028CED7880062DFE6 /* PlayerView.swift in Sources */,
 				DDE710EC28D04A6800CE7494 /* Song.swift in Sources */,
-				DD6E0EA92885011300F39DB3 /* AppAction.swift in Sources */,
 				DD751E052886835600B8128E /* LoginState.swift in Sources */,
 				DDE710F028D0748D00CE7494 /* MiniPlayerView.swift in Sources */,
 				DDE9D26D288A3FDC009EFCEE /* KeychainClient.swift in Sources */,
 				DD7671CB290BA7B600F92825 /* NowPlayingClient.swift in Sources */,
 				DD751E102888F2DD00B8128E /* UserDefaultsClient.swift in Sources */,
 				DD6E0EAE2885380C00F39DB3 /* LoginView.swift in Sources */,
+				6476237A2949B1C200333378 /* AppDependency.swift in Sources */,
 				DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */,
-				DD6E0EA7288500DA00F39DB3 /* AppEnvironment.swift in Sources */,
 				DDE710EE28D05DED00CE7494 /* PlayerPlaylistView.swift in Sources */,
 				DD7671C9290B76AE00F92825 /* RemoteControl.swift in Sources */,
 				DD4D05A328BDE7810035D26D /* User.swift in Sources */,
 				DD751E0E2888F19100B8128E /* CookiesClient.swift in Sources */,
+				6476237C2949B60300333378 /* PlayerReducer.swift in Sources */,
 				DD87EAE228CF0A940062DFE6 /* Playlist.swift in Sources */,
 				DDB453A127CF11EF003BA1F9 /* TurboNavigationController.swift in Sources */,
 				DDA1A70828D3041F009D80C6 /* PlayerClient.swift in Sources */,
@@ -860,7 +860,7 @@
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 0.40.0;
+				minimumVersion = 0.41.0;
 			};
 		};
 		DD83970928DC043000BC8C11 /* XCRemoteSwiftPackageReference "Alamofire" */ = {

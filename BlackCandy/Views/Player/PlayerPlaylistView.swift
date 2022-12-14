@@ -2,7 +2,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct PlayerPlaylistView: View {
-  let store: Store<AppState.PlayerState, AppAction.PlayerAction>
+  let store: StoreOf<PlayerReducer>
   let durationFormatter = DurationFormatter()
 
   var body: some View {

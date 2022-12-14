@@ -3,6 +3,8 @@ disabled_rules:
   - force_cast
   - line_length
   - force_try
+  - cyclomatic_complexity
+  - function_body_length
 
 opt_in_rules:
   - indentation_width

@@ -2,7 +2,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct AccountView: View {
-  let store: Store<AppState, AppAction>
+  let store: StoreOf<AppReducer>
   let session = TurboSession.create()
 
   var body: some View {

@@ -3,7 +3,7 @@ import ComposableArchitecture
 import LNPopupUI
 
 struct HomeView: View {
-  let store: Store<AppState, AppAction>
+  let store: StoreOf<AppReducer>
   @State var isPlayerPresented = true
 
   var body: some View {
@@ -34,14 +34,14 @@ struct HomeView: View {
         }
         .popup(isBarPresented: $isPlayerPresented, popupContent: {
           PlayerView(store: self.store.scope(
-            state: \.playerState,
-            action: AppAction.player
+            state: \.player,
+            action: AppReducer.Action.player
           ))
         })
         .popupBarCustomView(popupBarContent: {
           MiniPlayerView(store: self.store.scope(
-            state: \.playerState,
-            action: AppAction.player
+            state: \.player,
+            action: AppReducer.Action.player
           ))
         })
         .environment(\.serverAddress, viewStore.serverAddress)

@@ -4,7 +4,7 @@ import Turbo
 
 struct LoginView: View {
   @StateObject var loginState = LoginState()
-  let store: Store<AppState, AppAction>
+  let store: StoreOf<AppReducer>
 
   var body: some View {
     WithViewStore(self.store) { viewStore in

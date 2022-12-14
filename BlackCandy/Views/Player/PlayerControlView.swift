@@ -2,7 +2,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct PlayerControlView: View {
-  let store: Store<AppState.PlayerState, AppAction.PlayerAction>
+  let store: StoreOf<PlayerReducer>
   let durationFormatter = DurationFormatter()
 
   var body: some View {
@@ -13,7 +13,7 @@ struct PlayerControlView: View {
     }
   }
 
-  func playerControl(_ viewStore: ViewStore<AppState.PlayerState, AppAction.PlayerAction>) -> some View {
+  func playerControl(_ viewStore: ViewStore<PlayerReducer.State, PlayerReducer.Action>) -> some View {
     HStack {
       Button(
         action: {
@@ -64,7 +64,7 @@ struct PlayerControlView: View {
     }
   }
 
-  func songProgress(_ viewStore: ViewStore<AppState.PlayerState, AppAction.PlayerAction>) -> some View {
+  func songProgress(_ viewStore: ViewStore<PlayerReducer.State, PlayerReducer.Action>) -> some View {
     let currentSong = viewStore.currentSong
     let noneDuration = "--:--"
     let duration = currentSong != nil ? durationFormatter.string(from: currentSong!.duration) : noneDuration
@@ -74,7 +74,7 @@ struct PlayerControlView: View {
     return VStack {
       PlayerSliderView(value: viewStore.binding(
         get: { _ in progressValue },
-        send: { AppAction.PlayerAction.seekToRatio($0) }
+        send: { PlayerReducer.Action.seekToRatio($0) }
       ))
 
       HStack {

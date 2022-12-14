@@ -2,7 +2,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct MiniPlayerView: View {
-  let store: Store<AppState.PlayerState, AppAction.PlayerAction>
+  let store: StoreOf<PlayerReducer>
 
   var body: some View {
     WithViewStore(self.store) { viewStore in

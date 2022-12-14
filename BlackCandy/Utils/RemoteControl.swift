@@ -26,7 +26,7 @@ struct RemoteControl {
     }
 
     commandCenter.togglePlayPauseCommand.addTarget { _ in
-      if viewStore.state.playerState.isPlaying {
+      if viewStore.state.player.isPlaying {
         viewStore.send(.player(.pause))
       } else {
         viewStore.send(.player(.play))
