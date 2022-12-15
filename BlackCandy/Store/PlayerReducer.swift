@@ -61,7 +61,7 @@ struct PlayerReducer: ReducerProtocol {
     case playSongResponse(TaskResult<Song>)
   }
 
-  func reduce(into state: inout State, action: Action) -> Effect<Action, Never> {
+  func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
     switch action {
     case .play:
       if playerClient.hasCurrentItem() {
