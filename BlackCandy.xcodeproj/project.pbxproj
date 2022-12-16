@@ -11,6 +11,8 @@
 		647623782949A77C00333378 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647623772949A77C00333378 /* AppReducer.swift */; };
 		6476237A2949B1C200333378 /* AppDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647623792949B1C200333378 /* AppDependency.swift */; };
 		6476237C2949B60300333378 /* PlayerReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6476237B2949B60300333378 /* PlayerReducer.swift */; };
+		64F9BB46294C0642004329B8 /* SplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F9BB45294C0642004329B8 /* SplitView.swift */; };
+		64F9BB49294C0997004329B8 /* SplitNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F9BB48294C0997004329B8 /* SplitNavigationViewController.swift */; };
 		DD0A346C28E3E02E002211AE /* PlayerSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */; };
 		DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD18369227CC9FF60018ECF5 /* TurboSession.swift */; };
 		DD2332BE28FE49AA005E3F4F /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2332BD28FE49AA005E3F4F /* AppStore.swift */; };
@@ -90,6 +92,8 @@
 		647623772949A77C00333378 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
 		647623792949B1C200333378 /* AppDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependency.swift; sourceTree = "<group>"; };
 		6476237B2949B60300333378 /* PlayerReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerReducer.swift; sourceTree = "<group>"; };
+		64F9BB45294C0642004329B8 /* SplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitView.swift; sourceTree = "<group>"; };
+		64F9BB48294C0997004329B8 /* SplitNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitNavigationViewController.swift; sourceTree = "<group>"; };
 		DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSliderView.swift; sourceTree = "<group>"; };
 		DD18369227CC9FF60018ECF5 /* TurboSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboSession.swift; sourceTree = "<group>"; };
 		DD2332BD28FE49AA005E3F4F /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
@@ -164,6 +168,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		64F9BB47294C093F004329B8 /* Split */ = {
+			isa = PBXGroup;
+			children = (
+				64F9BB45294C0642004329B8 /* SplitView.swift */,
+				64F9BB48294C0997004329B8 /* SplitNavigationViewController.swift */,
+			);
+			path = Split;
+			sourceTree = "<group>";
+		};
 		DD05117E28F8402C00104197 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -197,6 +210,7 @@
 		DD18368F27CC79EF0018ECF5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				64F9BB47294C093F004329B8 /* Split */,
 				DDAD9DC628E28AEB00F8C96F /* Player */,
 				DD751E0628868A3D00B8128E /* HomeView.swift */,
 				DD6E0EAD2885380C00F39DB3 /* LoginView.swift */,
@@ -475,11 +489,13 @@
 			files = (
 				DD4D05A528BDE9520035D26D /* JSONDataClient.swift in Sources */,
 				DDA4922227CF15710063A35B /* TurboVisitableViewController.swift in Sources */,
+				64F9BB49294C0997004329B8 /* SplitNavigationViewController.swift in Sources */,
 				DD751E0C2887A3A500B8128E /* APIClient.swift in Sources */,
 				DD751E0728868A3D00B8128E /* HomeView.swift in Sources */,
 				DD4D05A028BDA3410035D26D /* AccountView.swift in Sources */,
 				DD7671C6290B6E1600F92825 /* AudioSessionControl.swift in Sources */,
 				DD62F4F927C76D06005A5D0B /* TurboView.swift in Sources */,
+				64F9BB46294C0642004329B8 /* SplitView.swift in Sources */,
 				DD0A346C28E3E02E002211AE /* PlayerSliderView.swift in Sources */,
 				DDAD9DCA28E28CE200F8C96F /* PlayerControlView.swift in Sources */,
 				DD2332BE28FE49AA005E3F4F /* AppStore.swift in Sources */,
