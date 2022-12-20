@@ -1,10 +1,10 @@
 import SwiftUI
 
-struct SplitView: UIViewControllerRepresentable {
+struct SidebarView: UIViewControllerRepresentable {
   func makeUIViewController(context: Context) -> UISplitViewController {
     let splitViewController = UIViewControllerType(style: .doubleColumn)
-    splitViewController.setViewController(SplitNavigationViewController(), for: .primary)
-    splitViewController.setViewController(UIHostingController(rootView: TurboView(path: "/")), for: .secondary)
+    splitViewController.setViewController(SidebarNavigationController(), for: .primary)
+    splitViewController.setViewController(TurboNavigationController(path: "/"), for: .secondary)
 
     return splitViewController
   }

@@ -18,7 +18,7 @@ struct BlackCandyApp: App {
 
   var body: some Scene {
     WindowGroup {
-      HomeView(store: AppStore.shared)
+      ContentView(store: AppStore.shared)
         .alert(AppStore.shared.scope(state: \.alert), dismiss: .dismissAlert)
     }
   }

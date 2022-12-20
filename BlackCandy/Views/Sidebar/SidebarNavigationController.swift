@@ -1,7 +1,7 @@
 import UIKit
 import SwiftUI
 
-class SplitNavigationViewController: UICollectionViewController {
+class SidebarNavigationController: UICollectionViewController {
   private var dataSource: UICollectionViewDiffableDataSource<SidebarSection, SidebarItem>!
 
   let sidebarSections: [SidebarSection] = [
@@ -15,17 +15,6 @@ class SplitNavigationViewController: UICollectionViewController {
     ])
   ]
 
-  var standardSectionIndexes: [Int] {
-    sidebarSections.indices.filter {
-      switch sidebarSections[$0] {
-      case .standard:
-        return true
-      case .collection:
-        return false
-      }
-    }
-  }
-
   init() {
     super.init(collectionViewLayout: .init())
   }
@@ -37,14 +26,24 @@ class SplitNavigationViewController: UICollectionViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    configureLayout()
     configureDataSource()
+    configureLayout()
+  }
+
+  override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    guard let sidebarItem = dataSource.itemIdentifier(for: indexPath),
+      let sidebarItemViewController = sidebarItem.destination else { return }
+
+    splitViewController?.showDetailViewController(sidebarItemViewController, sender: nil)
   }
 
   private func configureLayout() {
     let layout = UICollectionViewCompositionalLayout { section, layoutEnvironment in
       var config = UICollectionLayoutListConfiguration(appearance: .sidebar)
-      config.headerMode = self.standardSectionIndexes.contains(section) ? .none : .firstItemInSection
+
+      if let sidebarSection = self.dataSource.sectionIdentifier(for: section) {
+        config.headerMode = sidebarSection.isCollection ? .firstItemInSection : .none
+      }
 
       return NSCollectionLayoutSection.list(using: config, layoutEnvironment: layoutEnvironment)
     }
@@ -71,7 +70,7 @@ class SplitNavigationViewController: UICollectionViewController {
     }
 
     dataSource = UICollectionViewDiffableDataSource<SidebarSection, SidebarItem>(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, item: SidebarItem) -> UICollectionViewCell? in
-      if indexPath.item == 0 && !self.standardSectionIndexes.contains(indexPath.section) {
+      if item.isHeader {
         return collectionView.dequeueConfiguredReusableCell(using: headerRegistration, for: indexPath, item: item)
       } else {
         return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
@@ -100,10 +99,19 @@ class SplitNavigationViewController: UICollectionViewController {
   }
 }
 
-extension SplitNavigationViewController {
+extension SidebarNavigationController {
   enum SidebarSection: Hashable {
     case standard(SidebarItem)
     case collection(SidebarItem, [SidebarItem])
+
+    var isCollection: Bool {
+      switch self {
+      case .collection:
+        return true
+      default:
+        return false
+      }
+    }
   }
 
   enum SidebarItem: String {
@@ -114,6 +122,15 @@ extension SplitNavigationViewController {
     case artists
     case playlists
     case songs
+
+    var isHeader: Bool {
+      switch self {
+      case .library:
+        return true
+      default:
+        return false
+      }
+    }
 
     var title: String {
       rawValue.capitalized
@@ -133,26 +150,26 @@ extension SplitNavigationViewController {
         return .init(systemName: "music.note.list")
       case .songs:
         return .init(systemName: "music.note")
-      case .library:
+      default:
         return nil
       }
     }
 
-    var destination: (any View)? {
+    var destination: UIViewController? {
       switch self {
       case .home:
-        return TurboView(path: "/")
+        return TurboNavigationController(path: "/")
       case .account:
-        return EmptyView()
+        return UIHostingController(rootView: AccountView(store: AppStore.shared))
       case .albums:
-        return TurboView(path: "/albums")
+        return TurboNavigationController(path: "/albums")
       case .artists:
-        return TurboView(path: "/artists")
+        return TurboNavigationController(path: "/artists")
       case .playlists:
-        return TurboView(path: "/playlists")
+        return TurboNavigationController(path: "/playlists")
       case .songs:
-        return TurboView(path: "/songs")
-      case .library:
+        return TurboNavigationController(path: "/songs")
+      default:
         return nil
       }
     }
