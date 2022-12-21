@@ -5,13 +5,13 @@ class SidebarNavigationController: UICollectionViewController {
   private var dataSource: UICollectionViewDiffableDataSource<SidebarSection, SidebarItem>!
 
   let sidebarSections: [SidebarSection] = [
-    .standard(.home),
-    .standard(.account),
-    .collection(.library, [
-      .albums,
-      .artists,
-      .playlists,
-      .songs
+    .standard(.init(type: .home)),
+    .standard(.init(type: .account)),
+    .collection(.init(type: .library), [
+      .init(type: .albums),
+      .init(type: .artists),
+      .init(type: .playlists),
+      .init(type: .songs)
     ])
   ]
 
@@ -32,9 +32,9 @@ class SidebarNavigationController: UICollectionViewController {
 
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     guard let sidebarItem = dataSource.itemIdentifier(for: indexPath),
-      let sidebarItemViewController = sidebarItem.destination else { return }
+      let sidebarItemViewController = sidebarItem.viewController else { return }
 
-    splitViewController?.showDetailViewController(sidebarItemViewController, sender: nil)
+    splitViewController?.showDetailViewController(sidebarItemViewController, sender: self)
   }
 
   private func configureLayout() {
@@ -114,7 +114,7 @@ extension SidebarNavigationController {
     }
   }
 
-  enum SidebarItem: String {
+  enum SidebarItemType: String {
     case home
     case account
     case library
@@ -122,9 +122,35 @@ extension SidebarNavigationController {
     case artists
     case playlists
     case songs
+  }
+
+  struct SidebarItem: Hashable {
+    let type: SidebarItemType
+    let viewController: UIViewController?
+
+    init(type: SidebarItemType) {
+      self.type = type
+
+      switch type {
+      case .home:
+        self.viewController = TurboNavigationController(path: "/")
+      case .account:
+        self.viewController = UINavigationController(rootViewController: UIHostingController(rootView: AccountView(store: AppStore.shared)))
+      case .albums:
+        self.viewController = TurboNavigationController(path: "/albums")
+      case .artists:
+        self.viewController = TurboNavigationController(path: "/artists")
+      case .playlists:
+        self.viewController = TurboNavigationController(path: "/playlists")
+      case .songs:
+        self.viewController = TurboNavigationController(path: "/songs")
+      default:
+        self.viewController = nil
+      }
+    }
 
     var isHeader: Bool {
-      switch self {
+      switch type {
       case .library:
         return true
       default:
@@ -133,11 +159,11 @@ extension SidebarNavigationController {
     }
 
     var title: String {
-      rawValue.capitalized
+      type.rawValue.capitalized
     }
 
     var icon: UIImage? {
-      switch self {
+      switch type {
       case .home:
         return .init(systemName: "house")
       case .account:
@@ -150,25 +176,6 @@ extension SidebarNavigationController {
         return .init(systemName: "music.note.list")
       case .songs:
         return .init(systemName: "music.note")
-      default:
-        return nil
-      }
-    }
-
-    var destination: UIViewController? {
-      switch self {
-      case .home:
-        return TurboNavigationController(path: "/")
-      case .account:
-        return UIHostingController(rootView: AccountView(store: AppStore.shared))
-      case .albums:
-        return TurboNavigationController(path: "/albums")
-      case .artists:
-        return TurboNavigationController(path: "/artists")
-      case .playlists:
-        return TurboNavigationController(path: "/playlists")
-      case .songs:
-        return TurboNavigationController(path: "/songs")
       default:
         return nil
       }
