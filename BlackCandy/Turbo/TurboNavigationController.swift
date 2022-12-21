@@ -1,10 +1,10 @@
 import UIKit
+import SwiftUI
 import ComposableArchitecture
 import Turbo
 
 class TurboNavigationController: UINavigationController, SessionDelegate {
   let path: String
-  let hasSearchBar: Bool
   let viewStore = ViewStore(AppStore.shared, removeDuplicates: ==)
 
   private let sharedSession: Session?
@@ -13,14 +13,12 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
   init(path: String, session: Session? = nil, hasSearchBar: Bool = false) {
     self.path = path
     self.sharedSession = session
-    self.hasSearchBar = hasSearchBar
     self.url = viewStore.serverAddress!.appendingPathComponent(path)
-
     let viewController = TurboVisitableViewController(url: url)
-    viewController.hasSearchBar = hasSearchBar
 
     super.init(rootViewController: viewController)
 
+    configVisitableViewController(viewController, hasSearchBar: hasSearchBar)
     viewSession.visit(viewController)
   }
 
@@ -41,6 +39,19 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
 
     return session
   }()
+
+  private func configVisitableViewController(_ viewController: TurboVisitableViewController, hasSearchBar: Bool) {
+    viewController.hasSearchBar = hasSearchBar
+
+    if path == "/" {
+      viewController.navigationItem.rightBarButtonItem = .init(
+        image: .init(systemName: "person.circle"),
+        style: .done,
+        target: self,
+        action: #selector(self.showAccount)
+      )
+    }
+  }
 
   func session(_ session: Turbo.Session, didProposeVisit proposal: Turbo.VisitProposal) {
     let viewController = TurboVisitableViewController(url: proposal.url)
@@ -93,5 +104,9 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
     } else {
       NSLog("didFailRequestForVisitable: \(error)")
     }
+  }
+
+  @objc func showAccount() {
+    viewStore.send(.updateAccountSheetVisible(true))
   }
 }

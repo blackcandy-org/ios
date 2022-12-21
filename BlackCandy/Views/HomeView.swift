@@ -22,11 +22,6 @@ struct HomeView: View {
           .tabItem {
             Label("label.library", systemImage: "square.stack")
           }
-
-        AccountView(store: store)
-          .tabItem {
-            Label("label.account", systemImage: "person")
-          }
       }
       .player(with: store)
     }

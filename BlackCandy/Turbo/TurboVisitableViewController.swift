@@ -9,13 +9,13 @@ class TurboVisitableViewController: VisitableViewController, UISearchBarDelegate
 
     view.backgroundColor = .systemBackground
 
-    guard hasSearchBar else { return }
+    if hasSearchBar {
+      let searchController = UISearchController(searchResultsController: nil)
+      searchController.searchBar.delegate = self
 
-    let searchController = UISearchController(searchResultsController: nil)
-    searchController.searchBar.delegate = self
-
-    navigationItem.searchController = searchController
-    navigationItem.hidesSearchBarWhenScrolling = false
+      navigationItem.searchController = searchController
+      navigationItem.hidesSearchBarWhenScrolling = false
+    }
   }
 
   func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {

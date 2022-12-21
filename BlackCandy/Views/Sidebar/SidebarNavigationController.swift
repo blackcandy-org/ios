@@ -6,7 +6,6 @@ class SidebarNavigationController: UICollectionViewController {
 
   let sidebarSections: [SidebarSection] = [
     .standard(.init(type: .home)),
-    .standard(.init(type: .account)),
     .collection(.init(type: .library), [
       .init(type: .albums),
       .init(type: .artists),
@@ -116,7 +115,6 @@ extension SidebarNavigationController {
 
   enum SidebarItemType: String {
     case home
-    case account
     case library
     case albums
     case artists
@@ -134,8 +132,6 @@ extension SidebarNavigationController {
       switch type {
       case .home:
         self.viewController = TurboNavigationController(path: "/")
-      case .account:
-        self.viewController = UINavigationController(rootViewController: UIHostingController(rootView: AccountView(store: AppStore.shared)))
       case .albums:
         self.viewController = TurboNavigationController(path: "/albums")
       case .artists:
@@ -166,8 +162,6 @@ extension SidebarNavigationController {
       switch type {
       case .home:
         return .init(systemName: "house")
-      case .account:
-        return .init(systemName: "person")
       case .albums:
         return .init(systemName: "rectangle.stack")
       case .artists:

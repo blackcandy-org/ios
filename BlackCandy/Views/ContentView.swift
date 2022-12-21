@@ -10,6 +10,12 @@ struct ContentView: View {
         LoginView(store: store)
       } else {
         HomeView(store: store)
+          .sheet(isPresented: viewStore.binding(
+            get: { $0.isAccountSheetVisible },
+            send: { .updateAccountSheetVisible($0) }
+          ), content: {
+            AccountView(store: store)
+          })
           .onAppear {
             viewStore.send(.player(.getCurrentPlaylist))
           }
