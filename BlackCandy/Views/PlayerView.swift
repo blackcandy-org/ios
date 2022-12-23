@@ -23,6 +23,10 @@ struct PlayerView: View {
       }
       .padding(.bottom, CustomStyle.spacing(.wide))
       .frame(maxWidth: CustomStyle.playerMaxWidth)
+      .onAppear {
+        viewStore.send(.getStatus)
+        viewStore.send(.getCurrentTime)
+      }
     }
   }
 }

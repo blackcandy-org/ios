@@ -7,8 +7,20 @@ struct HomeView: View {
 
   var body: some View {
     if horizontalSizeClass == .regular {
-      SidebarView()
-        .player(with: store)
+      SidebarView(sidebar: {
+        VStack {
+          SidebarNavigationView()
+          Divider()
+          PlayerView(store: self.store.scope(
+            state: \.player,
+            action: AppReducer.Action.player
+          ))
+          .padding()
+        }
+        .background(Color.init(.systemGroupedBackground))
+      }, detail: {
+        TurboView(path: "/")
+      })
     } else {
       TabView {
         TurboView(path: "/")

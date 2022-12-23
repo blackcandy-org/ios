@@ -5,21 +5,19 @@ import Turbo
 
 class TurboNavigationController: UINavigationController, SessionDelegate {
   let path: String
+  let hasSearchBar: Bool
   let viewStore = ViewStore(AppStore.shared, removeDuplicates: ==)
 
   private let sharedSession: Session?
-  private let url: URL
+  private let visitableViewController: TurboVisitableViewController
 
   init(path: String, session: Session? = nil, hasSearchBar: Bool = false) {
     self.path = path
     self.sharedSession = session
-    self.url = viewStore.serverAddress!.appendingPathComponent(path)
-    let viewController = TurboVisitableViewController(url: url)
+    self.hasSearchBar = hasSearchBar
+    self.visitableViewController = TurboVisitableViewController(url: viewStore.serverAddress!.appendingPathComponent(path))
 
-    super.init(rootViewController: viewController)
-
-    configVisitableViewController(viewController, hasSearchBar: hasSearchBar)
-    viewSession.visit(viewController)
+    super.init(rootViewController: visitableViewController)
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -40,17 +38,21 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
     return session
   }()
 
-  private func configVisitableViewController(_ viewController: TurboVisitableViewController, hasSearchBar: Bool) {
-    viewController.hasSearchBar = hasSearchBar
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    visitableViewController.hasSearchBar = hasSearchBar
 
     if path == "/" {
-      viewController.navigationItem.rightBarButtonItem = .init(
+      visitableViewController.navigationItem.rightBarButtonItem = .init(
         image: .init(systemName: "person.circle"),
         style: .done,
         target: self,
         action: #selector(self.showAccount)
       )
     }
+
+    viewSession.visit(visitableViewController)
   }
 
   func session(_ session: Turbo.Session, didProposeVisit proposal: Turbo.VisitProposal) {
