@@ -8,13 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		642B47912946C44300D6FE68 /* LNPopupUI in Frameworks */ = {isa = PBXBuildFile; productRef = 642B47902946C44300D6FE68 /* LNPopupUI */; };
+		644E9B3C295AC5EA000DB3E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E9B3B295AC5EA000DB3E3 /* AppDelegate.swift */; };
+		644E9B3E295AC65D000DB3E3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E9B3D295AC65D000DB3E3 /* SceneDelegate.swift */; };
+		644E9B41295AC796000DB3E3 /* SideBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E9B40295AC796000DB3E3 /* SideBarViewController.swift */; };
+		644E9B43295AC7C0000DB3E3 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E9B42295AC7C0000DB3E3 /* TabBarViewController.swift */; };
 		647623782949A77C00333378 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647623772949A77C00333378 /* AppReducer.swift */; };
 		6476237A2949B1C200333378 /* AppDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647623792949B1C200333378 /* AppDependency.swift */; };
 		6476237C2949B60300333378 /* PlayerReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6476237B2949B60300333378 /* PlayerReducer.swift */; };
 		64B40E2729519E43009726CE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B40E2629519E43009726CE /* ContentView.swift */; };
 		64B40E292951A7B5009726CE /* CutomModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B40E282951A7B5009726CE /* CutomModifiers.swift */; };
-		64F9BB46294C0642004329B8 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F9BB45294C0642004329B8 /* SidebarView.swift */; };
-		64F9BB49294C0997004329B8 /* SidebarNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F9BB48294C0997004329B8 /* SidebarNavigationView.swift */; };
+		64BE5470295D767100D3786F /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BE546F295D767100D3786F /* SplitViewController.swift */; };
 		DD0A346C28E3E02E002211AE /* PlayerSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */; };
 		DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD18369227CC9FF60018ECF5 /* TurboSession.swift */; };
 		DD2332BE28FE49AA005E3F4F /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2332BD28FE49AA005E3F4F /* AppStore.swift */; };
@@ -22,7 +25,6 @@
 		DD4D05A328BDE7810035D26D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4D05A228BDE7810035D26D /* User.swift */; };
 		DD4D05A528BDE9520035D26D /* JSONDataClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4D05A428BDE9520035D26D /* JSONDataClient.swift */; };
 		DD522C312900EACB008FE88D /* path-configuration.json in Resources */ = {isa = PBXBuildFile; fileRef = DD522C302900EACB008FE88D /* path-configuration.json */; };
-		DD62F4CC27C769CC005A5D0B /* BlackCandyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD62F4CB27C769CC005A5D0B /* BlackCandyApp.swift */; };
 		DD62F4D027C769CE005A5D0B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD62F4CF27C769CE005A5D0B /* Assets.xcassets */; };
 		DD62F4D327C769CE005A5D0B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD62F4D227C769CE005A5D0B /* Preview Assets.xcassets */; };
 		DD62F4DD27C769CE005A5D0B /* BlackCandyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD62F4DC27C769CE005A5D0B /* BlackCandyTests.swift */; };
@@ -91,13 +93,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		644E9B3B295AC5EA000DB3E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		644E9B3D295AC65D000DB3E3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		644E9B40295AC796000DB3E3 /* SideBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarViewController.swift; sourceTree = "<group>"; };
+		644E9B42295AC7C0000DB3E3 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		647623772949A77C00333378 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
 		647623792949B1C200333378 /* AppDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependency.swift; sourceTree = "<group>"; };
 		6476237B2949B60300333378 /* PlayerReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerReducer.swift; sourceTree = "<group>"; };
 		64B40E2629519E43009726CE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		64B40E282951A7B5009726CE /* CutomModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CutomModifiers.swift; sourceTree = "<group>"; };
-		64F9BB45294C0642004329B8 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
-		64F9BB48294C0997004329B8 /* SidebarNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarNavigationView.swift; sourceTree = "<group>"; };
+		64BE546F295D767100D3786F /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSliderView.swift; sourceTree = "<group>"; };
 		DD18369227CC9FF60018ECF5 /* TurboSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboSession.swift; sourceTree = "<group>"; };
 		DD2332BD28FE49AA005E3F4F /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
@@ -106,7 +111,6 @@
 		DD4D05A428BDE9520035D26D /* JSONDataClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDataClient.swift; sourceTree = "<group>"; };
 		DD522C302900EACB008FE88D /* path-configuration.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "path-configuration.json"; sourceTree = "<group>"; };
 		DD62F4C827C769CC005A5D0B /* BlackCandy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlackCandy.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD62F4CB27C769CC005A5D0B /* BlackCandyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackCandyApp.swift; sourceTree = "<group>"; };
 		DD62F4CF27C769CE005A5D0B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD62F4D227C769CE005A5D0B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DD62F4D827C769CE005A5D0B /* BlackCandyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlackCandyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -172,13 +176,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		64F9BB47294C093F004329B8 /* Sidebar */ = {
+		644E9B3F295AC73A000DB3E3 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				64F9BB45294C0642004329B8 /* SidebarView.swift */,
-				64F9BB48294C0997004329B8 /* SidebarNavigationView.swift */,
+				64BE546F295D767100D3786F /* SplitViewController.swift */,
+				644E9B42295AC7C0000DB3E3 /* TabBarViewController.swift */,
+				644E9B40295AC796000DB3E3 /* SideBarViewController.swift */,
 			);
-			path = Sidebar;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		DD05117E28F8402C00104197 /* Frameworks */ = {
@@ -214,7 +219,6 @@
 		DD18368F27CC79EF0018ECF5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				64F9BB47294C093F004329B8 /* Sidebar */,
 				DDAD9DC628E28AEB00F8C96F /* Player */,
 				64B40E2629519E43009726CE /* ContentView.swift */,
 				DD751E0628868A3D00B8128E /* HomeView.swift */,
@@ -260,8 +264,10 @@
 		DD62F4CA27C769CC005A5D0B /* BlackCandy */ = {
 			isa = PBXGroup;
 			children = (
-				DD62F4CB27C769CC005A5D0B /* BlackCandyApp.swift */,
+				644E9B3B295AC5EA000DB3E3 /* AppDelegate.swift */,
+				644E9B3D295AC65D000DB3E3 /* SceneDelegate.swift */,
 				DD18368F27CC79EF0018ECF5 /* Views */,
+				644E9B3F295AC73A000DB3E3 /* ViewControllers */,
 				DD18368D27CC79BF0018ECF5 /* Turbo */,
 				DD18368427CC75870018ECF5 /* Store */,
 				DD4D05A128BDE7650035D26D /* Models */,
@@ -495,19 +501,20 @@
 			files = (
 				DD4D05A528BDE9520035D26D /* JSONDataClient.swift in Sources */,
 				DDA4922227CF15710063A35B /* TurboVisitableViewController.swift in Sources */,
-				64F9BB49294C0997004329B8 /* SidebarNavigationView.swift in Sources */,
 				DD751E0C2887A3A500B8128E /* APIClient.swift in Sources */,
+				644E9B3C295AC5EA000DB3E3 /* AppDelegate.swift in Sources */,
+				64BE5470295D767100D3786F /* SplitViewController.swift in Sources */,
 				DD751E0728868A3D00B8128E /* HomeView.swift in Sources */,
 				DD4D05A028BDA3410035D26D /* AccountView.swift in Sources */,
 				DD7671C6290B6E1600F92825 /* AudioSessionControl.swift in Sources */,
 				DD62F4F927C76D06005A5D0B /* TurboView.swift in Sources */,
-				64F9BB46294C0642004329B8 /* SidebarView.swift in Sources */,
 				DD0A346C28E3E02E002211AE /* PlayerSliderView.swift in Sources */,
 				DDAD9DCA28E28CE200F8C96F /* PlayerControlView.swift in Sources */,
 				DD2332BE28FE49AA005E3F4F /* AppStore.swift in Sources */,
 				DD6E0EAC2885345E00F39DB3 /* CustomKeys.swift in Sources */,
 				DDAD9DCC28E28E5900F8C96F /* PlayerActionsView.swift in Sources */,
 				647623782949A77C00333378 /* AppReducer.swift in Sources */,
+				644E9B41295AC796000DB3E3 /* SideBarViewController.swift in Sources */,
 				DDE710F228D077C900CE7494 /* CustomStyle.swift in Sources */,
 				DD87EAE028CED7880062DFE6 /* PlayerView.swift in Sources */,
 				DDE710EC28D04A6800CE7494 /* Song.swift in Sources */,
@@ -515,12 +522,14 @@
 				DDE710F028D0748D00CE7494 /* MiniPlayerView.swift in Sources */,
 				DDE9D26D288A3FDC009EFCEE /* KeychainClient.swift in Sources */,
 				DD7671CB290BA7B600F92825 /* NowPlayingClient.swift in Sources */,
+				644E9B43295AC7C0000DB3E3 /* TabBarViewController.swift in Sources */,
 				DD751E102888F2DD00B8128E /* UserDefaultsClient.swift in Sources */,
 				64B40E2729519E43009726CE /* ContentView.swift in Sources */,
 				DD6E0EAE2885380C00F39DB3 /* LoginView.swift in Sources */,
 				64B40E292951A7B5009726CE /* CutomModifiers.swift in Sources */,
 				6476237A2949B1C200333378 /* AppDependency.swift in Sources */,
 				DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */,
+				644E9B3E295AC65D000DB3E3 /* SceneDelegate.swift in Sources */,
 				DDE710EE28D05DED00CE7494 /* PlayerPlaylistView.swift in Sources */,
 				DD7671C9290B76AE00F92825 /* RemoteControl.swift in Sources */,
 				DD4D05A328BDE7810035D26D /* User.swift in Sources */,
@@ -529,7 +538,6 @@
 				DD87EAE228CF0A940062DFE6 /* Playlist.swift in Sources */,
 				DDB453A127CF11EF003BA1F9 /* TurboNavigationController.swift in Sources */,
 				DDA1A70828D3041F009D80C6 /* PlayerClient.swift in Sources */,
-				DD62F4CC27C769CC005A5D0B /* BlackCandyApp.swift in Sources */,
 				DDBE510128D1A4FD0049D754 /* CustomFormatter.swift in Sources */,
 				DDB96C2B28FD5B3300CFFD44 /* TurboScriptMessageHandler.swift in Sources */,
 				DDAD9DC828E28BB200F8C96F /* PlayerSongInfoView.swift in Sources */,
@@ -697,7 +705,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BlackCandy/Info.plist;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -731,7 +738,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BlackCandy/Info.plist;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

@@ -4,20 +4,18 @@ import ComposableArchitecture
 import Turbo
 
 class TurboNavigationController: UINavigationController, SessionDelegate {
-  let path: String
   let hasSearchBar: Bool
+  let url: URL
   let viewStore = ViewStore(AppStore.shared, removeDuplicates: ==)
 
   private let sharedSession: Session?
-  private let visitableViewController: TurboVisitableViewController
 
   init(path: String, session: Session? = nil, hasSearchBar: Bool = false) {
-    self.path = path
     self.sharedSession = session
     self.hasSearchBar = hasSearchBar
-    self.visitableViewController = TurboVisitableViewController(url: viewStore.serverAddress!.appendingPathComponent(path))
+    self.url = URL(string: path)!
 
-    super.init(rootViewController: visitableViewController)
+    super.init(nibName: nil, bundle: nil)
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -41,9 +39,11 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    let visitableViewController = TurboVisitableViewController(url: url)
+
     visitableViewController.hasSearchBar = hasSearchBar
 
-    if path == "/" {
+    if url.path == "/" {
       visitableViewController.navigationItem.rightBarButtonItem = .init(
         image: .init(systemName: "person.circle"),
         style: .done,
@@ -51,6 +51,8 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
         action: #selector(self.showAccount)
       )
     }
+
+    viewControllers = [visitableViewController]
 
     viewSession.visit(visitableViewController)
   }
