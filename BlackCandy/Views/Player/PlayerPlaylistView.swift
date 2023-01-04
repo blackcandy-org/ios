@@ -49,8 +49,8 @@ struct PlayerPlaylistView: View {
           }
         }
         .listStyle(.plain)
+        .frame(minHeight: CustomStyle.playlistMinHeight)
       }
-      .padding(.top, CustomStyle.spacing(.extraWide))
     }
   }
 }
