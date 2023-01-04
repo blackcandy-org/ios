@@ -16,6 +16,7 @@ struct AppReducer: ReducerProtocol {
     var apiToken: String?
     var currentUser: User?
     var currentTheme = Theme.auto
+    var isAccountSheetVisible = false
 
     var isLoggedIn: Bool {
       currentUser != nil
@@ -49,6 +50,7 @@ struct AppReducer: ReducerProtocol {
     case restoreStates
     case logout
     case updateTheme(State.Theme)
+    case updateAccountSheetVisible(Bool)
     case player(PlayerReducer.Action)
   }
 
@@ -114,7 +116,10 @@ struct AppReducer: ReducerProtocol {
 
       case let .updateTheme(theme):
         state.currentTheme = theme
+        return .none
 
+      case let .updateAccountSheetVisible(isVisible):
+        state.isAccountSheetVisible = isVisible
         return .none
 
       case .player:

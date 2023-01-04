@@ -21,8 +21,13 @@ struct PlayerView: View {
 
         PlayerActionsView(store: store)
       }
+      .padding()
       .padding(.bottom, CustomStyle.spacing(.wide))
       .frame(maxWidth: CustomStyle.playerMaxWidth)
+      .onAppear {
+        viewStore.send(.getStatus)
+        viewStore.send(.getCurrentTime)
+      }
     }
   }
 }

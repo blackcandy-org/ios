@@ -64,6 +64,15 @@ struct AccountView: View {
         }
         .navigationTitle("label.account")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+          ToolbarItem(placement: .confirmationAction) {
+            Button(action: {
+              viewStore.send(.updateAccountSheetVisible(false))
+            }, label: {
+              Text("label.done")
+            })
+          }
+        }
       }
       .navigationViewStyle(.stack)
     }

@@ -28,7 +28,7 @@ struct PlayerActionsView: View {
           label: {
             if viewStore.currentSong?.isFavorited ?? false {
               Image(systemName: "heart.fill")
-                .tint(.primary)
+                .tint(.red)
             } else {
               Image(systemName: "heart")
                 .tint(.primary)
