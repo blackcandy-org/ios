@@ -33,7 +33,6 @@ struct CustomStyle {
     case playerProgressLoader
   }
 
-  static let miniPlayerImageSize: CGFloat = 40
   static let playerImageSize: CGFloat = 200
   static let playerMaxWidth: CGFloat = 320
 

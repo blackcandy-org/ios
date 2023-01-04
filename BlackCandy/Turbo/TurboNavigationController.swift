@@ -13,7 +13,7 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
   init(path: String, session: Session? = nil, hasSearchBar: Bool = false) {
     self.sharedSession = session
     self.hasSearchBar = hasSearchBar
-    self.url = URL(string: path)!
+    self.url = viewStore.serverAddress!.appendingPathComponent(path)
 
     super.init(nibName: nil, bundle: nil)
   }

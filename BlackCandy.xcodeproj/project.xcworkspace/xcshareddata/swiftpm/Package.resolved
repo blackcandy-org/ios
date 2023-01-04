@@ -28,15 +28,6 @@
       }
     },
     {
-      "identity" : "lnpopupui",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/LeoNatan/LNPopupUI",
-      "state" : {
-        "revision" : "36dae8ed8bf207c0579edf4d96919bd59876ea7c",
-        "version" : "1.4.3"
-      }
-    },
-    {
       "identity" : "swift-case-paths",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-case-paths",

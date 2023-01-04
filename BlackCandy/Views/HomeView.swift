@@ -5,19 +5,26 @@ struct HomeView: View {
   let store: StoreOf<AppReducer>
 
   var body: some View {
-    TabView {
-      TurboView(path: "/")
+    WithViewStore(self.store) { viewStore in
+      if !viewStore.isLoggedIn {
+        LoginView(store: store)
+      } else {
+        SplitView(store: store.scope(
+          state: \.player,
+          action: AppReducer.Action.player
+        ))
         .ignoresSafeArea(edges: .vertical)
-        .tabItem {
-          Label("label.home", systemImage: "house")
+        .sheet(isPresented: viewStore.binding(
+          get: { $0.isAccountSheetVisible },
+          send: { .updateAccountSheetVisible($0) }
+        ), content: {
+          AccountView(store: store)
+        })
+        .onAppear {
+          viewStore.send(.player(.getCurrentPlaylist))
         }
-
-      TurboView(path: "/library", hasSearchBar: true)
-        .ignoresSafeArea(edges: .vertical)
-        .tabItem {
-          Label("label.library", systemImage: "square.stack")
-        }
+        .preferredColorScheme(viewStore.currentTheme.colorScheme)
+      }
     }
-    .player(with: store)
   }
 }

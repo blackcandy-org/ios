@@ -1,6 +1,16 @@
 import UIKit
+import SwiftUI
 
-class SideBarViewController: UICollectionViewController {
+struct SideBarNavigationView: UIViewControllerRepresentable {
+  func makeUIViewController(context: Context) -> SideBarNavigationViewController {
+    return SideBarNavigationViewController()
+  }
+
+  func updateUIViewController(_ uiViewController: SideBarNavigationViewController, context: Context) {
+  }
+}
+
+class SideBarNavigationViewController: UICollectionViewController {
   private var dataSource: UICollectionViewDiffableDataSource<SidebarSection, TabItem>!
 
   let sidebarSections: [SidebarSection] = [.tab(.home), .tab(.library)]
@@ -24,16 +34,26 @@ class SideBarViewController: UICollectionViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(selectedTabDidChanged(_:)),
+      name: .selectedTabDidChange,
+      object: nil
+    )
+
     configureDataSource()
     configInitSelection()
   }
 
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let selectedSection = sidebarSections[indexPath.section]
-    guard let secondaryViewController = splitViewController?.viewController(for: .secondary) as? UITabBarController,
-      case let .tab(item) = selectedSection else { return }
+    guard case let .tab(item) = selectedSection else { return }
 
-    secondaryViewController.selectedIndex = item.tagIndex
+    NotificationCenter.default.post(
+      name: .selectedTabDidChange,
+      object: self,
+      userInfo: [NotificationKeys.selectedTab: item]
+    )
   }
 
   func selectTabItem(_ tabItem: TabItem) {
@@ -80,9 +100,16 @@ class SideBarViewController: UICollectionViewController {
   private func configInitSelection() {
     selectTabItem(.home)
   }
+
+  @objc private func selectedTabDidChanged(_ notification: Notification) {
+    guard let userInfo = notification.userInfo,
+      let selectedTab = userInfo[NotificationKeys.selectedTab] as? TabItem else { return }
+
+    selectTabItem(selectedTab)
+  }
 }
 
-extension SideBarViewController {
+extension SideBarNavigationViewController {
   enum SidebarSection: Hashable {
     case tab(TabItem)
   }

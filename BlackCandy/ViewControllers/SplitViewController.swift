@@ -1,17 +1,31 @@
 import UIKit
+import ComposableArchitecture
+import SwiftUI
+
+struct SplitView: UIViewControllerRepresentable {
+  let store: StoreOf<PlayerReducer>
+
+  func makeUIViewController(context: Context) -> SplitViewController {
+    return SplitViewController(store: store)
+  }
+
+  func updateUIViewController(_ uiViewController: SplitViewController, context: Context) {
+  }
+}
 
 class SplitViewController: UISplitViewController, UISplitViewControllerDelegate {
-  init() {
+  init(store: StoreOf<PlayerReducer>) {
     super.init(style: .doubleColumn)
 
-    let tabBarViewController = TabBarViewController()
+    let tabBarViewController = TabBarViewController(store: store)
+    let sidebarViewController = UIHostingController(rootView: SideBarView(store: store))
 
     preferredDisplayMode = .oneBesideSecondary
     preferredSplitBehavior = .tile
     presentsWithGesture = false
     delegate = self
 
-    setViewController(SideBarViewController(), for: .primary)
+    setViewController(sidebarViewController, for: .primary)
     setViewController(tabBarViewController, for: .secondary)
     setViewController(tabBarViewController, for: .compact)
   }
@@ -21,12 +35,16 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
   }
 
   func splitViewControllerDidExpand(_ svc: UISplitViewController) {
-    guard let secondaryViewController = svc.viewController(for: .secondary) as? UITabBarController else { return }
-    secondaryViewController.tabBar.isHidden = true
+    NotificationCenter.default.post(
+      name: .splitViewDidExpand,
+      object: self
+    )
   }
 
   func splitViewControllerDidCollapse(_ svc: UISplitViewController) {
-    guard let secondaryViewController = svc.viewController(for: .compact) as? UITabBarController else { return }
-    secondaryViewController.tabBar.isHidden = false
+    NotificationCenter.default.post(
+      name: .splitViewDidCollapse,
+      object: self
+    )
   }
 }
