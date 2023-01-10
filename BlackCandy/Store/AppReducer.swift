@@ -17,6 +17,7 @@ struct AppReducer: ReducerProtocol {
     var currentUser: User?
     var currentTheme = Theme.auto
     var isAccountSheetVisible = false
+    var isLoginViewVisible = false
 
     var isLoggedIn: Bool {
       currentUser != nil
@@ -45,26 +46,54 @@ struct AppReducer: ReducerProtocol {
 
   enum Action: Equatable {
     case dismissAlert
+    case getSystemInfo(ServerAddressState)
+    case systemInfoResponse(TaskResult<SystemInfo>)
     case login(LoginState)
     case loginResponse(TaskResult<APIClient.AuthenticationResponse>)
     case restoreStates
     case logout
     case updateTheme(State.Theme)
     case updateAccountSheetVisible(Bool)
+    case updateLoginViewVisible(Bool)
     case player(PlayerReducer.Action)
   }
 
   var body: some ReducerProtocol<State, Action> {
     Reduce { state, action in
       switch action {
-      case let .login(loginState):
-        if loginState.hasValidServerAddress {
+      case let .getSystemInfo(serverAddressState):
+        if serverAddressState.isUrlValid {
           return .task {
-            await .loginResponse(TaskResult { try await apiClient.authentication(loginState) })
+            await .systemInfoResponse(TaskResult { try await apiClient.getSystemInfo(serverAddressState) })
           }
         } else {
           state.alert = .init(title: .init("text.invalidServerAddress"))
           return .none
+        }
+
+      case let .systemInfoResponse(.success(systemInfo)):
+        guard let serverAddress = systemInfo.serverAddress else {
+          state.alert = .init(title: .init("text.invalidServerAddress"))
+          return .none
+        }
+
+        guard systemInfo.isSupported else {
+          state.alert = .init(title: .init("text.unsupportedServer"))
+          return .none
+        }
+
+        userDefaultsClient.updateServerAddress(serverAddress)
+        cookiesClient.updateServerAddress(serverAddress)
+        apiClient.updateServerAddress(serverAddress)
+
+        state.serverAddress = serverAddress
+        state.isLoginViewVisible = true
+
+        return .none
+
+      case let .login(loginState):
+        return .task {
+          await .loginResponse(TaskResult { try await apiClient.authentication(loginState) })
         }
 
       case .dismissAlert:
@@ -72,17 +101,13 @@ struct AppReducer: ReducerProtocol {
         return .none
 
       case let .loginResponse(.success(response)):
-        userDefaultsClient.updateServerAddress(response.serverAddress)
         cookiesClient.updateCookies(response.cookies)
-        cookiesClient.updateServerAddress(response.serverAddress)
         keychainClient.updateAPIToken(response.token)
         jsonDataClient.updateCurrentUser(response.user)
         playerClient.updateAPIToken(response.token)
         apiClient.updateToken(response.token)
-        apiClient.updateServerAddress(response.serverAddress)
 
         state.currentUser = response.user
-        state.serverAddress = response.serverAddress
         state.apiToken = response.token
 
         return .none
@@ -108,7 +133,8 @@ struct AppReducer: ReducerProtocol {
 
         return .none
 
-      case let .loginResponse(.failure(error)):
+      case let .loginResponse(.failure(error)),
+        let .systemInfoResponse(.failure(error)):
         guard let error = error as? APIClient.APIError else { return .none }
         state.alert = .init(title: .init(error.localizedString))
 
@@ -120,6 +146,10 @@ struct AppReducer: ReducerProtocol {
 
       case let .updateAccountSheetVisible(isVisible):
         state.isAccountSheetVisible = isVisible
+        return .none
+
+      case let .updateLoginViewVisible(isVisible):
+        state.isLoginViewVisible = isVisible
         return .none
 
       case .player:

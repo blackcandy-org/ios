@@ -14,9 +14,9 @@ struct APIClient {
   var deleteCurrentPlaylistSongs: ([Song]) async throws -> NoContentResponse
   var moveCurrentPlaylistSongs: (Int, Int) async throws -> NoContentResponse
   var getSong: (Int) async throws -> Song
+  var getSystemInfo: (ServerAddressState) async throws -> SystemInfo
 
   struct AuthenticationResponse: Equatable {
-    let serverAddress: URL
     let token: String
     let user: User
     let cookies: [HTTPCookie]
@@ -144,10 +144,8 @@ extension APIClient {
     },
 
     authentication: { loginState in
-      let serverAddress = loginState.serverAddress
-      let url = "\(serverAddress)/api/v1/authentication?with_session=true"
-
-      let parameters: [String: [String: String]] = [
+      let parameters: [String: Any] = [
+        "with_session": "true",
         "user_session": [
           "email": loginState.email,
           "password": loginState.password
@@ -155,10 +153,9 @@ extension APIClient {
       ]
 
       let request = AF.request(
-        url,
+        requestURL("/api/v1/authentication"),
         method: .post,
         parameters: parameters,
-        encoder: JSONParameterEncoder.default,
         headers: headers
       )
       .validate()
@@ -173,14 +170,12 @@ extension APIClient {
         let id = jsonData["id"] as! Int
         let email = jsonData["email"] as! String
         let isAdmin = jsonData["is_admin"] as! Bool
-        let serverAddressUrl = URL(string: serverAddress)!
         let responseHeaders = response.response?.allHeaderFields as! [String: String]
 
         return AuthenticationResponse(
-          serverAddress: serverAddressUrl,
           token: token,
           user: User(id: id, email: email, isAdmin: isAdmin),
-          cookies: HTTPCookie.cookies(withResponseHeaderFields: responseHeaders, for: serverAddressUrl)
+          cookies: HTTPCookie.cookies(withResponseHeaderFields: responseHeaders, for: Self.serverAddress!)
         )
       } catch {
         throw handleError(error, response.data)
@@ -273,6 +268,30 @@ extension APIClient {
 
       do {
         return try await request.value
+      } catch {
+        throw handleError(error, response.data)
+      }
+    },
+
+    getSystemInfo: { serverAddressState in
+      let url = "\(serverAddressState.url)/api/v1/system"
+
+      let request = AF.request(
+        url,
+        headers: headers
+      )
+      .validate()
+      .serializingDecodable(SystemInfo.self, decoder: jsonDecoder)
+
+      let response = await request.response
+
+      do {
+        var systemInfo = try await request.value
+        var serverAddressUrlComponents = URLComponents(url: (response.response?.url)!, resolvingAgainstBaseURL: false)!
+        serverAddressUrlComponents.path = ""
+        systemInfo.serverAddress = serverAddressUrlComponents.url
+
+        return systemInfo
       } catch {
         throw handleError(error, response.data)
       }

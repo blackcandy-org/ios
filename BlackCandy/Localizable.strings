@@ -13,11 +13,14 @@
 "label.notPlaying" = "Not Playing";
 "label.tracks(%lld)" = "%lld tracks";
 "label.done" = "Done";
+"label.connect" = "Connect";
 
 "text.loginToBC" = "Login to Black Candy";
+"text.connectToBC" = "Connect to Black Candy";
 "text.invalidServerAddress" = "Invalid Server Address";
 "text.invalidUserCredential" = "Wrong email or password";
 "text.invalidRequest" = "Invalid Request";
 "text.invalidResponse" = "Invalid Response";
 "text.unknownNetworkError" = "Unknown Network Error";
 "text.badRequest" = "Bad Request";
+"text.unsupportedServer" = "Unsupported Black Candy Server";

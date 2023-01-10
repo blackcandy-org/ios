@@ -7,7 +7,7 @@ struct HomeView: View {
   var body: some View {
     WithViewStore(self.store) { viewStore in
       if !viewStore.isLoggedIn {
-        LoginView(store: store)
+        ServerAddressView(store: store)
       } else {
         SplitView(store: store.scope(
           state: \.player,
