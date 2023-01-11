@@ -21,6 +21,8 @@ struct TurboSession {
       configuration: configuration
     )
 
+    webView.allowsLinkPreview = false
+
     let session = Session(webView: webView)
     session.pathConfiguration = pathConfiguration
 
