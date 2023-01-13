@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6431DDEE2963D00E0013F135 /* LNPopupController in Frameworks */ = {isa = PBXBuildFile; productRef = 6431DDED2963D00E0013F135 /* LNPopupController */; };
 		6431DDF02963D0240013F135 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6431DDEF2963D0240013F135 /* PlayerViewController.swift */; };
 		6431DDF6296410650013F135 /* SideBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6431DDF5296410650013F135 /* SideBarView.swift */; };
 		6431DDF82964167E0013F135 /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6431DDF72964167E0013F135 /* NotificationName.swift */; };
@@ -17,6 +16,8 @@
 		644E9B41295AC796000DB3E3 /* SideBarNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E9B40295AC796000DB3E3 /* SideBarNavigationViewController.swift */; };
 		644E9B43295AC7C0000DB3E3 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E9B42295AC7C0000DB3E3 /* TabBarViewController.swift */; };
 		645B8A7A2962ACD700E15B9C /* BlackCandyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645B8A792962ACD700E15B9C /* BlackCandyApp.swift */; };
+		646315252971A2910016EBCA /* LNPopupController in Frameworks */ = {isa = PBXBuildFile; productRef = 646315242971A2910016EBCA /* LNPopupController */; };
+		646315262971A2AF0016EBCA /* LNPopupController in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 646315242971A2910016EBCA /* LNPopupController */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		647623782949A77C00333378 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647623772949A77C00333378 /* AppReducer.swift */; };
 		6476237A2949B1C200333378 /* AppDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647623792949B1C200333378 /* AppDependency.swift */; };
 		6476237C2949B60300333378 /* PlayerReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6476237B2949B60300333378 /* PlayerReducer.swift */; };
@@ -88,6 +89,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				646315262971A2AF0016EBCA /* LNPopupController in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -159,7 +161,7 @@
 				DD6E0EA32884FEE100F39DB3 /* ComposableArchitecture in Frameworks */,
 				DD83970B28DC043000BC8C11 /* Alamofire in Frameworks */,
 				DD62F4F727C76C13005A5D0B /* Turbo in Frameworks */,
-				6431DDEE2963D00E0013F135 /* LNPopupController in Frameworks */,
+				646315252971A2910016EBCA /* LNPopupController in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,7 +383,7 @@
 				DD62F4F627C76C13005A5D0B /* Turbo */,
 				DD6E0EA22884FEE100F39DB3 /* ComposableArchitecture */,
 				DD83970A28DC043000BC8C11 /* Alamofire */,
-				6431DDED2963D00E0013F135 /* LNPopupController */,
+				646315242971A2910016EBCA /* LNPopupController */,
 			);
 			productName = BlackCandy;
 			productReference = DD62F4C827C769CC005A5D0B /* BlackCandy.app */;
@@ -459,7 +461,7 @@
 				DD62F4F527C76C13005A5D0B /* XCRemoteSwiftPackageReference "turbo-ios" */,
 				DD6E0EA12884FEE100F39DB3 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				DD83970928DC043000BC8C11 /* XCRemoteSwiftPackageReference "Alamofire" */,
-				6431DDEC2963D00E0013F135 /* XCRemoteSwiftPackageReference "LNPopupController" */,
+				646315232971A2900016EBCA /* XCRemoteSwiftPackageReference "LNPopupController" */,
 			);
 			productRefGroup = DD62F4C927C769CC005A5D0B /* Products */;
 			projectDirPath = "";
@@ -885,7 +887,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		6431DDEC2963D00E0013F135 /* XCRemoteSwiftPackageReference "LNPopupController" */ = {
+		646315232971A2900016EBCA /* XCRemoteSwiftPackageReference "LNPopupController" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/LeoNatan/LNPopupController";
 			requirement = {
@@ -920,9 +922,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		6431DDED2963D00E0013F135 /* LNPopupController */ = {
+		646315242971A2910016EBCA /* LNPopupController */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 6431DDEC2963D00E0013F135 /* XCRemoteSwiftPackageReference "LNPopupController" */;
+			package = 646315232971A2900016EBCA /* XCRemoteSwiftPackageReference "LNPopupController" */;
 			productName = LNPopupController;
 		};
 		DD62F4F627C76C13005A5D0B /* Turbo */ = {

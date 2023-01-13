@@ -1,5 +1,7 @@
 .DS_Store
 .env
+*.zip
+*.ipa
 xcuserdata/
 
 /fastlane/report.xml
