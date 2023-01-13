@@ -18,13 +18,18 @@ default_platform(:ios)
 platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
-    # Ensure that your git status is not dirty
-    ensure_git_status_clean
+    increment_build_number(
+      build_number: latest_testflight_build_number + 1,
+      xcodeproj: "BlackCandy.xcodeproj"
+    )
 
-    increment_build_number(xcodeproj: "BlackCandy.xcodeproj")
-    commit_version_bump(xcodeproj: "BlackCandy.xcodeproj")
+    commit_version_bump(
+      message: "Bump version to #{get_version_number}-#{get_build_number}",
+      xcodeproj: "BlackCandy.xcodeproj",
+      force: true
+    )
 
-    add_git_tag
+    add_git_tag(tag: "v#{get_version_number}-#{get_build_number}")
     push_to_git_remote
 
     build_app(scheme: "BlackCandy")
