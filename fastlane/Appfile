@@ -1,0 +1,8 @@
+app_identifier("com.aidewooode.BlackCandy") # The bundle identifier of your app
+apple_id("aidewooode@gmail.com") # Your Apple Developer Portal username
+
+itc_team_id("123285711") # App Store Connect Team ID
+team_id("G8A3H8HY7R") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
