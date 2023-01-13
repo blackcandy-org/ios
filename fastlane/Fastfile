@@ -24,12 +24,12 @@ platform :ios do
     )
 
     commit_version_bump(
-      message: "Bump version to #{get_version_number}-#{get_build_number}",
+      message: "Bump version to #{get_version_number}.beta#{get_build_number}",
       xcodeproj: "BlackCandy.xcodeproj",
       force: true
     )
 
-    add_git_tag(tag: "v#{get_version_number}-#{get_build_number}")
+    add_git_tag(tag: "v#{get_version_number}.beta#{get_build_number}")
     push_to_git_remote
 
     build_app(scheme: "BlackCandy")
