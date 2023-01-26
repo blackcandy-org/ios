@@ -18,6 +18,7 @@ struct PlayerPlaylistView: View {
         .padding(CustomStyle.spacing(.small))
         .background(.ultraThinMaterial)
         .cornerRadius(CustomStyle.cornerRadius(.large))
+        .popupInteractionContainer()
 
         List {
           ForEach(viewStore.playlist.orderedSongs) { song in

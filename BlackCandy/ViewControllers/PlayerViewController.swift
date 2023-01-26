@@ -5,6 +5,8 @@ import Combine
 import Alamofire
 
 class PlayerViewController: UIHostingController<PlayerView> {
+  @objc var _ln_interactionLimitRect: CGRect = .zero
+
   let viewStore: ViewStoreOf<PlayerReducer>
   var cancellables: Set<AnyCancellable> = []
 
@@ -14,6 +16,8 @@ class PlayerViewController: UIHostingController<PlayerView> {
   }
 
   override func viewDidLoad() {
+    super.viewDidLoad()
+
     self.viewStore.publisher
       .map { $0.currentSong?.name ?? NSLocalizedString("label.notPlaying", comment: "") }
       .assign(to: \.title, on: popupItem)
@@ -55,6 +59,34 @@ class PlayerViewController: UIHostingController<PlayerView> {
       .store(in: &self.cancellables)
   }
 
+  // This function basically copy from LNPopupUI,
+  // https://github.com/LeoNatan/LNPopupUI/blob/master/Sources/LNPopupUI/Private/LNPopupUIContentController.swift
+  // Use this function we can control which view we want it to interact with gesture in LNPopup.
+  // So this can avoid some view like List that can not respond to scroll gesture because of the gesture in LNPopup.
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+
+    let viewToLimitInteractionTo = firstInteractionSubview(of: view) ?? super.viewForPopupInteractionGestureRecognizer
+    _ln_interactionLimitRect = view.convert(viewToLimitInteractionTo.bounds, from: viewToLimitInteractionTo)
+  }
+
+  private func firstInteractionSubview(of view: UIView) -> PopupUIInteractionView? {
+    if let view = view as? PopupUIInteractionView {
+      return view
+    }
+
+    var interactionView: PopupUIInteractionView?
+
+    for subview in view.subviews {
+      if let view = firstInteractionSubview(of: subview) {
+        interactionView = view
+        break
+      }
+    }
+
+    return interactionView
+  }
+
   @MainActor required dynamic init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -69,5 +101,21 @@ class PlayerViewController: UIHostingController<PlayerView> {
 
   @objc private func nextSong() {
     self.viewStore.send(.next)
+  }
+}
+
+internal class PopupUIInteractionView: UIView {}
+
+internal struct PopupUIInteractionBackgroundView: UIViewRepresentable {
+  func makeUIView(context: Context) -> PopupUIInteractionView {
+    return PopupUIInteractionView()
+  }
+
+  func updateUIView(_ uiView: PopupUIInteractionView, context: Context) { }
+}
+
+extension View {
+  func popupInteractionContainer() -> some View {
+    return background(PopupUIInteractionBackgroundView())
   }
 }
