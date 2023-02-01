@@ -16,7 +16,7 @@ struct PlayerPlaylistView: View {
           EditButton()
         }
         .padding(CustomStyle.spacing(.small))
-        .background(.ultraThinMaterial)
+        .background(Color.init(.systemGray5))
         .cornerRadius(CustomStyle.cornerRadius(.large))
         .popupInteractionContainer()
 
@@ -48,6 +48,7 @@ struct PlayerPlaylistView: View {
           .onMove { fromOffsets, toOffset in
             viewStore.send(.moveSongs(fromOffsets, toOffset))
           }
+          .listRowBackground(Color.clear)
         }
         .listStyle(.plain)
         .frame(minHeight: CustomStyle.playlistMinHeight)
