@@ -13,6 +13,7 @@
 		6435D831296CFEE80068CC51 /* SystemInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6435D830296CFEE80068CC51 /* SystemInfo.swift */; };
 		6435D833296D4E620068CC51 /* ServerAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6435D832296D4E620068CC51 /* ServerAddressView.swift */; };
 		6435D835296D5E7D0068CC51 /* ServerAddressState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6435D834296D5E7D0068CC51 /* ServerAddressState.swift */; };
+		643C0B4F299A5CEC0077EF8D /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643C0B4E299A5CEC0077EF8D /* UserTests.swift */; };
 		644E9B41295AC796000DB3E3 /* SideBarNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E9B40295AC796000DB3E3 /* SideBarNavigationViewController.swift */; };
 		644E9B43295AC7C0000DB3E3 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E9B42295AC7C0000DB3E3 /* TabBarViewController.swift */; };
 		645B8A7A2962ACD700E15B9C /* BlackCandyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645B8A792962ACD700E15B9C /* BlackCandyApp.swift */; };
@@ -32,7 +33,6 @@
 		DD522C312900EACB008FE88D /* path-configuration.json in Resources */ = {isa = PBXBuildFile; fileRef = DD522C302900EACB008FE88D /* path-configuration.json */; };
 		DD62F4D027C769CE005A5D0B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD62F4CF27C769CE005A5D0B /* Assets.xcassets */; };
 		DD62F4D327C769CE005A5D0B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD62F4D227C769CE005A5D0B /* Preview Assets.xcassets */; };
-		DD62F4DD27C769CE005A5D0B /* BlackCandyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD62F4DC27C769CE005A5D0B /* BlackCandyTests.swift */; };
 		DD62F4E727C769CE005A5D0B /* BlackCandyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD62F4E627C769CE005A5D0B /* BlackCandyUITests.swift */; };
 		DD62F4E927C769CE005A5D0B /* BlackCandyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD62F4E827C769CE005A5D0B /* BlackCandyUITestsLaunchTests.swift */; };
 		DD62F4F727C76C13005A5D0B /* Turbo in Frameworks */ = {isa = PBXBuildFile; productRef = DD62F4F627C76C13005A5D0B /* Turbo */; };
@@ -103,6 +103,7 @@
 		6435D830296CFEE80068CC51 /* SystemInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemInfo.swift; sourceTree = "<group>"; };
 		6435D832296D4E620068CC51 /* ServerAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAddressView.swift; sourceTree = "<group>"; };
 		6435D834296D5E7D0068CC51 /* ServerAddressState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAddressState.swift; sourceTree = "<group>"; };
+		643C0B4E299A5CEC0077EF8D /* UserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
 		644E9B40295AC796000DB3E3 /* SideBarNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarNavigationViewController.swift; sourceTree = "<group>"; };
 		644E9B42295AC7C0000DB3E3 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		645B8A792962ACD700E15B9C /* BlackCandyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackCandyApp.swift; sourceTree = "<group>"; };
@@ -122,7 +123,6 @@
 		DD62F4CF27C769CE005A5D0B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD62F4D227C769CE005A5D0B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DD62F4D827C769CE005A5D0B /* BlackCandyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlackCandyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD62F4DC27C769CE005A5D0B /* BlackCandyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackCandyTests.swift; sourceTree = "<group>"; };
 		DD62F4E227C769CE005A5D0B /* BlackCandyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlackCandyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD62F4E627C769CE005A5D0B /* BlackCandyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackCandyUITests.swift; sourceTree = "<group>"; };
 		DD62F4E827C769CE005A5D0B /* BlackCandyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackCandyUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -300,7 +300,7 @@
 		DD62F4DB27C769CE005A5D0B /* BlackCandyTests */ = {
 			isa = PBXGroup;
 			children = (
-				DD62F4DC27C769CE005A5D0B /* BlackCandyTests.swift */,
+				643C0B4E299A5CEC0077EF8D /* UserTests.swift */,
 			);
 			path = BlackCandyTests;
 			sourceTree = "<group>";
@@ -558,7 +558,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD62F4DD27C769CE005A5D0B /* BlackCandyTests.swift in Sources */,
+				643C0B4F299A5CEC0077EF8D /* UserTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
