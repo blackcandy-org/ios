@@ -1,0 +1,77 @@
+[
+  {
+    "id":1,
+    "name":"sample1",
+    "duration": 129.0,
+    "url":"http://localhost:3000/api/v1/stream/new?song_id=1",
+    "album_name":"sample album",
+    "artist_name":"sample artist",
+    "is_favorited":false,
+    "format":"mp3",
+    "album_image_url":{
+      "small":"http://localhost:3000/uploads/album/image/1/small.jpg",
+      "medium":"http://localhost:3000/uploads/album/image/1/medium.jpg",
+      "large":"http://localhost:3000/uploads/album/image/1/large.jpg"
+    }
+  },
+  {
+    "id":2,
+    "name":"sample2",
+    "duration": 129.0,
+    "url":"http://localhost:3000/api/v1/stream/new?song_id=2",
+    "album_name":"sample album",
+    "artist_name":"sample artist",
+    "is_favorited":false,
+    "format":"mp3",
+    "album_image_url":{
+      "small":"http://localhost:3000/uploads/album/image/2/small.jpg",
+      "medium":"http://localhost:3000/uploads/album/image/2/medium.jpg",
+      "large":"http://localhost:3000/uploads/album/image/2/large.jpg"
+    }
+  },
+  {
+    "id":3,
+    "name":"sample3",
+    "duration": 129.0,
+    "url":"http://localhost:3000/api/v1/stream/new?song_id=3",
+    "album_name":"sample album",
+    "artist_name":"sample artist",
+    "is_favorited":false,
+    "format":"mp3",
+    "album_image_url":{
+      "small":"http://localhost:3000/uploads/album/image/3/small.jpg",
+      "medium":"http://localhost:3000/uploads/album/image/3/medium.jpg",
+      "large":"http://localhost:3000/uploads/album/image/3/large.jpg"
+    }
+  },
+  {
+    "id":4,
+    "name":"sample4",
+    "duration": 129.0,
+    "url":"http://localhost:3000/api/v1/stream/new?song_id=4",
+    "album_name":"sample album",
+    "artist_name":"sample artist",
+    "is_favorited":false,
+    "format":"mp3",
+    "album_image_url":{
+      "small":"http://localhost:3000/uploads/album/image/4/small.jpg",
+      "medium":"http://localhost:3000/uploads/album/image/4/medium.jpg",
+      "large":"http://localhost:3000/uploads/album/image/4/large.jpg"
+    }
+  },
+  {
+    "id":5,
+    "name":"sample5",
+    "duration": 129.0,
+    "url":"http://localhost:3000/api/v1/stream/new?song_id=5",
+    "album_name":"sample album",
+    "artist_name":"sample artist",
+    "is_favorited":false,
+    "format":"mp3",
+    "album_image_url":{
+      "small":"http://localhost:3000/uploads/album/image/5/small.jpg",
+      "medium":"http://localhost:3000/uploads/album/image/5/medium.jpg",
+      "large":"http://localhost:3000/uploads/album/image/4/large.jpg"
+    }
+  }
+]
