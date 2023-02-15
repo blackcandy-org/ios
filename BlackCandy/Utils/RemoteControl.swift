@@ -51,6 +51,5 @@ struct RemoteControl {
       viewStore.send(.player(.seekToPosition(event.positionTime)))
       return .success
     }
-
   }
 }
