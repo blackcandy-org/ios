@@ -27,6 +27,8 @@
 		647623782949A77C00333378 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647623772949A77C00333378 /* AppReducer.swift */; };
 		6476237A2949B1C200333378 /* AppDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647623792949B1C200333378 /* AppDependency.swift */; };
 		6476237C2949B60300333378 /* PlayerReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6476237B2949B60300333378 /* PlayerReducer.swift */; };
+		648AA710299F59D2002EED64 /* APIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648AA70F299F59D2002EED64 /* APIClientTests.swift */; };
+		648AA716299F6D8F002EED64 /* OHHTTPStubsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 648AA715299F6D8F002EED64 /* OHHTTPStubsSwift */; };
 		64B40E2729519E43009726CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B40E2629519E43009726CE /* HomeView.swift */; };
 		64BE5470295D767100D3786F /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64BE546F295D767100D3786F /* SplitViewController.swift */; };
 		64D6BC72299C7750005B1078 /* CustomFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D6BC71299C7750005B1078 /* CustomFormatterTests.swift */; };
@@ -122,6 +124,7 @@
 		647623772949A77C00333378 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
 		647623792949B1C200333378 /* AppDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependency.swift; sourceTree = "<group>"; };
 		6476237B2949B60300333378 /* PlayerReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerReducer.swift; sourceTree = "<group>"; };
+		648AA70F299F59D2002EED64 /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
 		64B40E2629519E43009726CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		64BE546F295D767100D3786F /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		64D6BC71299C7750005B1078 /* CustomFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormatterTests.swift; sourceTree = "<group>"; };
@@ -183,6 +186,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				648AA716299F6D8F002EED64 /* OHHTTPStubsSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,6 +228,14 @@
 				645D7069299B26140020146A /* songs.json */,
 			);
 			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		648AA70E299F59B8002EED64 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				648AA70F299F59D2002EED64 /* APIClientTests.swift */,
+			);
+			path = Clients;
 			sourceTree = "<group>";
 		};
 		64D6BC70299C7710005B1078 /* Utils */ = {
@@ -350,6 +362,7 @@
 		DD62F4DB27C769CE005A5D0B /* BlackCandyTests */ = {
 			isa = PBXGroup;
 			children = (
+				648AA70E299F59B8002EED64 /* Clients */,
 				64D6BC73299C7D40005B1078 /* States */,
 				64D6BC70299C7710005B1078 /* Utils */,
 				645D7065299B18C90020146A /* Models */,
@@ -456,6 +469,9 @@
 				DD62F4DA27C769CE005A5D0B /* PBXTargetDependency */,
 			);
 			name = BlackCandyTests;
+			packageProductDependencies = (
+				648AA715299F6D8F002EED64 /* OHHTTPStubsSwift */,
+			);
 			productName = BlackCandyTests;
 			productReference = DD62F4D827C769CE005A5D0B /* BlackCandyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -515,6 +531,7 @@
 				DD6E0EA12884FEE100F39DB3 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				DD83970928DC043000BC8C11 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				646315232971A2900016EBCA /* XCRemoteSwiftPackageReference "LNPopupController" */,
+				648AA714299F6D8F002EED64 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */,
 			);
 			productRefGroup = DD62F4C927C769CC005A5D0B /* Products */;
 			projectDirPath = "";
@@ -617,6 +634,7 @@
 				64D6BC72299C7750005B1078 /* CustomFormatterTests.swift in Sources */,
 				645D7070299B5F8E0020146A /* SystemInfoTests.swift in Sources */,
 				645D706C299B52EA0020146A /* TestHelper.swift in Sources */,
+				648AA710299F59D2002EED64 /* APIClientTests.swift in Sources */,
 				643C0B4F299A5CEC0077EF8D /* UserTests.swift in Sources */,
 				645D7067299B18F30020146A /* PlaylistTests.swift in Sources */,
 			);
@@ -953,6 +971,14 @@
 				minimumVersion = 2.14.0;
 			};
 		};
+		648AA714299F6D8F002EED64 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AliSoftware/OHHTTPStubs";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 9.1.0;
+			};
+		};
 		DD62F4F527C76C13005A5D0B /* XCRemoteSwiftPackageReference "turbo-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hotwired/turbo-ios";
@@ -984,6 +1010,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 646315232971A2900016EBCA /* XCRemoteSwiftPackageReference "LNPopupController" */;
 			productName = LNPopupController;
+		};
+		648AA715299F6D8F002EED64 /* OHHTTPStubsSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 648AA714299F6D8F002EED64 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */;
+			productName = OHHTTPStubsSwift;
 		};
 		DD62F4F627C76C13005A5D0B /* Turbo */ = {
 			isa = XCSwiftPackageProductDependency;

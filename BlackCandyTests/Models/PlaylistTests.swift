@@ -7,7 +7,7 @@ final class PlaylistTests: XCTestCase {
 
   override func setUpWithError() throws {
     playlist = Playlist()
-    songs = try fixture("songs")
+    songs = try fixtureData("songs")
 
     playlist.update(songs: songs)
   }

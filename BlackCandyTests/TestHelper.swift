@@ -1,7 +1,7 @@
 import XCTest
 
 extension XCTestCase {
-  func fixture<T: Decodable>(_ bundleFile: String) throws -> T {
+  func fixtureData<T: Decodable>(_ bundleFile: String) throws -> T {
     let bundle = Bundle(for: type(of: self))
 
     guard let fileUrl = bundle.url(forResource: bundleFile, withExtension: "json") else {
