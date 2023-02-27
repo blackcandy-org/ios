@@ -160,9 +160,7 @@ struct PlayerReducer: ReducerProtocol {
 
     case let .seekToPosition(position):
       let time = CMTime(seconds: position, preferredTimescale: 1)
-
       playerClient.seek(time)
-      nowPlayingClient.updatePlaybackPosition(position)
 
       return .none
 
@@ -174,6 +172,9 @@ struct PlayerReducer: ReducerProtocol {
       }
 
     case let .handleStatusChange(status):
+      let playbackRate = playerClient.getPlaybackRate()
+      nowPlayingClient.updatePlaybackInfo(Float(state.currentTime), playbackRate)
+
       state.status = status
 
       guard status == .end else { return .none }

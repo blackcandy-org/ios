@@ -17,6 +17,7 @@ struct PlayerClient {
   var stop: () -> Void
   var getCurrentTime: () -> AsyncStream<Double>
   var getStatus: () -> AsyncStream<Status>
+  var getPlaybackRate: () -> Float
 
   enum Status: String {
     case pause
@@ -111,6 +112,10 @@ extension PlayerClient {
           NotificationCenter.default.removeObserver(playToEndObserver)
         }
       }
+    },
+
+    getPlaybackRate: {
+      player.rate
     }
   )
 }

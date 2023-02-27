@@ -5,7 +5,7 @@ import Alamofire
 
 struct NowPlayingClient {
   var updateInfo: (Song) -> Void
-  var updatePlaybackPosition: (TimeInterval) -> Void
+  var updatePlaybackInfo: (Float, Float) -> Void
 
   private static func updateAlbumImage(url: URL) {
     var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [String: Any]()
@@ -42,9 +42,12 @@ extension NowPlayingClient {
       updateAlbumImage(url: song.albumImageUrl.large)
     },
 
-    updatePlaybackPosition: { time in
+    updatePlaybackInfo: { position, rate in
       var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [String: Any]()
-      nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = time
+
+      nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = position
+      nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = rate
+      nowPlayingInfo[MPNowPlayingInfoPropertyDefaultPlaybackRate] = 1.0
 
       MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
