@@ -83,7 +83,7 @@ final class APIClientTests: XCTestCase {
     let song = songs.first!
 
     stub(condition: isMethodPOST() && isPath("/api/v1/favorite_playlist/songs")) { _ in
-      return .init(jsonObject: [], statusCode: 200, headers: nil)
+      return .init(jsonObject: [] as [Any], statusCode: 200, headers: nil)
     }
 
     let response = try await apiClient.toggleFavorite(song)
@@ -96,7 +96,7 @@ final class APIClientTests: XCTestCase {
     let song = songs.first!
 
     stub(condition: isMethodDELETE() && isPath("/api/v1/current_playlist/songs")) { _ in
-      return .init(jsonObject: [], statusCode: 200, headers: nil)
+      return .init(jsonObject: [] as [Any], statusCode: 200, headers: nil)
     }
 
     let response = try await apiClient.deleteCurrentPlaylistSongs([song])
@@ -106,7 +106,7 @@ final class APIClientTests: XCTestCase {
 
   func testMoveCurrentPlaylistSongs() async throws {
     stub(condition: isMethodPATCH() && isPath("/api/v1/current_playlist/songs")) { _ in
-      return .init(jsonObject: [], statusCode: 200, headers: nil)
+      return .init(jsonObject: [] as [Any], statusCode: 200, headers: nil)
     }
 
     let response = try await apiClient.moveCurrentPlaylistSongs(0, 1)
@@ -143,5 +143,40 @@ final class APIClientTests: XCTestCase {
     XCTAssertEqual(response.name, "sample1")
     XCTAssertEqual(response.isFavorited, false)
     XCTAssertEqual(response.albumImageUrl.small, URL(string: "http://localhost:3000/uploads/album/image/1/small.jpg"))
+  }
+
+  func testHandleUnauthorizedError() async throws {
+    stub(condition: isPath("/api/v1/songs/1")) { _ in
+      return .init(jsonObject: [] as [Any], statusCode: 401, headers: nil)
+    }
+
+    do {
+      _ = try await apiClient.getSong(1)
+    } catch {
+      guard let error = error as? APIClient.APIError else {
+        return XCTFail()
+      }
+
+      XCTAssertEqual(error, APIClient.APIError.unauthorized)
+    }
+  }
+
+  func testHandleBadRequestError() async throws {
+    let errorMessage = "Invalide request"
+
+    stub(condition: isPath("/api/v1/songs/1")) { _ in
+      return .init(jsonObject: ["message": errorMessage], statusCode: 400, headers: nil)
+    }
+
+    do {
+      _ = try await apiClient.getSong(1)
+    } catch {
+      guard let error = error as? APIClient.APIError else {
+        return XCTFail()
+      }
+
+      XCTAssertEqual(error, APIClient.APIError.badRequest(errorMessage))
+    }
+
   }
 }
