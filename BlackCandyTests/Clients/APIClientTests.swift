@@ -154,7 +154,7 @@ final class APIClientTests: XCTestCase {
       _ = try await apiClient.getSong(1)
     } catch {
       guard let error = error as? APIClient.APIError else {
-        return XCTFail()
+        return XCTFail("Wrong type of APIError.")
       }
 
       XCTAssertEqual(error, APIClient.APIError.unauthorized)
@@ -172,7 +172,7 @@ final class APIClientTests: XCTestCase {
       _ = try await apiClient.getSong(1)
     } catch {
       guard let error = error as? APIClient.APIError else {
-        return XCTFail()
+        return XCTFail("Wrong type of APIError.")
       }
 
       XCTAssertEqual(error, APIClient.APIError.badRequest(errorMessage))

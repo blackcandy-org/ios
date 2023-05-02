@@ -4,7 +4,7 @@ struct UserDefaultsClient {
   private static let serverAddressKey = "com.aidewooode.BlackCandy.serverAddressKey"
 
   var serverAddress: () -> URL?
-  var updateServerAddress: (URL) -> Void
+  var updateServerAddress: (URL?) -> Void
 }
 
 extension UserDefaultsClient {
