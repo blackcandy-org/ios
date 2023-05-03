@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		642B04ED2A02376400EEF844 /* CookiesClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642B04EC2A02376400EEF844 /* CookiesClientTests.swift */; };
 		6431DDF02963D0240013F135 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6431DDEF2963D0240013F135 /* PlayerViewController.swift */; };
 		6431DDF6296410650013F135 /* SideBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6431DDF5296410650013F135 /* SideBarView.swift */; };
 		6431DDF82964167E0013F135 /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6431DDF72964167E0013F135 /* NotificationName.swift */; };
@@ -107,6 +108,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		642B04EC2A02376400EEF844 /* CookiesClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookiesClientTests.swift; sourceTree = "<group>"; };
 		6431DDEF2963D0240013F135 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		6431DDF5296410650013F135 /* SideBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarView.swift; sourceTree = "<group>"; };
 		6431DDF72964167E0013F135 /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 			children = (
 				648AA70F299F59D2002EED64 /* APIClientTests.swift */,
 				6468E62E2A00D22900475EC0 /* UserDefaultsClientTests.swift */,
+				642B04EC2A02376400EEF844 /* CookiesClientTests.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -633,6 +636,7 @@
 			files = (
 				645D706E299B5E660020146A /* SongTests.swift in Sources */,
 				64D6BC77299C8658005B1078 /* ServerAddressStateTests.swift in Sources */,
+				642B04ED2A02376400EEF844 /* CookiesClientTests.swift in Sources */,
 				64D6BC75299C7E9D005B1078 /* LoginStateTests.swift in Sources */,
 				64D6BC72299C7750005B1078 /* CustomFormatterTests.swift in Sources */,
 				645D7070299B5F8E0020146A /* SystemInfoTests.swift in Sources */,

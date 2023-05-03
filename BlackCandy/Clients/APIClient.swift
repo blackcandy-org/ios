@@ -3,10 +3,8 @@ import ComposableArchitecture
 import Alamofire
 
 struct APIClient {
-  private static var serverAddress: URL?
   private static var token: String?
 
-  var updateServerAddress: (URL?) -> Void
   var updateToken: (String?) -> Void
   var authentication: (LoginState) async throws -> AuthenticationResponse
   var getCurrentPlaylistSongs: () async throws -> [Song]
@@ -36,7 +34,7 @@ struct APIClient {
   }
 
   private static func requestURL(_ path: String) -> URL {
-    Self.serverAddress!.appendingPathComponent(path)
+    UserDefaultsClient.live.serverAddress()!.appendingPathComponent(path)
   }
 
   private static func decodeJSON(_ data: Data) -> [String: Any]? {
@@ -101,10 +99,6 @@ struct APIClient {
 
 extension APIClient {
   static let live = Self(
-    updateServerAddress: { serverAddress in
-      Self.serverAddress = serverAddress
-    },
-
     updateToken: { token in
       Self.token = token
     },
@@ -139,7 +133,7 @@ extension APIClient {
         return AuthenticationResponse(
           token: token,
           user: User(id: id, email: email, isAdmin: isAdmin),
-          cookies: HTTPCookie.cookies(withResponseHeaderFields: responseHeaders, for: Self.serverAddress!)
+          cookies: HTTPCookie.cookies(withResponseHeaderFields: responseHeaders, for: UserDefaultsClient.live.serverAddress()!)
         )
       }
     },
