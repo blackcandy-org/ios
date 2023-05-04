@@ -2,6 +2,9 @@ import Foundation
 import WebKit
 
 struct CookiesClient {
+  private static var serverAddress: URL?
+
+  var updateServerAddress: (URL?) -> Void
   var updateCookies: ([HTTPCookie], (() -> Void)?) -> Void
   var cleanCookies: () -> Void
   var createCookie: (String, String, (() -> Void)?) -> Void
@@ -17,6 +20,10 @@ struct CookiesClient {
 
 extension CookiesClient {
   static let live = Self(
+    updateServerAddress: { serverAddress in
+      Self.serverAddress = serverAddress
+    },
+
     updateCookies: { cookies, completionHandler in
       Self.updateCookies(cookies, completionHandler)
     },
@@ -32,7 +39,7 @@ extension CookiesClient {
     },
 
     createCookie: { name, value, completionHandler in
-      guard let serverAddress = UserDefaultsClient.live.serverAddress() else { return }
+      guard let serverAddress = Self.serverAddress else { return }
 
       guard let cookie = HTTPCookie(properties: [
         .name: name,

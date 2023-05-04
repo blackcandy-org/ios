@@ -83,6 +83,8 @@ struct AppReducer: ReducerProtocol {
         }
 
         userDefaultsClient.updateServerAddress(serverAddress)
+        cookiesClient.updateServerAddress(serverAddress)
+        apiClient.updateServerAddress(serverAddress)
 
         state.serverAddress = serverAddress
         state.isLoginViewVisible = true
@@ -101,7 +103,7 @@ struct AppReducer: ReducerProtocol {
       case let .loginResponse(.success(response)):
         cookiesClient.updateCookies(response.cookies, nil)
         keychainClient.updateAPIToken(response.token)
-        jsonDataClient.updateCurrentUser(response.user)
+        jsonDataClient.updateCurrentUser(response.user, nil)
         playerClient.updateAPIToken(response.token)
         apiClient.updateToken(response.token)
 
@@ -117,6 +119,8 @@ struct AppReducer: ReducerProtocol {
 
         playerClient.updateAPIToken(state.apiToken)
         apiClient.updateToken(state.apiToken)
+        apiClient.updateServerAddress(state.serverAddress)
+        cookiesClient.updateServerAddress(state.serverAddress)
 
         return .none
 

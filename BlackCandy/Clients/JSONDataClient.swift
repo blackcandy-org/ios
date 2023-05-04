@@ -4,7 +4,7 @@ struct JSONDataClient {
   private static let userSavedFile = "current_user.json"
 
   var currentUser: () -> User?
-  var updateCurrentUser: (User) -> Void
+  var updateCurrentUser: (User, (() -> Void)?) -> Void
   var deleteCurrentUser: () -> Void
 
   static func fileUrl(_ file: String) throws -> URL {
@@ -25,7 +25,7 @@ struct JSONDataClient {
     return try JSONDecoder().decode(T.self, from: data)
   }
 
-  static func save<T: Encodable>(file: String, data: T) {
+  static func save<T: Encodable>(file: String, data: T, completionHandler: (() -> Void)? = nil) {
     DispatchQueue.global(qos: .background).async {
       guard let data = try? JSONEncoder().encode(data) else {
         fatalError("Error encoding data")
@@ -33,6 +33,7 @@ struct JSONDataClient {
 
       do {
         try data.write(to: fileUrl(file))
+        completionHandler?()
       } catch {
         fatalError("Can't write to \(file)")
       }
@@ -46,8 +47,8 @@ extension JSONDataClient {
       try? load(file: userSavedFile)
     },
 
-    updateCurrentUser: { user in
-      save(file: userSavedFile, data: user)
+    updateCurrentUser: { user, completionHandler in
+      save(file: userSavedFile, data: user, completionHandler: completionHandler)
     },
 
     deleteCurrentUser: {
