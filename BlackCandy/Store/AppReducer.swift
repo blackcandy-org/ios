@@ -126,7 +126,7 @@ struct AppReducer: ReducerProtocol {
 
       case .logout:
         keychainClient.deleteAPIToken()
-        cookiesClient.cleanCookies()
+        cookiesClient.cleanCookies(nil)
         jsonDataClient.deleteCurrentUser()
 
         state.currentUser = nil

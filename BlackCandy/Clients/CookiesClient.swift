@@ -6,14 +6,22 @@ struct CookiesClient {
 
   var updateServerAddress: (URL?) -> Void
   var updateCookies: ([HTTPCookie], (() -> Void)?) -> Void
-  var cleanCookies: () -> Void
+  var cleanCookies: ((() -> Void)?) -> Void
   var createCookie: (String, String, (() -> Void)?) -> Void
 
   static func updateCookies(_ cookies: [HTTPCookie], _ completionHandler: (() -> Void)?) {
     let cookieStore = WKWebsiteDataStore.default().httpCookieStore
+    let group = DispatchGroup()
 
     cookies.forEach { cookie in
-      cookieStore.setCookie(cookie, completionHandler: completionHandler)
+      group.enter()
+      cookieStore.setCookie(cookie) {
+        group.leave()
+      }
+    }
+
+    group.notify(queue: .main) {
+      completionHandler?()
     }
   }
 }
@@ -28,13 +36,24 @@ extension CookiesClient {
       Self.updateCookies(cookies, completionHandler)
     },
 
-    cleanCookies: {
+    cleanCookies: { completionHandler in
       let cookieStore = WKWebsiteDataStore.default().httpCookieStore
+      let group = DispatchGroup()
+
+      group.enter()
 
       cookieStore.getAllCookies { cookies in
         cookies.forEach { cookie in
-          cookieStore.delete(cookie)
+          group.enter()
+          cookieStore.delete(cookie) {
+            group.leave()
+          }
         }
+        group.leave()
+      }
+
+      group.notify(queue: .main) {
+        completionHandler?()
       }
     },
 

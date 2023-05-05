@@ -11,7 +11,13 @@ final class CookiesClientTests: XCTestCase {
   }
 
   override func tearDownWithError() throws {
-    cookiesClient.cleanCookies()
+    let expectation = XCTestExpectation(description: "Clean Cookies")
+
+    cookiesClient.cleanCookies {
+      expectation.fulfill()
+    }
+
+    wait(for: [expectation], timeout: 10.0)
   }
 
   func testUpdateCookie() throws {
@@ -45,6 +51,23 @@ final class CookiesClientTests: XCTestCase {
         XCTAssertEqual(allCookies.first?.value, "newCookieValue")
 
         expectation.fulfill()
+      }
+    }
+
+    wait(for: [expectation], timeout: 10.0)
+  }
+
+  func testCleanCookies() throws {
+    let cookieStore = WKWebsiteDataStore.default().httpCookieStore
+    let expectation = XCTestExpectation(description: "Clean Cookies")
+
+    cookiesClient.createCookie("newCookie", "newCookieValue") {
+      self.cookiesClient.cleanCookies {
+        cookieStore.getAllCookies { allCookies in
+          XCTAssertTrue(allCookies.isEmpty)
+
+          expectation.fulfill()
+        }
       }
     }
 
