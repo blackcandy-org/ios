@@ -11,6 +11,10 @@ final class APIClientTests: XCTestCase {
     apiClient.updateServerAddress(URL(string: "http://localhost:3000")!)
   }
 
+  override func tearDownWithError() throws {
+    HTTPStubs.removeAllStubs()
+  }
+
   func testGetSystemInfo() async throws {
     let responseJSON = """
     {

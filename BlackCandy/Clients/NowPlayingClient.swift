@@ -7,7 +7,7 @@ struct NowPlayingClient {
   var updateInfo: (Song) -> Void
   var updatePlaybackInfo: (Float, Float) -> Void
 
-  private static func updateAlbumImage(url: URL) {
+  static func updateAlbumImage(url: URL, completionHandler: (() -> Void)? = nil) {
     var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [String: Any]()
 
     AF.download(url).response { response in
@@ -21,6 +21,8 @@ struct NowPlayingClient {
       })
 
       MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+
+      completionHandler?()
     }
   }
 }
