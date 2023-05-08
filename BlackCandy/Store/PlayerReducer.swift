@@ -107,7 +107,7 @@ struct PlayerReducer: ReducerProtocol {
       guard let currentSong = state.currentSong else { return .none }
 
       cookiesClient.createCookie("current_song_id", String(currentSong.id), nil)
-      playerClient.playOn(currentSong)
+      playerClient.playOn(currentSong.url)
       nowPlayingClient.updateInfo(currentSong)
 
       return .none

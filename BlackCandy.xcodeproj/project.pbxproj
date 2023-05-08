@@ -25,6 +25,8 @@
 		645D706C299B52EA0020146A /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D706B299B52EA0020146A /* TestHelper.swift */; };
 		645D706E299B5E660020146A /* SongTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D706D299B5E660020146A /* SongTests.swift */; };
 		645D7070299B5F8E0020146A /* SystemInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D706F299B5F8E0020146A /* SystemInfoTests.swift */; };
+		646152292A08C17000513C46 /* PlayerClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646152282A08C17000513C46 /* PlayerClientTests.swift */; };
+		6461522B2A08C39400513C46 /* song.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6461522A2A08C39400513C46 /* song.mp3 */; };
 		646315252971A2910016EBCA /* LNPopupController in Frameworks */ = {isa = PBXBuildFile; productRef = 646315242971A2910016EBCA /* LNPopupController */; };
 		646315262971A2AF0016EBCA /* LNPopupController in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 646315242971A2910016EBCA /* LNPopupController */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		6468E62F2A00D22900475EC0 /* UserDefaultsClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6468E62E2A00D22900475EC0 /* UserDefaultsClientTests.swift */; };
@@ -130,6 +132,8 @@
 		645D706B299B52EA0020146A /* TestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelper.swift; sourceTree = "<group>"; };
 		645D706D299B5E660020146A /* SongTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongTests.swift; sourceTree = "<group>"; };
 		645D706F299B5F8E0020146A /* SystemInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemInfoTests.swift; sourceTree = "<group>"; };
+		646152282A08C17000513C46 /* PlayerClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerClientTests.swift; sourceTree = "<group>"; };
+		6461522A2A08C39400513C46 /* song.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = song.mp3; sourceTree = "<group>"; };
 		6468E62E2A00D22900475EC0 /* UserDefaultsClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsClientTests.swift; sourceTree = "<group>"; };
 		647623772949A77C00333378 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
 		647623792949B1C200333378 /* AppDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependency.swift; sourceTree = "<group>"; };
@@ -216,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				640D1B0F2A04A7C100D8F121 /* cover_image.jpg */,
+				6461522A2A08C39400513C46 /* song.mp3 */,
 			);
 			path = Files;
 			sourceTree = "<group>";
@@ -260,6 +265,7 @@
 				64BBD7A92A03772400070572 /* KeychainClientTests.swift */,
 				64BBD7AB2A03808B00070572 /* JSONDataClientTests.swift */,
 				640D1B0C2A04919C00D8F121 /* NowPlayingClientTests.swift */,
+				646152282A08C17000513C46 /* PlayerClientTests.swift */,
 			);
 			path = Clients;
 			sourceTree = "<group>";
@@ -587,6 +593,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				645D706A299B26140020146A /* songs.json in Resources */,
+				6461522B2A08C39400513C46 /* song.mp3 in Resources */,
 				640D1B102A04A7C100D8F121 /* cover_image.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -663,6 +670,7 @@
 				64D6BC72299C7750005B1078 /* CustomFormatterTests.swift in Sources */,
 				645D7070299B5F8E0020146A /* SystemInfoTests.swift in Sources */,
 				645D706C299B52EA0020146A /* TestHelper.swift in Sources */,
+				646152292A08C17000513C46 /* PlayerClientTests.swift in Sources */,
 				648AA710299F59D2002EED64 /* APIClientTests.swift in Sources */,
 				643C0B4F299A5CEC0077EF8D /* UserTests.swift in Sources */,
 				640D1B0D2A04919C00D8F121 /* NowPlayingClientTests.swift in Sources */,

@@ -4,12 +4,11 @@ import ComposableArchitecture
 import Combine
 
 struct PlayerClient {
-  private static let player = AVPlayer()
   private static var apiToken: String?
 
   var updateAPIToken: (String?) -> Void
   var hasCurrentItem: () -> Bool
-  var playOn: (Song) -> Void
+  var playOn: (URL) -> Void
   var play: () -> Void
   var pause: () -> Void
   var replay: () -> Void
@@ -28,94 +27,98 @@ struct PlayerClient {
 }
 
 extension PlayerClient {
-  static let live = Self(
-    updateAPIToken: { token in
-      apiToken = token
-    },
+  static var live: Self {
+    let player = AVPlayer()
 
-    hasCurrentItem: {
-      player.currentItem != nil
-    },
+    return Self(
+      updateAPIToken: { token in
+        apiToken = token
+      },
 
-    playOn: { song in
-      guard let apiToken = apiToken else { return }
+      hasCurrentItem: {
+        player.currentItem != nil
+      },
 
-      let asset = AVURLAsset(url: song.url, options: [
-        "AVURLAssetHTTPHeaderFieldsKey": [
-          "Authorization": "Token \(apiToken)",
-          "User-Agent": "Turbo Native iOS"
-        ]
-      ])
+      playOn: { songUrl in
+        guard let apiToken = apiToken else { return }
 
-      let playerItem = AVPlayerItem(asset: asset)
+        let asset = AVURLAsset(url: songUrl, options: [
+          "AVURLAssetHTTPHeaderFieldsKey": [
+            "Authorization": "Token \(apiToken)",
+            "User-Agent": "Turbo Native iOS"
+          ]
+        ])
 
-      player.pause()
-      player.replaceCurrentItem(with: playerItem)
-      player.play()
-    },
+        let playerItem = AVPlayerItem(asset: asset)
 
-    play: {
-      player.play()
-    },
+        player.pause()
+        player.replaceCurrentItem(with: playerItem)
+        player.play()
+      },
 
-    pause: {
-      player.pause()
-    },
+      play: {
+        player.play()
+      },
 
-    replay: {
-      player.seek(to: CMTime.zero)
-      player.play()
-    },
+      pause: {
+        player.pause()
+      },
 
-    seek: { time in
-      player.seek(to: time)
-    },
+      replay: {
+        player.seek(to: CMTime.zero)
+        player.play()
+      },
 
-    stop: {
-      player.seek(to: CMTime.zero)
-      player.pause()
-    },
+      seek: { time in
+        player.seek(to: time)
+      },
 
-    getCurrentTime: {
-      AsyncStream { continuation in
-        let observer = player.addPeriodicTimeObserver(forInterval: .init(seconds: 1, preferredTimescale: 1), queue: .global(qos: .background), using: { _ in
-          continuation.yield(player.currentTime().seconds )
-        })
+      stop: {
+        player.seek(to: CMTime.zero)
+        player.pause()
+      },
 
-        continuation.onTermination = { @Sendable _ in
-          player.removeTimeObserver(observer)
-        }
-      }
-    },
+      getCurrentTime: {
+        AsyncStream { continuation in
+          let observer = player.addPeriodicTimeObserver(forInterval: .init(seconds: 1, preferredTimescale: 1), queue: .global(qos: .background), using: { _ in
+            continuation.yield(player.currentTime().seconds )
+          })
 
-    getStatus: {
-      AsyncStream { continuation in
-        let timeControlStatusObserver = player.observe(\AVPlayer.timeControlStatus, changeHandler: { (player, _) in
-          switch player.timeControlStatus {
-          case .paused:
-            continuation.yield(.pause)
-          case .waitingToPlayAtSpecifiedRate:
-            continuation.yield(.loading)
-          case .playing:
-            continuation.yield(.playing)
-          @unknown default:
-            continuation.yield(.pause)
+          continuation.onTermination = { @Sendable _ in
+            player.removeTimeObserver(observer)
           }
-        })
-
-        let playToEndObserver = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main, using: { _ in
-          continuation.yield(.end)
-        })
-
-        continuation.onTermination = { @Sendable _ in
-          timeControlStatusObserver.invalidate()
-          NotificationCenter.default.removeObserver(playToEndObserver)
         }
-      }
-    },
+      },
 
-    getPlaybackRate: {
-      player.rate
-    }
-  )
+      getStatus: {
+        AsyncStream { continuation in
+          let timeControlStatusObserver = player.observe(\AVPlayer.timeControlStatus, changeHandler: { (player, _) in
+            switch player.timeControlStatus {
+            case .paused:
+              continuation.yield(.pause)
+            case .waitingToPlayAtSpecifiedRate:
+              continuation.yield(.loading)
+            case .playing:
+              continuation.yield(.playing)
+            @unknown default:
+              continuation.yield(.pause)
+            }
+          })
+
+          let playToEndObserver = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main, using: { _ in
+            continuation.yield(.end)
+          })
+
+          continuation.onTermination = { @Sendable _ in
+            timeControlStatusObserver.invalidate()
+            NotificationCenter.default.removeObserver(playToEndObserver)
+          }
+        }
+      },
+
+      getPlaybackRate: {
+        player.rate
+      }
+    )
+  }
 }
