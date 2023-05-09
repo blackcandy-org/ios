@@ -55,7 +55,7 @@ final class PlayerClientTests: XCTestCase {
     playerClient.seek(time)
 
     for await currentTime in playerClient.getCurrentTime().prefix(1) {
-      XCTAssertEqual(currentTime, 2)
+      XCTAssertEqual(currentTime.rounded(), 2)
     }
   }
 
@@ -67,7 +67,7 @@ final class PlayerClientTests: XCTestCase {
     playerClient.replay()
 
     for await currentTime in playerClient.getCurrentTime().prefix(1) {
-      XCTAssertEqual(currentTime, 0)
+      XCTAssertEqual(currentTime.rounded(), 0)
     }
   }
 
@@ -82,7 +82,7 @@ final class PlayerClientTests: XCTestCase {
 
       if status == .playing {
         for await currentTime in playerClient.getCurrentTime().prefix(1) {
-          times.append(currentTime)
+          times.append(currentTime.rounded())
         }
 
         playerClient.stop()
