@@ -11,7 +11,7 @@ final class NowPlayingClientTests: XCTestCase {
   override func setUpWithError() throws {
     let songs: [Song] = try fixtureData("songs")
 
-    nowPlayingClient = NowPlayingClient.live
+    nowPlayingClient = NowPlayingClient.liveValue
     playingSong = songs.first(where: { $0.id == 1 })!
   }
 

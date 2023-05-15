@@ -5,7 +5,7 @@ final class JSONDataClientTests: XCTestCase {
   var jsonDataClient: JSONDataClient!
 
   override func setUpWithError() throws {
-    jsonDataClient = JSONDataClient.live
+    jsonDataClient = JSONDataClient.liveValue
   }
 
   func testDeleteCurrentUser() throws {

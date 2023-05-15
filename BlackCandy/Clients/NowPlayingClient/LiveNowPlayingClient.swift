@@ -1,12 +1,10 @@
 import Foundation
+import Dependencies
 import MediaPlayer
 import UIKit
 import Alamofire
 
-struct NowPlayingClient {
-  var updateInfo: (Song) -> Void
-  var updatePlaybackInfo: (Float, Float) -> Void
-
+extension NowPlayingClient: DependencyKey {
   static func updateAlbumImage(url: URL, completionHandler: (() -> Void)? = nil) {
     var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [String: Any]()
 
@@ -25,10 +23,8 @@ struct NowPlayingClient {
       completionHandler?()
     }
   }
-}
 
-extension NowPlayingClient {
-  static let live = Self(
+  static let liveValue = Self(
     updateInfo: { song in
       var nowPlayingInfo = [String: Any]()
 

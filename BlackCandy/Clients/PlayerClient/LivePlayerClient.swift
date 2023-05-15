@@ -1,33 +1,11 @@
 import Foundation
+import Dependencies
 import AVFoundation
-import ComposableArchitecture
-import Combine
 
-struct PlayerClient {
+extension PlayerClient: DependencyKey {
   private static var apiToken: String?
 
-  var updateAPIToken: (String?) -> Void
-  var hasCurrentItem: () -> Bool
-  var playOn: (URL) -> Void
-  var play: () -> Void
-  var pause: () -> Void
-  var replay: () -> Void
-  var seek: (CMTime) -> Void
-  var stop: () -> Void
-  var getCurrentTime: () -> AsyncStream<Double>
-  var getStatus: () -> AsyncStream<Status>
-  var getPlaybackRate: () -> Float
-
-  enum Status: String {
-    case pause
-    case playing
-    case loading
-    case end
-  }
-}
-
-extension PlayerClient {
-  static var live: Self {
+  static var liveValue: Self {
     let player = AVPlayer()
 
     return Self(

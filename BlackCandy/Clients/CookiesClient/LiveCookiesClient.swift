@@ -1,13 +1,9 @@
 import Foundation
+import Dependencies
 import WebKit
 
-struct CookiesClient {
+extension CookiesClient: DependencyKey {
   private static var serverAddress: URL?
-
-  var updateServerAddress: (URL?) -> Void
-  var updateCookies: ([HTTPCookie], (() -> Void)?) -> Void
-  var cleanCookies: ((() -> Void)?) -> Void
-  var createCookie: (String, String, (() -> Void)?) -> Void
 
   static func updateCookies(_ cookies: [HTTPCookie], _ completionHandler: (() -> Void)?) {
     let cookieStore = WKWebsiteDataStore.default().httpCookieStore
@@ -24,10 +20,8 @@ struct CookiesClient {
       completionHandler?()
     }
   }
-}
 
-extension CookiesClient {
-  static let live = Self(
+  static let liveValue = Self(
     updateServerAddress: { serverAddress in
       Self.serverAddress = serverAddress
     },

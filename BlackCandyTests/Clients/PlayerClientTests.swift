@@ -8,7 +8,7 @@ final class PlayerClientTests: XCTestCase {
   var playerClient: PlayerClient!
 
   override func setUpWithError() throws {
-    playerClient = PlayerClient.live
+    playerClient = PlayerClient.liveValue
     playerClient.updateAPIToken("test_token")
 
     stub(condition: isPath("/song.mp3") ) { _ in

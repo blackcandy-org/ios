@@ -7,7 +7,7 @@ final class APIClientTests: XCTestCase {
   var apiClient: APIClient!
 
   override func setUpWithError() throws {
-    apiClient = APIClient.live
+    apiClient = APIClient.liveValue
     apiClient.updateServerAddress(URL(string: "http://localhost:3000")!)
   }
 

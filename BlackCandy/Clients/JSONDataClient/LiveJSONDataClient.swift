@@ -1,11 +1,8 @@
 import Foundation
+import Dependencies
 
-struct JSONDataClient {
+extension JSONDataClient: DependencyKey {
   private static let userSavedFile = "current_user.json"
-
-  var currentUser: () -> User?
-  var updateCurrentUser: (User, (() -> Void)?) -> Void
-  var deleteCurrentUser: () -> Void
 
   static func fileUrl(_ file: String) throws -> URL {
     guard let documentsFolder = try? FileManager.default.url(
@@ -39,10 +36,8 @@ struct JSONDataClient {
       }
     }
   }
-}
 
-extension JSONDataClient {
-  static let live = Self(
+  static let liveValue = Self(
     currentUser: {
       try? load(file: userSavedFile)
     },
