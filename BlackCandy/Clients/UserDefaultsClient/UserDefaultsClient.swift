@@ -7,6 +7,13 @@ struct UserDefaultsClient {
 }
 
 extension UserDefaultsClient: TestDependencyKey {
+  static let testValue = Self(
+    serverAddress: {
+      URL(string: "http://localhost:3000")
+    },
+
+    updateServerAddress: { _ in }
+  )
 }
 
 extension DependencyValues {

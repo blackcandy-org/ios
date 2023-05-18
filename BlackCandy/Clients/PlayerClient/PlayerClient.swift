@@ -17,6 +17,19 @@ struct PlayerClient {
 }
 
 extension PlayerClient: TestDependencyKey {
+  static let testValue = Self(
+    updateAPIToken: { _ in },
+    hasCurrentItem: unimplemented("\(Self.self).hasCurrentItem"),
+    playOn: { _ in },
+    play: { },
+    pause: { },
+    replay: {},
+    seek: { _ in },
+    stop: {},
+    getCurrentTime: unimplemented("\(Self.self).getCurrentTime"),
+    getStatus: unimplemented("\(Self.self).getStatus"),
+    getPlaybackRate: { 1 }
+  )
 }
 
 extension DependencyValues {

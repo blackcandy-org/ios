@@ -7,6 +7,10 @@ struct NowPlayingClient {
 }
 
 extension NowPlayingClient: TestDependencyKey {
+  static let testValue = Self(
+    updateInfo: { _ in },
+    updatePlaybackInfo: { _, _ in }
+  )
 }
 
 extension DependencyValues {

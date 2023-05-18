@@ -10,6 +10,12 @@ struct CookiesClient {
 }
 
 extension CookiesClient: TestDependencyKey {
+  static let testValue = Self(
+    updateServerAddress: { _ in },
+    updateCookies: { _, _  in },
+    cleanCookies: { _ in },
+    createCookie: {_, _, _ in }
+  )
 }
 
 extension DependencyValues {

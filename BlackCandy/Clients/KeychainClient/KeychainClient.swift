@@ -8,6 +8,13 @@ struct KeychainClient {
 }
 
 extension KeychainClient: TestDependencyKey {
+  static let testValue = Self(
+    apiToken: {
+      "test_token"
+    },
+    updateAPIToken: { _ in },
+    deleteAPIToken: {}
+  )
 }
 
 extension DependencyValues {

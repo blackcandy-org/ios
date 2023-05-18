@@ -39,6 +39,7 @@
 		6468E62F2A00D22900475EC0 /* UserDefaultsClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6468E62E2A00D22900475EC0 /* UserDefaultsClientTests.swift */; };
 		647623782949A77C00333378 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647623772949A77C00333378 /* AppReducer.swift */; };
 		6476237C2949B60300333378 /* PlayerReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6476237B2949B60300333378 /* PlayerReducer.swift */; };
+		647634EB2A1600A8004F0FC2 /* AppReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647634EA2A1600A8004F0FC2 /* AppReducerTests.swift */; };
 		648AA710299F59D2002EED64 /* APIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648AA70F299F59D2002EED64 /* APIClientTests.swift */; };
 		648AA716299F6D8F002EED64 /* OHHTTPStubsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 648AA715299F6D8F002EED64 /* OHHTTPStubsSwift */; };
 		64B40E2729519E43009726CE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B40E2629519E43009726CE /* HomeView.swift */; };
@@ -150,6 +151,7 @@
 		6468E62E2A00D22900475EC0 /* UserDefaultsClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsClientTests.swift; sourceTree = "<group>"; };
 		647623772949A77C00333378 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
 		6476237B2949B60300333378 /* PlayerReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerReducer.swift; sourceTree = "<group>"; };
+		647634EA2A1600A8004F0FC2 /* AppReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducerTests.swift; sourceTree = "<group>"; };
 		648AA70F299F59D2002EED64 /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
 		64B40E2629519E43009726CE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		64BBD7A92A03772400070572 /* KeychainClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainClientTests.swift; sourceTree = "<group>"; };
@@ -331,6 +333,14 @@
 			path = Fixtures;
 			sourceTree = "<group>";
 		};
+		647634E92A160087004F0FC2 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				647634EA2A1600A8004F0FC2 /* AppReducerTests.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
 		648AA70E299F59B8002EED64 /* Clients */ = {
 			isa = PBXGroup;
 			children = (
@@ -468,6 +478,7 @@
 		DD62F4DB27C769CE005A5D0B /* BlackCandyTests */ = {
 			isa = PBXGroup;
 			children = (
+				647634E92A160087004F0FC2 /* Store */,
 				648AA70E299F59B8002EED64 /* Clients */,
 				64D6BC73299C7D40005B1078 /* States */,
 				64D6BC70299C7710005B1078 /* Utils */,
@@ -756,6 +767,7 @@
 				640D1B0D2A04919C00D8F121 /* NowPlayingClientTests.swift in Sources */,
 				645D7067299B18F30020146A /* PlaylistTests.swift in Sources */,
 				64BBD7AA2A03772400070572 /* KeychainClientTests.swift in Sources */,
+				647634EB2A1600A8004F0FC2 /* AppReducerTests.swift in Sources */,
 				6468E62F2A00D22900475EC0 /* UserDefaultsClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

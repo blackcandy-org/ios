@@ -4,6 +4,7 @@ import OHHTTPStubs
 import CoreMedia
 @testable import BlackCandy
 
+@MainActor
 final class PlayerClientTests: XCTestCase {
   var playerClient: PlayerClient!
 
