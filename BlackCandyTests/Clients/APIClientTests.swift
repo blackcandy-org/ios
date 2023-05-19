@@ -7,8 +7,10 @@ final class APIClientTests: XCTestCase {
   var apiClient: APIClient!
 
   override func setUpWithError() throws {
-    apiClient = APIClient.liveValue
-    apiClient.updateServerAddress(URL(string: "http://localhost:3000")!)
+    apiClient = APIClient.live(
+      userDefaultClient: UserDefaultsClient.testValue,
+      keychainClient: KeychainClient.testValue
+    )
   }
 
   override func tearDownWithError() throws {

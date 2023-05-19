@@ -3,8 +3,6 @@ import Dependencies
 import Alamofire
 
 struct APIClient {
-  var updateServerAddress: (URL?) -> Void
-  var updateToken: (String?) -> Void
   var authentication: (LoginState) async throws -> AuthenticationResponse
   var getCurrentPlaylistSongs: () async throws -> [Song]
   var toggleFavorite: (Song) async throws -> NoContentResponse
@@ -16,10 +14,6 @@ struct APIClient {
 
 extension APIClient: TestDependencyKey {
   static let testValue = Self(
-    updateServerAddress: { _ in },
-
-    updateToken: { _ in },
-
     authentication: { _ in
       let user = User(id: 1, email: "test@test.com", isAdmin: true)
       let cookie = HTTPCookie(properties: [

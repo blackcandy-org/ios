@@ -3,22 +3,16 @@ import Dependencies
 import AVFoundation
 
 extension PlayerClient: DependencyKey {
-  private static var apiToken: String?
-
-  static var liveValue: Self {
+  static func live(keychainClient: KeychainClient) -> Self {
     let player = AVPlayer()
 
     return Self(
-      updateAPIToken: { token in
-        apiToken = token
-      },
-
       hasCurrentItem: {
         player.currentItem != nil
       },
 
       playOn: { songUrl in
-        guard let apiToken = apiToken else { return }
+        guard let apiToken = keychainClient.apiToken() else { return }
 
         let asset = AVURLAsset(url: songUrl, options: [
           "AVURLAssetHTTPHeaderFieldsKey": [
@@ -99,4 +93,6 @@ extension PlayerClient: DependencyKey {
       }
     )
   }
+
+  static var liveValue = live(keychainClient: KeychainClient.liveValue)
 }

@@ -3,7 +3,6 @@ import Dependencies
 import AVFoundation
 
 struct PlayerClient {
-  var updateAPIToken: (String?) -> Void
   var hasCurrentItem: () -> Bool
   var playOn: (URL) -> Void
   var play: () -> Void
@@ -18,7 +17,6 @@ struct PlayerClient {
 
 extension PlayerClient: TestDependencyKey {
   static let testValue = Self(
-    updateAPIToken: { _ in },
     hasCurrentItem: unimplemented("\(Self.self).hasCurrentItem"),
     playOn: { _ in },
     play: { },

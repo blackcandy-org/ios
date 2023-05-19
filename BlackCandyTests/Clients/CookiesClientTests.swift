@@ -6,8 +6,7 @@ final class CookiesClientTests: XCTestCase {
   var cookiesClient: CookiesClient!
 
   override func setUpWithError() throws {
-    cookiesClient = CookiesClient.liveValue
-    cookiesClient.updateServerAddress(URL(string: "http://localhost:3000")!)
+    cookiesClient = CookiesClient.live(userDefaultClient: UserDefaultsClient.testValue)
   }
 
   override func tearDownWithError() throws {
