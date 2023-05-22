@@ -99,7 +99,7 @@ struct PlayerReducer: ReducerProtocol {
       if index >= songsCount {
         state.currentSong = state.playlist.songs.first
       } else if index < 0 {
-        state.currentSong = state.playlist.songs[songsCount - 1]
+        state.currentSong = state.playlist.songs.last
       } else {
         state.currentSong = state.playlist.songs[index]
       }

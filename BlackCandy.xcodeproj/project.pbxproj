@@ -49,6 +49,7 @@
 		64D6BC72299C7750005B1078 /* CustomFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D6BC71299C7750005B1078 /* CustomFormatterTests.swift */; };
 		64D6BC75299C7E9D005B1078 /* LoginStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D6BC74299C7E9D005B1078 /* LoginStateTests.swift */; };
 		64D6BC77299C8658005B1078 /* ServerAddressStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D6BC76299C8658005B1078 /* ServerAddressStateTests.swift */; };
+		64EAB25E2A1B0A4300F83F15 /* PlayerReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EAB25D2A1B0A4300F83F15 /* PlayerReducerTests.swift */; };
 		DD0A346C28E3E02E002211AE /* PlayerSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */; };
 		DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD18369227CC9FF60018ECF5 /* TurboSession.swift */; };
 		DD2332BE28FE49AA005E3F4F /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2332BD28FE49AA005E3F4F /* AppStore.swift */; };
@@ -160,6 +161,7 @@
 		64D6BC71299C7750005B1078 /* CustomFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormatterTests.swift; sourceTree = "<group>"; };
 		64D6BC74299C7E9D005B1078 /* LoginStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStateTests.swift; sourceTree = "<group>"; };
 		64D6BC76299C8658005B1078 /* ServerAddressStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAddressStateTests.swift; sourceTree = "<group>"; };
+		64EAB25D2A1B0A4300F83F15 /* PlayerReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerReducerTests.swift; sourceTree = "<group>"; };
 		DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSliderView.swift; sourceTree = "<group>"; };
 		DD18369227CC9FF60018ECF5 /* TurboSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboSession.swift; sourceTree = "<group>"; };
 		DD2332BD28FE49AA005E3F4F /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 			isa = PBXGroup;
 			children = (
 				647634EA2A1600A8004F0FC2 /* AppReducerTests.swift */,
+				64EAB25D2A1B0A4300F83F15 /* PlayerReducerTests.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -757,6 +760,7 @@
 				64D6BC77299C8658005B1078 /* ServerAddressStateTests.swift in Sources */,
 				64BBD7AC2A03808B00070572 /* JSONDataClientTests.swift in Sources */,
 				642B04ED2A02376400EEF844 /* CookiesClientTests.swift in Sources */,
+				64EAB25E2A1B0A4300F83F15 /* PlayerReducerTests.swift in Sources */,
 				64D6BC75299C7E9D005B1078 /* LoginStateTests.swift in Sources */,
 				64D6BC72299C7750005B1078 /* CustomFormatterTests.swift in Sources */,
 				645D7070299B5F8E0020146A /* SystemInfoTests.swift in Sources */,
@@ -1124,7 +1128,7 @@
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 0.52.0;
+				minimumVersion = 0.53.0;
 			};
 		};
 		DD83970928DC043000BC8C11 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
