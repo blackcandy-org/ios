@@ -5,7 +5,9 @@ import XCTestDynamicOverlay
 @main
 struct BlackCandyApp: App {
   init() {
-    ViewStore(AppStore.shared.stateless, removeDuplicates: ==).send(.restoreStates)
+    if !_XCTIsTesting {
+      ViewStore(AppStore.shared.stateless, removeDuplicates: ==).send(.restoreStates)
+    }
 
     let navigationBarAppearance = UINavigationBarAppearance()
     navigationBarAppearance.configureWithDefaultBackground()

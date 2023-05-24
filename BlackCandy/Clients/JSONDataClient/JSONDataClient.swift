@@ -9,9 +9,7 @@ struct JSONDataClient {
 
 extension JSONDataClient: TestDependencyKey {
   static let testValue = Self(
-    currentUser: {
-      User(id: 1, email: "test@test.com", isAdmin: true)
-    },
+    currentUser: unimplemented("\(Self.self).currentUser"),
     updateCurrentUser: { _, _ in },
     deleteCurrentUser: {}
   )

@@ -14,17 +14,7 @@ struct APIClient {
 
 extension APIClient: TestDependencyKey {
   static let testValue = Self(
-    authentication: { _ in
-      let user = User(id: 1, email: "test@test.com", isAdmin: true)
-      let cookie = HTTPCookie(properties: [
-        .name: "testName",
-        .value: "testValue",
-        .originURL: URL(string: "http://localhost:3000")!,
-        .path: "/"
-      ])!
-
-      return AuthenticationResponse(token: "test_token", user: user, cookies: [cookie])
-    },
+    authentication: unimplemented("\(Self.self).authentication"),
 
     getCurrentPlaylistSongs: unimplemented("\(Self.self).getCurrentPlaylistSongs"),
 
@@ -42,12 +32,7 @@ extension APIClient: TestDependencyKey {
 
     getSong: unimplemented("\(Self.self).getSong"),
 
-    getSystemInfo: { _ in
-      SystemInfo(
-        version: .init(major: 3, minor: 0, patch: 0, pre: ""),
-        serverAddress: URL(string: "http://localhost:3000")
-      )
-    }
+    getSystemInfo: unimplemented("\(Self.self).getSystemInfo")
   )
 }
 

@@ -8,7 +8,7 @@ final class PlayerReducerTests: XCTestCase {
     let getStatusTask = AsyncStream.makeStream(of: PlayerClient.Status.self)
 
     var playlist = Playlist()
-    let songs: [Song] = try fixtureData("songs")
+    let songs = try songs()
 
     playlist.update(songs: songs)
 
@@ -38,7 +38,7 @@ final class PlayerReducerTests: XCTestCase {
 
   func testPlaySongOutOfIndexRange() async throws {
     var playlist = Playlist()
-    let songs: [Song] = try fixtureData("songs")
+    let songs = try songs()
 
     playlist.update(songs: songs)
 
@@ -62,7 +62,7 @@ final class PlayerReducerTests: XCTestCase {
 
   func testPlayCurrentSong() async throws {
     var playlist = Playlist()
-    let songs: [Song] = try fixtureData("songs")
+    let songs = try songs()
 
     playlist.update(songs: songs)
 
@@ -133,7 +133,7 @@ final class PlayerReducerTests: XCTestCase {
 
   func testStopSong() async throws {
     let getStatusTask = AsyncStream.makeStream(of: PlayerClient.Status.self)
-    let songs: [Song] = try fixtureData("songs")
+    let currentSong = try songs(id: 1)
 
     let store = withDependencies {
       $0.playerClient.getStatus = { getStatusTask.stream }
@@ -141,7 +141,7 @@ final class PlayerReducerTests: XCTestCase {
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(
-          currentSong: songs.first,
+          currentSong: currentSong,
           status: .playing
         ),
         reducer: PlayerReducer()
@@ -164,7 +164,7 @@ final class PlayerReducerTests: XCTestCase {
 
   func testPlayNextSong() async throws {
     var playlist = Playlist()
-    let songs: [Song] = try fixtureData("songs")
+    let songs = try songs()
 
     playlist.update(songs: songs)
 
@@ -186,7 +186,7 @@ final class PlayerReducerTests: XCTestCase {
 
   func testPlayPreviousSong() async throws {
     var playlist = Playlist()
-    let songs: [Song] = try fixtureData("songs")
+    let songs = try songs()
 
     playlist.update(songs: songs)
 

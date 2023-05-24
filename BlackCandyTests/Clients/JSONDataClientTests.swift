@@ -9,7 +9,7 @@ final class JSONDataClientTests: XCTestCase {
   }
 
   func testDeleteCurrentUser() throws {
-    let user = User(id: 1, email: "test@test.com", isAdmin: true)
+    let user = try users(id: 1)
     let expectation = XCTestExpectation(description: "Update Current User")
 
     jsonDataClient.updateCurrentUser(user) {

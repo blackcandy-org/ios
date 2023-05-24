@@ -5,15 +5,21 @@ import ComposableArchitecture
 @MainActor
 final class AppReducerTests: XCTestCase {
   func testGetSystemInfo() async throws {
-    let store = TestStore(initialState: AppReducer.State(), reducer: AppReducer())
-
-    let serverAddressState = ServerAddressState()
-    serverAddressState.url = "http://localhost:3000"
-
     let systemInfoResponse = SystemInfo(
       version: .init(major: 3, minor: 0, patch: 0, pre: ""),
       serverAddress: URL(string: "http://localhost:3000")
     )
+
+    let store = withDependencies {
+      $0.apiClient.getSystemInfo = { _ in
+        systemInfoResponse
+      }
+    } operation: {
+      TestStore(initialState: AppReducer.State(), reducer: AppReducer())
+    }
+
+    let serverAddressState = ServerAddressState()
+    serverAddressState.url = "http://localhost:3000"
 
     await store.send(.getSystemInfo(serverAddressState))
 
@@ -83,13 +89,7 @@ final class AppReducerTests: XCTestCase {
   }
 
   func testLogin() async throws {
-    let store = TestStore(initialState: AppReducer.State(), reducer: AppReducer())
-
-    let loginState = LoginState()
-    loginState.email = "test@test.com"
-    loginState.password = "foobar"
-
-    let user = User(id: 1, email: "test@test.com", isAdmin: true)
+    let user = try users(id: 1)
     let cookie = HTTPCookie(properties: [
       .name: "testName",
       .value: "testValue",
@@ -98,6 +98,18 @@ final class AppReducerTests: XCTestCase {
     ])!
 
     let loginResponse = APIClient.AuthenticationResponse(token: "test_token", user: user, cookies: [cookie])
+
+    let store = withDependencies {
+      $0.apiClient.authentication = { _ in
+        loginResponse
+      }
+    } operation: {
+      TestStore(initialState: AppReducer.State(), reducer: AppReducer())
+    }
+
+    let loginState = LoginState()
+    loginState.email = "test@test.com"
+    loginState.password = "foobar"
 
     await store.send(.login(loginState))
 
@@ -135,18 +147,23 @@ final class AppReducerTests: XCTestCase {
   }
 
   func testRestoreStates() async throws {
-    let store = TestStore(initialState: AppReducer.State(), reducer: AppReducer())
+    let currentUser = try users(id: 1)
+
+    let store = withDependencies {
+      $0.jsonDataClient.currentUser = { currentUser }
+    } operation: {
+      TestStore(initialState: AppReducer.State(), reducer: AppReducer())
+    }
 
     await store.send(.restoreStates) {
       $0.serverAddress = URL(string: "http://localhost:3000")
-      $0.currentUser = store.dependencies.jsonDataClient.currentUser()
+      $0.currentUser = currentUser
     }
   }
 
   func testLogout() async throws {
-    let user = User(id: 1, email: "test@test.com", isAdmin: true)
     var state = AppReducer.State()
-    state.currentUser = user
+    state.currentUser = try users(id: 1)
 
     let store = TestStore(initialState: state, reducer: AppReducer())
 
