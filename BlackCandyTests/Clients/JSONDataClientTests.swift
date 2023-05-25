@@ -5,11 +5,11 @@ final class JSONDataClientTests: XCTestCase {
   var jsonDataClient: JSONDataClient!
 
   override func setUpWithError() throws {
-    jsonDataClient = JSONDataClient.live
+    jsonDataClient = JSONDataClient.liveValue
   }
 
   func testDeleteCurrentUser() throws {
-    let user = User(id: 1, email: "test@test.com", isAdmin: true)
+    let user = try users(id: 1)
     let expectation = XCTestExpectation(description: "Update Current User")
 
     jsonDataClient.updateCurrentUser(user) {

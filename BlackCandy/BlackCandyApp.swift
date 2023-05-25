@@ -1,10 +1,13 @@
 import SwiftUI
 import ComposableArchitecture
+import XCTestDynamicOverlay
 
 @main
 struct BlackCandyApp: App {
   init() {
-    ViewStore(AppStore.shared.stateless, removeDuplicates: ==).send(.restoreStates)
+    if !_XCTIsTesting {
+      ViewStore(AppStore.shared.stateless, removeDuplicates: ==).send(.restoreStates)
+    }
 
     let navigationBarAppearance = UINavigationBarAppearance()
     navigationBarAppearance.configureWithDefaultBackground()
@@ -18,8 +21,10 @@ struct BlackCandyApp: App {
 
   var body: some Scene {
     WindowGroup {
-      HomeView(store: AppStore.shared)
-        .alert(AppStore.shared.scope(state: \.alert), dismiss: .dismissAlert)
+      if !_XCTIsTesting {
+        HomeView(store: AppStore.shared)
+          .alert(AppStore.shared.scope(state: \.alert), dismiss: .dismissAlert)
+      }
     }
   }
 }

@@ -13,7 +13,6 @@ struct AppReducer: ReducerProtocol {
   struct State: Equatable {
     var alert: AlertState<Action>?
     var serverAddress: URL?
-    var apiToken: String?
     var currentUser: User?
     var currentTheme = Theme.auto
     var isAccountSheetVisible = false
@@ -83,8 +82,6 @@ struct AppReducer: ReducerProtocol {
         }
 
         userDefaultsClient.updateServerAddress(serverAddress)
-        cookiesClient.updateServerAddress(serverAddress)
-        apiClient.updateServerAddress(serverAddress)
 
         state.serverAddress = serverAddress
         state.isLoginViewVisible = true
@@ -104,23 +101,14 @@ struct AppReducer: ReducerProtocol {
         cookiesClient.updateCookies(response.cookies, nil)
         keychainClient.updateAPIToken(response.token)
         jsonDataClient.updateCurrentUser(response.user, nil)
-        playerClient.updateAPIToken(response.token)
-        apiClient.updateToken(response.token)
 
         state.currentUser = response.user
-        state.apiToken = response.token
 
         return .none
 
       case .restoreStates:
         state.serverAddress = userDefaultsClient.serverAddress()
         state.currentUser = jsonDataClient.currentUser()
-        state.apiToken = keychainClient.apiToken()
-
-        playerClient.updateAPIToken(state.apiToken)
-        apiClient.updateToken(state.apiToken)
-        apiClient.updateServerAddress(state.serverAddress)
-        cookiesClient.updateServerAddress(state.serverAddress)
 
         return .none
 

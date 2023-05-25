@@ -5,7 +5,7 @@ final class KeychainClientTests: XCTestCase {
   var keychainClient: KeychainClient!
 
   override func setUpWithError() throws {
-    keychainClient = KeychainClient.live
+    keychainClient = KeychainClient.liveValue
   }
 
   override func tearDownWithError() throws {

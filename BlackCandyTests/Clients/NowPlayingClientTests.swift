@@ -9,10 +9,8 @@ final class NowPlayingClientTests: XCTestCase {
   var playingSong: Song!
 
   override func setUpWithError() throws {
-    let songs: [Song] = try fixtureData("songs")
-
-    nowPlayingClient = NowPlayingClient.live
-    playingSong = songs.first(where: { $0.id == 1 })!
+    nowPlayingClient = NowPlayingClient.liveValue
+    playingSong = try songs(id: 1)
   }
 
   override func tearDownWithError() throws {

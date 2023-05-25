@@ -1,15 +1,10 @@
 import Foundation
+import Dependencies
 
-struct KeychainClient {
+extension KeychainClient: DependencyKey {
   private static let apiTokenKey = "com.aidewooode.BlackCandy.apiTokenKey"
 
-  var apiToken: () -> String?
-  var updateAPIToken: (String) -> Void
-  var deleteAPIToken: () -> Void
-}
-
-extension KeychainClient {
-  static let live = Self(
+  static let liveValue = Self(
     apiToken: {
       let query: [String: Any] = [
         kSecClass as String: kSecClassGenericPassword,

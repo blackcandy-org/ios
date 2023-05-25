@@ -1,46 +1,18 @@
 import Foundation
+import Dependencies
 import AVFoundation
-import ComposableArchitecture
-import Combine
 
-struct PlayerClient {
-  private static var apiToken: String?
-
-  var updateAPIToken: (String?) -> Void
-  var hasCurrentItem: () -> Bool
-  var playOn: (URL) -> Void
-  var play: () -> Void
-  var pause: () -> Void
-  var replay: () -> Void
-  var seek: (CMTime) -> Void
-  var stop: () -> Void
-  var getCurrentTime: () -> AsyncStream<Double>
-  var getStatus: () -> AsyncStream<Status>
-  var getPlaybackRate: () -> Float
-
-  enum Status: String {
-    case pause
-    case playing
-    case loading
-    case end
-  }
-}
-
-extension PlayerClient {
-  static var live: Self {
+extension PlayerClient: DependencyKey {
+  static func live(keychainClient: KeychainClient) -> Self {
     let player = AVPlayer()
 
     return Self(
-      updateAPIToken: { token in
-        apiToken = token
-      },
-
       hasCurrentItem: {
         player.currentItem != nil
       },
 
       playOn: { songUrl in
-        guard let apiToken = apiToken else { return }
+        guard let apiToken = keychainClient.apiToken() else { return }
 
         let asset = AVURLAsset(url: songUrl, options: [
           "AVURLAssetHTTPHeaderFieldsKey": [
@@ -121,4 +93,6 @@ extension PlayerClient {
       }
     )
   }
+
+  static var liveValue = live(keychainClient: KeychainClient.liveValue)
 }

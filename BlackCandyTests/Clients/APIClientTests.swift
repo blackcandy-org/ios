@@ -7,8 +7,10 @@ final class APIClientTests: XCTestCase {
   var apiClient: APIClient!
 
   override func setUpWithError() throws {
-    apiClient = APIClient.live
-    apiClient.updateServerAddress(URL(string: "http://localhost:3000")!)
+    apiClient = APIClient.live(
+      userDefaultClient: UserDefaultsClient.testValue,
+      keychainClient: KeychainClient.testValue
+    )
   }
 
   override func tearDownWithError() throws {
@@ -83,8 +85,7 @@ final class APIClientTests: XCTestCase {
   }
 
   func testToggleFavorite() async throws {
-    let songs: [Song] = try fixtureData("songs")
-    let song = songs.first!
+    let song = try songs(id: 1)
 
     stub(condition: isMethodPOST() && isPath("/api/v1/favorite_playlist/songs")) { _ in
       return .init(jsonObject: [] as [Any], statusCode: 200, headers: nil)
@@ -96,8 +97,7 @@ final class APIClientTests: XCTestCase {
   }
 
   func testDeleteCurrentPlaylistSongs() async throws {
-    let songs: [Song] = try fixtureData("songs")
-    let song = songs.first!
+    let song = try songs(id: 1)
 
     stub(condition: isMethodDELETE() && isPath("/api/v1/current_playlist/songs")) { _ in
       return .init(jsonObject: [] as [Any], statusCode: 200, headers: nil)

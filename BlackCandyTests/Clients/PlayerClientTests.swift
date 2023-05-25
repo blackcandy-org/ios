@@ -4,12 +4,12 @@ import OHHTTPStubs
 import CoreMedia
 @testable import BlackCandy
 
+@MainActor
 final class PlayerClientTests: XCTestCase {
   var playerClient: PlayerClient!
 
   override func setUpWithError() throws {
-    playerClient = PlayerClient.live
-    playerClient.updateAPIToken("test_token")
+    playerClient = PlayerClient.live(keychainClient: KeychainClient.testValue)
 
     stub(condition: isPath("/song.mp3") ) { _ in
       return .init(fileAtPath: OHPathForFile("song.mp3", type(of: self))!, statusCode: 200, headers: ["Content-Type": "audio/mpeg"])
