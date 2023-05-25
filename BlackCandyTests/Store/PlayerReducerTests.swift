@@ -1,5 +1,6 @@
 import XCTest
 import ComposableArchitecture
+import CoreMedia
 @testable import BlackCandy
 
 @MainActor
@@ -228,5 +229,344 @@ final class PlayerReducerTests: XCTestCase {
     }
 
     await store.finish()
+  }
+
+  func testToggleFavorite() async throws {
+    let currenSong = try songs(id: 1)
+    let store = TestStore(
+      initialState: PlayerReducer.State(
+        currentSong: currenSong
+      ),
+      reducer: PlayerReducer()
+    )
+
+    await store.send(.toggleFavorite) {
+      $0.currentSong?.isFavorited = true
+    }
+
+    await store.receive(.toggleFavoriteResponse(.success(APIClient.NoContentResponse())))
+  }
+
+  func testToogleFavoriteFailed() async throws {
+    let currenSong = try songs(id: 1)
+    let responseError = APIClient.APIError.unknown
+
+    let store = withDependencies {
+      $0.apiClient.toggleFavorite = { _ in throw responseError }
+    } operation: {
+      TestStore(
+        initialState: PlayerReducer.State(
+          currentSong: currenSong
+        ),
+        reducer: PlayerReducer()
+      )
+    }
+
+    await store.send(.toggleFavorite) {
+      $0.currentSong?.isFavorited = true
+    }
+
+    await store.receive(.toggleFavoriteResponse(.failure(responseError))) {
+      $0.currentSong?.isFavorited = false
+      $0.alert = .init(title: .init(responseError.localizedString))
+    }
+  }
+
+  func testTogglePlaylistVisible() async throws {
+    let store = TestStore(
+      initialState: PlayerReducer.State(),
+      reducer: PlayerReducer()
+    )
+
+    await store.send(.togglePlaylistVisible) {
+      $0.isPlaylistVisible = true
+    }
+  }
+
+  func testSeekToRatio() async throws {
+    let currenSong = try songs(id: 1)
+    let store = TestStore(
+      initialState: PlayerReducer.State(
+        currentSong: currenSong
+      ),
+      reducer: PlayerReducer()
+    )
+
+    let seekRation = 0.5
+
+    await store.send(.seekToRatio(seekRation))
+    await store.receive(.seekToPosition(currenSong.duration * seekRation))
+  }
+
+  func testSeekToPosition() async throws {
+    let getCurrentTimeTask = AsyncStream.makeStream(of: Double.self)
+    let currenSong = try songs(id: 1)
+
+    let store = withDependencies {
+      $0.playerClient.getCurrentTime = { getCurrentTimeTask.stream }
+      $0.playerClient.seek = { time in
+        getCurrentTimeTask.continuation.yield(time.seconds)
+        getCurrentTimeTask.continuation.finish()
+      }
+    } operation: {
+      TestStore(
+        initialState: PlayerReducer.State(
+          currentSong: currenSong
+        ),
+        reducer: PlayerReducer()
+      )
+    }
+
+    let seekPosition = currenSong.duration * 0.5
+    let seekTime = CMTime(seconds: seekPosition, preferredTimescale: 1)
+
+    await store.send(.seekToPosition(seekPosition))
+    await store.send(.getCurrentTime)
+
+    await store.receive(.updateCurrentTime(seekTime.seconds)) {
+      $0.currentTime = seekTime.seconds
+    }
+
+    await store.finish()
+  }
+
+  func testWillPlayNextSongAfterSongEnded() async throws {
+    let getStatusTask = AsyncStream.makeStream(of: PlayerClient.Status.self)
+
+    let store = withDependencies {
+      $0.playerClient.getStatus = { getStatusTask.stream }
+    } operation: {
+      TestStore(
+        initialState: PlayerReducer.State(),
+        reducer: PlayerReducer()
+      )
+    }
+
+    store.exhaustivity = .off
+
+    await store.send(.getStatus)
+
+    getStatusTask.continuation.yield(.end)
+    getStatusTask.continuation.finish()
+
+    await store.receive(.next)
+  }
+
+  func testWillPlayRepeatedlyAfterSongEndedWhenPlayModeIsSingle() async throws {
+    let getStatusTask = AsyncStream.makeStream(of: PlayerClient.Status.self)
+    var playlist = Playlist()
+    let songs = try songs()
+
+    playlist.update(songs: songs)
+
+    let store = withDependencies {
+      $0.playerClient.getStatus = { getStatusTask.stream }
+      $0.playerClient.replay = {
+        getStatusTask.continuation.yield(.playing)
+        getStatusTask.continuation.finish()
+      }
+    } operation: {
+      TestStore(
+        initialState: PlayerReducer.State(
+          playlist: playlist,
+          currentSong: songs.first,
+          mode: .single
+        ),
+        reducer: PlayerReducer()
+      )
+    }
+
+    await store.send(.getStatus)
+
+    getStatusTask.continuation.yield(.end)
+
+    await store.receive(.handleStatusChange(.end)) {
+      $0.status = .end
+    }
+
+    await store.receive(.handleStatusChange(.playing)) {
+      $0.status = .playing
+    }
+
+    XCTAssertEqual(store.state.currentSong, songs.first)
+  }
+
+  func testToggleNextMode() async throws {
+    let store = TestStore(
+      initialState: PlayerReducer.State(
+        mode: .repead
+      ),
+      reducer: PlayerReducer()
+    )
+
+    await store.send(.nextMode) {
+      $0.mode = .single
+    }
+
+    await store.send(.nextMode) {
+      $0.mode = .shuffle
+      $0.playlist.isShuffled = true
+    }
+  }
+
+  func testDeleteSongs() async throws {
+    var playlist = Playlist()
+    let songs = try songs()
+
+    playlist.update(songs: songs)
+
+    let store = TestStore(
+      initialState: PlayerReducer.State(playlist: playlist),
+      reducer: PlayerReducer()
+    )
+
+    store.exhaustivity = .off
+
+    await store.send(.deleteSongs(.init(arrayLiteral: 0, 1)))
+
+    XCTAssertFalse(store.state.playlist.songs.contains(where: { [1, 2].contains($0.id) }))
+  }
+
+  func testDeleteCurrentPlayingSong() async throws {
+    let getStatusTask = AsyncStream.makeStream(of: PlayerClient.Status.self)
+    var playlist = Playlist()
+    let songs = try songs()
+
+    playlist.update(songs: songs)
+
+    let store = withDependencies {
+      $0.playerClient.getStatus = { getStatusTask.stream }
+      $0.playerClient.stop = {
+        getStatusTask.continuation.yield(.pause)
+        getStatusTask.continuation.finish()
+      }
+    } operation: {
+      TestStore(
+        initialState: PlayerReducer.State(
+          playlist: playlist,
+          currentSong: songs.first,
+          status: .playing
+        ),
+        reducer: PlayerReducer()
+      )
+    }
+
+    store.exhaustivity = .off
+
+    await store.send(.getStatus)
+    await store.send(.deleteSongs(.init(arrayLiteral: 0))) {
+      $0.currentSong = nil
+    }
+
+    await store.receive(.handleStatusChange(.pause))
+
+    XCTAssertFalse(store.state.playlist.songs.contains(where: { $0.id == 1 }))
+  }
+
+  func testMoveSong() async throws {
+    var playlist = Playlist()
+    let songs = try songs()
+
+    playlist.update(songs: songs)
+
+    let store = TestStore(
+      initialState: PlayerReducer.State(playlist: playlist),
+      reducer: PlayerReducer()
+    )
+
+    store.exhaustivity = .off
+
+    await store.send(.moveSongs(.init(arrayLiteral: 0), 2))
+
+    XCTAssertEqual(store.state.playlist.songs.map({$0.id}), [2, 1, 3, 4, 5])
+  }
+
+  func testGetCurrentPlaylist() async throws {
+    let songs = try songs()
+    let store = withDependencies {
+      $0.apiClient.getCurrentPlaylistSongs = { songs }
+    } operation: {
+      TestStore(
+        initialState: PlayerReducer.State(),
+        reducer: PlayerReducer()
+      )
+    }
+
+    store.exhaustivity = .off
+
+    await store.send(.getCurrentPlaylist)
+
+    await store.receive(.currentPlaylistResponse(.success(songs))) {
+      $0.playlist.orderedSongs = songs
+      $0.currentSong = songs.first
+    }
+  }
+
+  func testPlayAll() async throws {
+    let songs = try songs()
+    let store = withDependencies {
+      $0.apiClient.getCurrentPlaylistSongs = { songs }
+    } operation: {
+      TestStore(
+        initialState: PlayerReducer.State(),
+        reducer: PlayerReducer()
+      )
+    }
+
+    store.exhaustivity = .off
+
+    await store.send(.playAll)
+
+    await store.receive(.playAllResponse(.success(songs))) {
+      $0.playlist.orderedSongs = songs
+      $0.currentSong = songs.first
+    }
+
+    await store.receive(.playOn(0))
+  }
+
+  func testPlaySongInPlaylist() async throws {
+    var playlist = Playlist()
+    let songs = try songs()
+
+    playlist.update(songs: songs)
+
+    let store = TestStore(
+      initialState: PlayerReducer.State(playlist: playlist),
+      reducer: PlayerReducer()
+    )
+
+    await store.send(.playSong(1))
+
+    await store.receive(.playOn(0)) {
+      $0.currentSong = songs.first
+    }
+  }
+
+  func testPlaySongNotInPlaylist() async throws {
+    var playlist = Playlist()
+    let song = try songs(id: 1)
+    let playingSong = try songs(id: 2)
+
+    playlist.update(songs: [song])
+
+    let store = withDependencies {
+      $0.apiClient.getSong = { _ in  playingSong }
+    } operation: {
+      TestStore(
+        initialState: PlayerReducer.State(playlist: playlist),
+        reducer: PlayerReducer()
+      )
+    }
+
+    store.exhaustivity = .off
+
+    await store.send(.playSong(2))
+
+    await store.receive(.playSongResponse(.success(playingSong))) {
+      $0.playlist.orderedSongs = [song, playingSong]
+    }
+
+    await store.receive(.playOn(1))
   }
 }
