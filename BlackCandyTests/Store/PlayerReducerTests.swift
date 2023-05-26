@@ -569,4 +569,27 @@ final class PlayerReducerTests: XCTestCase {
 
     await store.receive(.playOn(1))
   }
+
+  func testAddSongIntoEmptyPlaylist() async throws {
+    let song = try songs(id: 1)
+
+    let store = withDependencies {
+      $0.apiClient.getSong = { _ in song }
+    } operation: {
+      TestStore(
+        initialState: PlayerReducer.State(),
+        reducer: PlayerReducer()
+      )
+    }
+
+    store.exhaustivity = .off
+
+    await store.send(.playSong(1))
+
+    await store.receive(.playSongResponse(.success(song))) {
+      $0.playlist.orderedSongs = [song]
+    }
+
+    await store.receive(.playOn(0))
+  }
 }

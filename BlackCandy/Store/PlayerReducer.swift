@@ -257,7 +257,7 @@ struct PlayerReducer: ReducerProtocol {
       }
 
     case let .playSongResponse(.success(song)):
-      let insertIndex = state.currentIndex + 1
+      let insertIndex = min(state.currentIndex + 1, state.playlist.songs.endIndex)
       state.playlist.insert(song, at: insertIndex)
 
       return .task {
