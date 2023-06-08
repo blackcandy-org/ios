@@ -552,6 +552,7 @@ final class PlayerReducerTests: XCTestCase {
 
     let store = withDependencies {
       $0.apiClient.getSong = { _ in  playingSong }
+      $0.apiClient.addCurrentPlaylistSong = { _, _ in playingSong}
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(playlist: playlist),
@@ -575,6 +576,7 @@ final class PlayerReducerTests: XCTestCase {
 
     let store = withDependencies {
       $0.apiClient.getSong = { _ in song }
+      $0.apiClient.addCurrentPlaylistSong = { _, _ in song }
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(),
