@@ -10,6 +10,7 @@ struct APIClient {
   var moveCurrentPlaylistSongs: (Int, Int) async throws -> NoContentResponse
   var getSong: (Int) async throws -> Song
   var getSystemInfo: (ServerAddressState) async throws -> SystemInfo
+  var addCurrentPlaylistSong: (Int, Song?) async throws -> Song
 }
 
 extension APIClient: TestDependencyKey {
@@ -32,7 +33,9 @@ extension APIClient: TestDependencyKey {
 
     getSong: unimplemented("\(Self.self).getSong"),
 
-    getSystemInfo: unimplemented("\(Self.self).getSystemInfo")
+    getSystemInfo: unimplemented("\(Self.self).getSystemInfo"),
+
+    addCurrentPlaylistSong: unimplemented("\(Self.self).addCurrentPlaylistSong")
   )
 }
 

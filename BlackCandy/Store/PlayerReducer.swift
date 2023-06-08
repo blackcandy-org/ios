@@ -251,8 +251,10 @@ struct PlayerReducer: ReducerProtocol {
           .playOn(songIndex)
         }
       } else {
-        return .task {
-          await .playSongResponse(TaskResult { try await apiClient.getSong(songId) })
+        return .task { [currentSong = state.currentSong] in
+          await .playSongResponse(TaskResult {
+            try await apiClient.addCurrentPlaylistSong(songId, currentSong)
+          })
         }
       }
 

@@ -24,7 +24,7 @@ extension APIClient: DependencyKey {
     }
 
     func requestURL(_ path: String) -> URL {
-      userDefaultClient.serverAddress()!.appendingPathComponent(path)
+      userDefaultClient.serverAddress()!.appendingPathComponent("/api/v1\(path)")
     }
 
     func decodeJSON(_ data: Data) -> [String: Any]? {
@@ -97,7 +97,7 @@ extension APIClient: DependencyKey {
         ]
 
         let request = AF.request(
-          requestURL("/api/v1/authentication"),
+          requestURL("/authentication"),
           method: .post,
           parameters: parameters,
           headers: headers
@@ -124,7 +124,7 @@ extension APIClient: DependencyKey {
 
       getCurrentPlaylistSongs: {
         let request = AF.request(
-          requestURL("/api/v1/current_playlist/songs"),
+          requestURL("/current_playlist/songs"),
           headers: headers
         )
           .validate()
@@ -137,7 +137,7 @@ extension APIClient: DependencyKey {
 
       toggleFavorite: { song in
         let request = AF.request(
-          requestURL("/api/v1/favorite_playlist/songs"),
+          requestURL("/favorite_playlist/songs"),
           method: song.isFavorited ? .delete : .post,
           parameters: ["song_id": song.id],
           headers: headers
@@ -152,7 +152,7 @@ extension APIClient: DependencyKey {
 
       deleteCurrentPlaylistSongs: { songs in
         let request = AF.request(
-          requestURL("/api/v1/current_playlist/songs"),
+          requestURL("/current_playlist/songs"),
           method: .delete,
           parameters: ["song_ids": songs.map { $0.id }],
           headers: headers
@@ -167,7 +167,7 @@ extension APIClient: DependencyKey {
 
       moveCurrentPlaylistSongs: { fromPosition, toPosition in
         let request = AF.request(
-          requestURL("/api/v1/current_playlist/songs"),
+          requestURL("/current_playlist/songs"),
           method: .patch,
           parameters: ["from_position": fromPosition, "to_position": toPosition],
           headers: headers
@@ -182,7 +182,7 @@ extension APIClient: DependencyKey {
 
       getSong: { songId in
         let request = AF.request(
-          requestURL("/api/v1/songs/\(songId)"),
+          requestURL("/songs/\(songId)"),
           headers: headers
         )
           .validate()
@@ -210,6 +210,27 @@ extension APIClient: DependencyKey {
           systemInfo.serverAddress = serverAddressUrlComponents.url
 
           return systemInfo
+        }
+      },
+
+      addCurrentPlaylistSong: { songId, currentSong in
+        var parameters = ["song_id": songId]
+
+        if let currentSongId = currentSong?.id {
+          parameters["current_song_id"] = currentSongId
+        }
+
+        let request = AF.request(
+          requestURL("/current_playlist/songs"),
+          method: .post,
+          parameters: parameters,
+          headers: headers
+        )
+          .validate()
+          .serializingDecodable(Song.self, decoder: jsonDecoder)
+
+        return try await handleRequest(request) { request, _ in
+          try await request.value
         }
       }
     )

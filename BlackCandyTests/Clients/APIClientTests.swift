@@ -181,6 +181,38 @@ final class APIClientTests: XCTestCase {
 
       XCTAssertEqual(error, APIClient.APIError.badRequest(errorMessage))
     }
+  }
 
+  func testAddCurrentPlaylistSong() async throws {
+    let responseJSON = """
+      {
+        "id":1,
+        "name":"sample1",
+        "duration": 129.0,
+        "url":"http://localhost:3000/api/v1/stream/new?song_id=1",
+        "album_name":"sample album",
+        "artist_name":"sample artist",
+        "is_favorited":false,
+        "format":"mp3",
+        "album_image_url":{
+          "small":"http://localhost:3000/uploads/album/image/1/small.jpg",
+          "medium":"http://localhost:3000/uploads/album/image/1/medium.jpg",
+          "large":"http://localhost:3000/uploads/album/image/1/large.jpg"
+        }
+      }
+    """.data(using: .utf8)!
+
+    let currentSong = try songs(id: 2)
+
+    stub(condition: isMethodPOST() && isPath("/api/v1/current_playlist/songs")) { _ in
+      return .init(data: responseJSON, statusCode: 200, headers: nil)
+    }
+
+    let response = try await apiClient.addCurrentPlaylistSong(1, currentSong)
+
+    XCTAssertEqual(response.id, 1)
+    XCTAssertEqual(response.name, "sample1")
+    XCTAssertEqual(response.isFavorited, false)
+    XCTAssertEqual(response.albumImageUrl.small, URL(string: "http://localhost:3000/uploads/album/image/1/small.jpg"))
   }
 }
