@@ -23,11 +23,4 @@ class TurboVisitableViewController: VisitableViewController, UISearchBarDelegate
 
     visitableView.webView?.evaluateJavaScript("App.nativeBridge.search('\(searchText)')")
   }
-
-  override func visitableDidRender() {
-    visitableView.webView?.evaluateJavaScript("App.nativeBridge.nativeTitle") { (title, error) -> Void in
-      guard error == nil && title != nil else { return }
-      self.title = title as? String
-    }
-  }
 }
