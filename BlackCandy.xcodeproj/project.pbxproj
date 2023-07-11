@@ -27,7 +27,6 @@
 		643C0B4F299A5CEC0077EF8D /* UserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643C0B4E299A5CEC0077EF8D /* UserTests.swift */; };
 		644E9B41295AC796000DB3E3 /* SideBarNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E9B40295AC796000DB3E3 /* SideBarNavigationViewController.swift */; };
 		644E9B43295AC7C0000DB3E3 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E9B42295AC7C0000DB3E3 /* TabBarViewController.swift */; };
-		645B8A7A2962ACD700E15B9C /* BlackCandyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645B8A792962ACD700E15B9C /* BlackCandyApp.swift */; };
 		645D7067299B18F30020146A /* PlaylistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D7066299B18F30020146A /* PlaylistTests.swift */; };
 		645D706A299B26140020146A /* songs.json in Resources */ = {isa = PBXBuildFile; fileRef = 645D7069299B26140020146A /* songs.json */; };
 		645D706C299B52EA0020146A /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D706B299B52EA0020146A /* TestHelper.swift */; };
@@ -51,6 +50,8 @@
 		64D6BC75299C7E9D005B1078 /* LoginStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D6BC74299C7E9D005B1078 /* LoginStateTests.swift */; };
 		64D6BC77299C8658005B1078 /* ServerAddressStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D6BC76299C8658005B1078 /* ServerAddressStateTests.swift */; };
 		64EAB25E2A1B0A4300F83F15 /* PlayerReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EAB25D2A1B0A4300F83F15 /* PlayerReducerTests.swift */; };
+		64FF43A62A5D36A100BF3055 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FF43A42A5D36A100BF3055 /* SceneDelegate.swift */; };
+		64FF43A72A5D36A100BF3055 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FF43A52A5D36A100BF3055 /* AppDelegate.swift */; };
 		DD0A346C28E3E02E002211AE /* PlayerSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */; };
 		DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD18369227CC9FF60018ECF5 /* TurboSession.swift */; };
 		DD2332BE28FE49AA005E3F4F /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2332BD28FE49AA005E3F4F /* AppStore.swift */; };
@@ -143,7 +144,6 @@
 		643C0B4E299A5CEC0077EF8D /* UserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTests.swift; sourceTree = "<group>"; };
 		644E9B40295AC796000DB3E3 /* SideBarNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarNavigationViewController.swift; sourceTree = "<group>"; };
 		644E9B42295AC7C0000DB3E3 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
-		645B8A792962ACD700E15B9C /* BlackCandyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackCandyApp.swift; sourceTree = "<group>"; };
 		645D7066299B18F30020146A /* PlaylistTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTests.swift; sourceTree = "<group>"; };
 		645D7069299B26140020146A /* songs.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = songs.json; sourceTree = "<group>"; };
 		645D706B299B52EA0020146A /* TestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelper.swift; sourceTree = "<group>"; };
@@ -164,6 +164,8 @@
 		64D6BC74299C7E9D005B1078 /* LoginStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStateTests.swift; sourceTree = "<group>"; };
 		64D6BC76299C8658005B1078 /* ServerAddressStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAddressStateTests.swift; sourceTree = "<group>"; };
 		64EAB25D2A1B0A4300F83F15 /* PlayerReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerReducerTests.swift; sourceTree = "<group>"; };
+		64FF43A42A5D36A100BF3055 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		64FF43A52A5D36A100BF3055 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DD0A346B28E3E02E002211AE /* PlayerSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSliderView.swift; sourceTree = "<group>"; };
 		DD18369227CC9FF60018ECF5 /* TurboSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboSession.swift; sourceTree = "<group>"; };
 		DD2332BD28FE49AA005E3F4F /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
@@ -456,7 +458,8 @@
 		DD62F4CA27C769CC005A5D0B /* BlackCandy */ = {
 			isa = PBXGroup;
 			children = (
-				645B8A792962ACD700E15B9C /* BlackCandyApp.swift */,
+				64FF43A52A5D36A100BF3055 /* AppDelegate.swift */,
+				64FF43A42A5D36A100BF3055 /* SceneDelegate.swift */,
 				DD18368F27CC79EF0018ECF5 /* Views */,
 				644E9B3F295AC73A000DB3E3 /* ViewControllers */,
 				DD18368D27CC79BF0018ECF5 /* Turbo */,
@@ -719,6 +722,7 @@
 				DD2332BE28FE49AA005E3F4F /* AppStore.swift in Sources */,
 				641B5D8E2A12046600ECA220 /* LiveUserDefaultsClient.swift in Sources */,
 				DDAD9DCC28E28E5900F8C96F /* PlayerActionsView.swift in Sources */,
+				64FF43A72A5D36A100BF3055 /* AppDelegate.swift in Sources */,
 				641B5D962A1209C000ECA220 /* LivePlayerClient.swift in Sources */,
 				641B5D982A120B9800ECA220 /* LiveNowPlayingClient.swift in Sources */,
 				647623782949A77C00333378 /* AppReducer.swift in Sources */,
@@ -737,7 +741,6 @@
 				DD751E102888F2DD00B8128E /* UserDefaultsClient.swift in Sources */,
 				64B40E2729519E43009726CE /* HomeView.swift in Sources */,
 				DD6E0EAE2885380C00F39DB3 /* LoginView.swift in Sources */,
-				645B8A7A2962ACD700E15B9C /* BlackCandyApp.swift in Sources */,
 				DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */,
 				DDE710EE28D05DED00CE7494 /* PlayerPlaylistView.swift in Sources */,
 				DD7671C9290B76AE00F92825 /* RemoteControl.swift in Sources */,
@@ -749,6 +752,7 @@
 				DD87EAE228CF0A940062DFE6 /* Playlist.swift in Sources */,
 				DDB453A127CF11EF003BA1F9 /* TurboNavigationController.swift in Sources */,
 				DDA1A70828D3041F009D80C6 /* PlayerClient.swift in Sources */,
+				64FF43A62A5D36A100BF3055 /* SceneDelegate.swift in Sources */,
 				DDBE510128D1A4FD0049D754 /* CustomFormatter.swift in Sources */,
 				DDB96C2B28FD5B3300CFFD44 /* TurboScriptMessageHandler.swift in Sources */,
 				641B5D902A12058C00ECA220 /* LiveCookiesClient.swift in Sources */,
