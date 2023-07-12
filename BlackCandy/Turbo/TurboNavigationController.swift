@@ -111,6 +111,6 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
   }
 
   @objc func showAccount() {
-    viewStore.send(.updateAccountSheetVisible(true))
+    present(UIHostingController(rootView: AccountView(store: AppStore.shared)), animated: true)
   }
 }

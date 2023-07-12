@@ -9,13 +9,13 @@ struct AppReducer: ReducerProtocol {
   @Dependency(\.keychainClient) var keychainClient
   @Dependency(\.jsonDataClient) var jsonDataClient
   @Dependency(\.playerClient) var playerClient
+  @Dependency(\.windowClient) var windowClient
 
   struct State: Equatable {
     var alert: AlertState<Action>?
     var serverAddress: URL?
     var currentUser: User?
     var currentTheme = Theme.auto
-    var isAccountSheetVisible = false
     var isLoginViewVisible = false
 
     var isLoggedIn: Bool {
@@ -52,7 +52,6 @@ struct AppReducer: ReducerProtocol {
     case restoreStates
     case logout
     case updateTheme(State.Theme)
-    case updateAccountSheetVisible(Bool)
     case updateLoginViewVisible(Bool)
     case player(PlayerReducer.Action)
   }
@@ -104,6 +103,9 @@ struct AppReducer: ReducerProtocol {
 
         state.currentUser = response.user
 
+        let playerStore = AppStore.shared.scope(state: \.player, action: AppReducer.Action.player)
+        windowClient.changeRootViewController(SplitViewController(store: playerStore))
+
         return .none
 
       case .restoreStates:
@@ -116,6 +118,8 @@ struct AppReducer: ReducerProtocol {
         keychainClient.deleteAPIToken()
         cookiesClient.cleanCookies(nil)
         jsonDataClient.deleteCurrentUser()
+
+        windowClient.changeRootViewController(UIHostingController(rootView: ServerAddressView(store: AppStore.shared)))
 
         state.currentUser = nil
 
@@ -130,10 +134,6 @@ struct AppReducer: ReducerProtocol {
 
       case let .updateTheme(theme):
         state.currentTheme = theme
-        return .none
-
-      case let .updateAccountSheetVisible(isVisible):
-        state.isAccountSheetVisible = isVisible
         return .none
 
       case let .updateLoginViewVisible(isVisible):

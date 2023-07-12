@@ -5,7 +5,6 @@ import ComposableArchitecture
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   var window: UIWindow?
-  var cancellables: Set<AnyCancellable> = []
 
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
     // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -17,13 +16,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let viewStore = ViewStore(AppStore.shared)
     let playerStore = AppStore.shared.scope(state: \.player, action: AppReducer.Action.player)
 
-    viewStore.publisher
-      .map { $0.isLoggedIn ?
-        SplitViewController(store: playerStore) :
-        UIHostingController(rootView: ServerAddressView(store: AppStore.shared))
-      }
-      .assign(to: \.rootViewController, on: window)
-      .store(in: &self.cancellables)
+    if viewStore.isLoggedIn {
+      window.rootViewController = SplitViewController(store: playerStore)
+    } else {
+      window.rootViewController = UIHostingController(rootView: ServerAddressView(store: AppStore.shared))
+    }
 
     self.window = window
 

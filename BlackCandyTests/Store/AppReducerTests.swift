@@ -180,14 +180,6 @@ final class AppReducerTests: XCTestCase {
     }
   }
 
-  func testUpdateAccountSheetVisible() async throws {
-    let store = TestStore(initialState: AppReducer.State(), reducer: AppReducer())
-
-    await store.send(.updateAccountSheetVisible(true)) {
-      $0.isAccountSheetVisible = true
-    }
-  }
-
   func testUpdateLoginViewVisible() async throws {
     let store = TestStore(initialState: AppReducer.State(), reducer: AppReducer())
 

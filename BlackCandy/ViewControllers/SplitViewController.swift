@@ -2,19 +2,12 @@ import UIKit
 import ComposableArchitecture
 import SwiftUI
 
-struct SplitView: UIViewControllerRepresentable {
-  let store: StoreOf<PlayerReducer>
-
-  func makeUIViewController(context: Context) -> SplitViewController {
-    return SplitViewController(store: store)
-  }
-
-  func updateUIViewController(_ uiViewController: SplitViewController, context: Context) {
-  }
-}
-
 class SplitViewController: UISplitViewController, UISplitViewControllerDelegate {
+  let viewStore: ViewStoreOf<PlayerReducer>
+
   init(store: StoreOf<PlayerReducer>) {
+    viewStore = ViewStore(store)
+
     super.init(style: .doubleColumn)
 
     let tabBarViewController = TabBarViewController(store: store)
@@ -32,6 +25,10 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
 
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+
+  override func viewDidAppear(_ animated: Bool) {
+    viewStore.send(.getCurrentPlaylist)
   }
 
   func splitViewControllerDidExpand(_ svc: UISplitViewController) {
