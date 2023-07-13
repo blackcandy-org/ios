@@ -18,9 +18,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let viewStore = ViewStore(store)
 
     if viewStore.isLoggedIn {
-      window.rootViewController = SplitViewController(store: store)
+      window.rootViewController = MainViewController(store: store)
     } else {
-      window.rootViewController = UIHostingController(rootView: ServerAddressView(store: store))
+      window.rootViewController = UIHostingController(
+        rootView: LoginView(store: store)
+          .alert(store.scope(state: \.alert, action: { $0 }), dismiss: .dismissAlert)
+      )
     }
 
     viewStore.publisher

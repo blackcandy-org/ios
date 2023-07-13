@@ -1,9 +1,11 @@
 import UIKit
 import ComposableArchitecture
 import SwiftUI
+import Combine
 
-class SplitViewController: UISplitViewController, UISplitViewControllerDelegate {
+class MainViewController: UISplitViewController, UISplitViewControllerDelegate {
   let viewStore: ViewStoreOf<AppReducer>
+  var cancellables: Set<AnyCancellable> = []
 
   init(store: StoreOf<AppReducer>) {
     viewStore = ViewStore(store)
@@ -30,6 +32,29 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
 
   override func viewDidAppear(_ animated: Bool) {
     viewStore.send(.player(.getCurrentPlaylist))
+  }
+
+  override func viewDidLoad() {
+    self.viewStore.publisher.alert
+      .sink { [weak self] alert in
+        guard let self = self else { return }
+        guard let alert = alert else { return }
+
+        let alertController = UIAlertController(
+          title: String(state: alert.title),
+          message: nil,
+          preferredStyle: .alert
+        )
+
+        alertController.addAction(
+          UIAlertAction(title: NSLocalizedString("label.ok", comment: ""), style: .default) { _ in
+            self.viewStore.send(.dismissAlert)
+          }
+        )
+
+        self.present(alertController, animated: true, completion: nil)
+      }
+      .store(in: &self.cancellables)
   }
 
   func splitViewControllerDidExpand(_ svc: UISplitViewController) {
