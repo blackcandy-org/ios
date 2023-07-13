@@ -103,8 +103,7 @@ struct AppReducer: ReducerProtocol {
 
         state.currentUser = response.user
 
-        let playerStore = AppStore.shared.scope(state: \.player, action: AppReducer.Action.player)
-        windowClient.changeRootViewController(SplitViewController(store: playerStore))
+        windowClient.changeRootViewController(SplitViewController(store: AppStore.shared))
 
         return .none
 
@@ -157,12 +156,23 @@ extension AppReducer.State {
     case light
     case dark
 
+    var interfaceStyle: UIUserInterfaceStyle {
+      switch self {
+      case .dark:
+        return .dark
+      case .light:
+        return .light
+      case .auto:
+        return .unspecified
+      }
+    }
+
     var colorScheme: ColorScheme? {
       switch self {
       case .dark:
-        return ColorScheme.dark
+        return .dark
       case .light:
-        return ColorScheme.light
+        return .light
       case .auto:
         return nil
       }

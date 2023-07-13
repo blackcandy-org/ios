@@ -40,6 +40,11 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
     super.viewDidLoad()
 
     let visitableViewController = TurboVisitableViewController(url: url)
+    let navigationBarAppearance = UINavigationBarAppearance()
+    navigationBarAppearance.configureWithDefaultBackground()
+
+    navigationBar.standardAppearance = navigationBarAppearance
+    navigationBar.scrollEdgeAppearance = navigationBarAppearance
 
     visitableViewController.hasSearchBar = hasSearchBar
 

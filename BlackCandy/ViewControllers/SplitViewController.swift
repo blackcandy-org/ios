@@ -3,15 +3,16 @@ import ComposableArchitecture
 import SwiftUI
 
 class SplitViewController: UISplitViewController, UISplitViewControllerDelegate {
-  let viewStore: ViewStoreOf<PlayerReducer>
+  let viewStore: ViewStoreOf<AppReducer>
 
-  init(store: StoreOf<PlayerReducer>) {
+  init(store: StoreOf<AppReducer>) {
     viewStore = ViewStore(store)
 
     super.init(style: .doubleColumn)
 
-    let tabBarViewController = TabBarViewController(store: store)
-    let sidebarViewController = UIHostingController(rootView: SideBarView(store: store))
+    let playerStore = store.scope(state: \.player, action: AppReducer.Action.player)
+    let tabBarViewController = TabBarViewController(store: playerStore)
+    let sidebarViewController = UIHostingController(rootView: SideBarView(store: playerStore))
 
     preferredDisplayMode = .oneBesideSecondary
     preferredSplitBehavior = .tile
@@ -28,7 +29,7 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
   }
 
   override func viewDidAppear(_ animated: Bool) {
-    viewStore.send(.getCurrentPlaylist)
+    viewStore.send(.player(.getCurrentPlaylist))
   }
 
   func splitViewControllerDidExpand(_ svc: UISplitViewController) {
