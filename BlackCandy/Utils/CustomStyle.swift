@@ -35,7 +35,7 @@ struct CustomStyle {
 
   static let playerImageSize: CGFloat = 200
   static let playerMaxWidth: CGFloat = 350
-  static let playlistMinHeight: CGFloat = 350
+  static let sideBarPlayerHeight: CGFloat = 550
 
   static func spacing(_ spacing: Spacing) -> CGFloat {
     spacing.rawValue

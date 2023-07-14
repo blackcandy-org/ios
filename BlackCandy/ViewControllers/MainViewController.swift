@@ -14,7 +14,7 @@ class MainViewController: UISplitViewController, UISplitViewControllerDelegate {
 
     let playerStore = store.scope(state: \.player, action: AppReducer.Action.player)
     let tabBarViewController = TabBarViewController(store: playerStore)
-    let sidebarViewController = UIHostingController(rootView: SideBarView(store: playerStore))
+    let sidebarViewController = SideBarViewController(store: playerStore)
 
     preferredDisplayMode = .oneBesideSecondary
     preferredSplitBehavior = .tile
