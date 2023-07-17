@@ -103,7 +103,7 @@ struct AppReducer: ReducerProtocol {
 
         state.currentUser = response.user
 
-        windowClient.changeRootViewController(MainViewController(store: AppStore.shared))
+        windowClient.switchToMainView()
 
         return .none
 
@@ -118,7 +118,7 @@ struct AppReducer: ReducerProtocol {
         cookiesClient.cleanCookies(nil)
         jsonDataClient.deleteCurrentUser()
 
-        windowClient.changeRootViewController(UIHostingController(rootView: LoginView(store: AppStore.shared)))
+        windowClient.switchToLoginView()
 
         state.currentUser = nil
 

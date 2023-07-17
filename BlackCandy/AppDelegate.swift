@@ -4,6 +4,8 @@ import ComposableArchitecture
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    guard !_XCTIsTesting else { return true }
+
     ViewStore(AppStore.shared.stateless, removeDuplicates: ==).send(.restoreStates)
 
     AudioSessionControl.shared.setup()

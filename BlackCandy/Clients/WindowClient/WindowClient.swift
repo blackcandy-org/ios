@@ -3,12 +3,14 @@ import Dependencies
 import UIKit
 
 struct WindowClient {
-  var changeRootViewController: (UIViewController) -> Void
+  var switchToMainView: () -> Void
+  var switchToLoginView: () -> Void
 }
 
 extension WindowClient: TestDependencyKey {
   static let testValue = Self(
-    changeRootViewController: { _ in }
+    switchToMainView: {},
+    switchToLoginView: {}
   )
 }
 
