@@ -51,7 +51,6 @@ struct PlayerPlaylistView: View {
           .listRowBackground(Color.clear)
         }
         .listStyle(.plain)
-        .frame(minHeight: CustomStyle.playlistMinHeight)
       }
     }
   }

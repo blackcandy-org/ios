@@ -30,13 +30,13 @@ class PlayerViewController: UIHostingController<PlayerView> {
         let nextButton = UIBarButtonItem(image: .init(systemName: "forward.fill"), style: .plain, target: self, action: #selector(self.nextSong))
 
         pauseButton.isEnabled = state.hasCurrentSong
-        pauseButton.tintColor = UIColor(.primary)
+        pauseButton.tintColor = .label
 
         playButton.isEnabled = state.hasCurrentSong
-        playButton.tintColor = UIColor(.primary)
+        playButton.tintColor = .label
 
         nextButton.isEnabled = state.hasCurrentSong
-        nextButton.tintColor = UIColor(.primary)
+        nextButton.tintColor = .label
 
         return state.isPlaying ? [pauseButton, nextButton] : [playButton, nextButton]
       }

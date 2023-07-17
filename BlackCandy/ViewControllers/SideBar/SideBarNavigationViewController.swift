@@ -1,15 +1,6 @@
 import UIKit
 import SwiftUI
 
-struct SideBarNavigationView: UIViewControllerRepresentable {
-  func makeUIViewController(context: Context) -> SideBarNavigationViewController {
-    return SideBarNavigationViewController()
-  }
-
-  func updateUIViewController(_ uiViewController: SideBarNavigationViewController, context: Context) {
-  }
-}
-
 class SideBarNavigationViewController: UICollectionViewController {
   private var dataSource: UICollectionViewDiffableDataSource<SidebarSection, TabItem>!
 

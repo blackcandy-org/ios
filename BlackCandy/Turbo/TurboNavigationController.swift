@@ -40,6 +40,11 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
     super.viewDidLoad()
 
     let visitableViewController = TurboVisitableViewController(url: url)
+    let navigationBarAppearance = UINavigationBarAppearance()
+    navigationBarAppearance.configureWithDefaultBackground()
+
+    navigationBar.standardAppearance = navigationBarAppearance
+    navigationBar.scrollEdgeAppearance = navigationBarAppearance
 
     visitableViewController.hasSearchBar = hasSearchBar
 
@@ -111,6 +116,6 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
   }
 
   @objc func showAccount() {
-    viewStore.send(.updateAccountSheetVisible(true))
+    present(UIHostingController(rootView: AccountView(store: AppStore.shared)), animated: true)
   }
 }
