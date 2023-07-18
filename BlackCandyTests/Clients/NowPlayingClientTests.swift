@@ -18,14 +18,19 @@ final class NowPlayingClientTests: XCTestCase {
     HTTPStubs.removeAllStubs()
   }
 
-  func testUpdateNowPlayingInfo() throws {
-    nowPlayingClient.updateInfo(playingSong)
+  func testUpdateNowPlayingInfo() async throws {
+    stub(condition: isAbsoluteURLString(playingSong.albumImageUrl.large.absoluteString) ) { _ in
+      return .init(fileAtPath: OHPathForFile("cover_image.jpg", type(of: self))!, statusCode: 200, headers: ["Content-Type": "image/jpeg"])
+    }
+
+    await nowPlayingClient.updateInfo(playingSong)
 
     let nowPlayingInfo =  MPNowPlayingInfoCenter.default().nowPlayingInfo
     XCTAssertEqual(nowPlayingInfo?[MPMediaItemPropertyTitle] as! String, playingSong.name)
     XCTAssertEqual(nowPlayingInfo?[MPMediaItemPropertyArtist] as! String, playingSong.artistName)
     XCTAssertEqual(nowPlayingInfo?[MPMediaItemPropertyAlbumTitle] as! String, playingSong.albumName)
     XCTAssertEqual(nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] as! Double, playingSong.duration)
+    XCTAssertNotNil(nowPlayingInfo?[MPMediaItemPropertyArtwork] as! MPMediaItemArtwork)
   }
 
   func testUpdateNowPlayingPlaybackInfo() throws {
@@ -34,22 +39,5 @@ final class NowPlayingClientTests: XCTestCase {
     let nowPlayingInfo =  MPNowPlayingInfoCenter.default().nowPlayingInfo
     XCTAssertEqual(nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] as! Float, 1.5)
     XCTAssertEqual(nowPlayingInfo?[MPNowPlayingInfoPropertyPlaybackRate] as! Float, 1)
-  }
-
-  func testUpdateAlbumImageToNowPlayingInfo() throws {
-    stub(condition: isPath("/cover_image.jpg") ) { _ in
-      return .init(fileAtPath: OHPathForFile("cover_image.jpg", type(of: self))!, statusCode: 200, headers: ["Content-Type": "image/jpeg"])
-    }
-
-    let expectation = XCTestExpectation(description: "Update album image to info")
-
-    NowPlayingClient.updateAlbumImage(url: URL(string: "http://localhost:3000/cover_image.jpg")!) {
-      let nowPlayingInfo =  MPNowPlayingInfoCenter.default().nowPlayingInfo
-      XCTAssertNotNil(nowPlayingInfo?[MPMediaItemPropertyArtwork] as! MPMediaItemArtwork)
-
-      expectation.fulfill()
-    }
-
-    wait(for: [expectation], timeout: 10.0)
   }
 }

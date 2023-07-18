@@ -2,7 +2,7 @@ import Foundation
 import Dependencies
 
 struct NowPlayingClient {
-  var updateInfo: (Song) -> Void
+  var updateInfo: (Song) async -> Void
   var updatePlaybackInfo: (Float, Float) -> Void
 }
 
