@@ -3,7 +3,7 @@ import ComposableArchitecture
 
 struct LoginAuthenticationView: View {
   @StateObject var loginState = LoginState()
-  let store: StoreOf<AppReducer>
+  let store: StoreOf<LoginReducer>
 
   var body: some View {
     WithViewStore(self.store) { viewStore in

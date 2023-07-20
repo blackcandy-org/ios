@@ -3,7 +3,7 @@ import ComposableArchitecture
 
 struct LoginConnectionView: View {
   @StateObject var serverAddressState = ServerAddressState()
-  let store: StoreOf<AppReducer>
+  let store: StoreOf<LoginReducer>
 
   var body: some View {
     WithViewStore(self.store) { viewStore in

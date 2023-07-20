@@ -11,8 +11,9 @@ extension NowPlayingClient: DependencyKey {
 
       let fileURL = try? await AF.download(url).serializingDownloadedFileURL().value
 
-      guard let imagePath = fileURL?.path,
-            let image = UIImage(contentsOfFile: imagePath) else { return }
+      guard
+        let imagePath = fileURL?.path,
+        let image = UIImage(contentsOfFile: imagePath) else { return }
 
       nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size, requestHandler: { _ in
         return image

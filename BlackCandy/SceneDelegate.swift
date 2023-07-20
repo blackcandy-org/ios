@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       window.rootViewController = MainViewController(store: store)
     } else {
       window.rootViewController = UIHostingController(
-        rootView: LoginView(store: store)
+        rootView: LoginView(store: store.scope(state: \.login, action: AppReducer.Action.login))
           .alert(store.scope(state: \.alert, action: { $0 }), dismiss: .dismissAlert)
       )
     }
