@@ -3,8 +3,8 @@ import Dependencies
 import AVFoundation
 
 extension PlayerClient: DependencyKey {
-  static func live(keychainClient: KeychainClient) -> Self {
-    let player = AVPlayer()
+  static func live(player: AVPlayer) -> Self {
+    @Dependency(\.keychainClient) var keychainClient
 
     return Self(
       hasCurrentItem: {
@@ -94,5 +94,5 @@ extension PlayerClient: DependencyKey {
     )
   }
 
-  static var liveValue = live(keychainClient: KeychainClient.liveValue)
+  static var liveValue = live(player: AVPlayer())
 }

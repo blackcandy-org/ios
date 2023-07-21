@@ -3,7 +3,9 @@ import Dependencies
 import WebKit
 
 extension CookiesClient: DependencyKey {
-  static func live(userDefaultClient: UserDefaultsClient) -> Self {
+  static func live() -> Self {
+    @Dependency(\.userDefaultsClient) var userDefaultClient
+
     func updateCookies(_ cookies: [HTTPCookie], _ completionHandler: (() -> Void)?) {
       let cookieStore = WKWebsiteDataStore.default().httpCookieStore
       let group = DispatchGroup()
@@ -63,5 +65,5 @@ extension CookiesClient: DependencyKey {
     )
   }
 
-  static let liveValue = live(userDefaultClient: UserDefaultsClient.liveValue)
+  static let liveValue = live()
 }

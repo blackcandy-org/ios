@@ -6,7 +6,7 @@ final class CookiesClientTests: XCTestCase {
   var cookiesClient: CookiesClient!
 
   override func setUpWithError() throws {
-    cookiesClient = CookiesClient.live(userDefaultClient: UserDefaultsClient.testValue)
+    cookiesClient = CookiesClient.live()
   }
 
   override func tearDownWithError() throws {

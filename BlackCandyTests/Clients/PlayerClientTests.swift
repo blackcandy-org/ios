@@ -1,4 +1,5 @@
 import XCTest
+import AVFoundation
 import OHHTTPStubsSwift
 import OHHTTPStubs
 import CoreMedia
@@ -9,7 +10,7 @@ final class PlayerClientTests: XCTestCase {
   var playerClient: PlayerClient!
 
   override func setUpWithError() throws {
-    playerClient = PlayerClient.live(keychainClient: KeychainClient.testValue)
+    playerClient = PlayerClient.live(player: AVPlayer())
 
     stub(condition: isPath("/song.mp3") ) { _ in
       return .init(fileAtPath: OHPathForFile("song.mp3", type(of: self))!, statusCode: 200, headers: ["Content-Type": "audio/mpeg"])

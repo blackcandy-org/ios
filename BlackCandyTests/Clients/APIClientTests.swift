@@ -7,10 +7,7 @@ final class APIClientTests: XCTestCase {
   var apiClient: APIClient!
 
   override func setUpWithError() throws {
-    apiClient = APIClient.live(
-      userDefaultClient: UserDefaultsClient.testValue,
-      keychainClient: KeychainClient.testValue
-    )
+    apiClient = APIClient.live()
   }
 
   override func tearDownWithError() throws {

@@ -2,9 +2,7 @@ import Foundation
 import Dependencies
 
 extension UserDefaultsClient: DependencyKey {
-  static func live() -> Self {
-    let serverAddressKey = "com.aidewooode.BlackCandy.serverAddressKey"
-
+  static func live(serverAddressKey: String) -> Self {
     return Self(
       serverAddress: {
         UserDefaults.standard.url(forKey: serverAddressKey)
@@ -16,5 +14,5 @@ extension UserDefaultsClient: DependencyKey {
     )
   }
 
-  static var liveValue = live()
+  static var liveValue = live(serverAddressKey: "com.aidewooode.BlackCandy.serverAddressKey")
 }

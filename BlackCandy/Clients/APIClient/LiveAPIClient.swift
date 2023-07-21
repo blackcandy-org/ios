@@ -3,7 +3,10 @@ import Dependencies
 import Alamofire
 
 extension APIClient: DependencyKey {
-  static func live(userDefaultClient: UserDefaultsClient, keychainClient: KeychainClient) -> Self {
+  static func live() -> Self {
+    @Dependency(\.userDefaultsClient) var userDefaultClient
+    @Dependency(\.keychainClient) var keychainClient
+
     var headers: HTTPHeaders {
       var basicHeaders: HTTPHeaders = [
         .userAgent("Turbo Native iOS")
@@ -236,5 +239,5 @@ extension APIClient: DependencyKey {
     )
   }
 
-  static let liveValue = live(userDefaultClient: UserDefaultsClient.liveValue, keychainClient: KeychainClient.liveValue)
+  static let liveValue = live()
 }

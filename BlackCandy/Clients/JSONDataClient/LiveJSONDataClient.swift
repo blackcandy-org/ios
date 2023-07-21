@@ -2,9 +2,7 @@ import Foundation
 import Dependencies
 
 extension JSONDataClient: DependencyKey {
-  static func live() -> Self {
-    let userSavedFile = "current_user.json"
-
+  static func live(userSavedFile: String) -> Self {
     func fileUrl(_ file: String) throws -> URL {
       guard let documentsFolder = try? FileManager.default.url(
         for: .documentDirectory,
@@ -53,5 +51,5 @@ extension JSONDataClient: DependencyKey {
     )
   }
 
-  static let liveValue = live()
+  static let liveValue = live(userSavedFile: "current_user.json")
 }

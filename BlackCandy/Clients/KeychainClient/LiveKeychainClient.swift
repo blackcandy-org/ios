@@ -2,9 +2,7 @@ import Foundation
 import Dependencies
 
 extension KeychainClient: DependencyKey {
-  static func live() -> Self {
-    let apiTokenKey = "com.aidewooode.BlackCandy.apiTokenKey"
-
+  static func live(apiTokenKey: String) -> Self {
     return Self(
       apiToken: {
         let query: [String: Any] = [
@@ -50,5 +48,5 @@ extension KeychainClient: DependencyKey {
     )
   }
 
-  static let liveValue  = live()
+  static let liveValue  = live(apiTokenKey: "com.aidewooode.BlackCandy.apiTokenKey")
 }
