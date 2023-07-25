@@ -100,9 +100,9 @@ enum TabItem: String {
   var viewController: UIViewController {
     switch self {
     case .home:
-      return TurboNavigationController(path: "/")
+      return TurboNavigationController("/")
     case .library:
-      return TurboNavigationController(path: "/library", hasSearchBar: true)
+      return TurboNavigationController("/library")
     }
   }
 

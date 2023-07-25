@@ -3,69 +3,43 @@ import ComposableArchitecture
 
 struct AccountView: View {
   let store: StoreOf<AppReducer>
-  let session = TurboSession.create()
+  let navItemTapped: (String) -> Void
 
   var body: some View {
     WithViewStore(self.store) { viewStore in
-      NavigationView {
-        VStack {
-          List {
-            NavigationLink(
-              "label.settings",
-              destination: TurboView(
-                path: "/setting",
-                session: session,
-                hasNavigationBar: false
-              )
-              .navigationTitle("label.settings")
-              .ignoresSafeArea(edges: .vertical)
-            )
+      VStack {
+        List {
+          Button("label.settings") {
+            navItemTapped("/setting")
+          }
 
-            if viewStore.isAdmin {
-              NavigationLink(
-                "label.manageUsers",
-                destination: TurboView(
-                  path: "/users",
-                  session: session,
-                  hasNavigationBar: false
-                )
-                .navigationTitle("label.manageUsers")
-                .ignoresSafeArea(edges: .vertical)
-              )
-            }
-
-            if viewStore.isLoggedIn {
-              NavigationLink(
-                "label.updateProfile",
-                destination: TurboView(
-                  path: "/users/\(viewStore.currentUser!.id)/edit",
-                  session: session,
-                  hasNavigationBar: false
-                )
-                .navigationTitle("label.updateProfile")
-                .ignoresSafeArea(edges: .vertical)
-              )
-            }
-
-            Section {
-              Button(
-                role: .destructive,
-                action: {
-                  viewStore.send(.logout)
-                },
-                label: {
-                  Text("label.logout")
-                }
-              )
-              .frame(maxWidth: .infinity)
+          if viewStore.isAdmin {
+            Button("label.manageUsers") {
+              navItemTapped("/users")
             }
           }
-          .listStyle(.insetGrouped)
+
+          Button("label.updateProfile") {
+            navItemTapped("/users/\(viewStore.currentUser!.id)/edit")
+          }
+
+          Section {
+            Button(
+              role: .destructive,
+              action: {
+                viewStore.send(.logout)
+              },
+              label: {
+                Text("label.logout")
+              }
+            )
+            .frame(maxWidth: .infinity)
+          }
         }
-        .navigationTitle("label.account")
-        .navigationBarTitleDisplayMode(.inline)
+        .listStyle(.insetGrouped)
       }
-      .navigationViewStyle(.stack)
+      .navigationTitle("label.account")
+      .navigationBarTitleDisplayMode(.inline)
     }
   }
 }

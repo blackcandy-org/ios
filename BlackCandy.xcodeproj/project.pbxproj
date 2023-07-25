@@ -68,7 +68,6 @@
 		DD62F4E727C769CE005A5D0B /* BlackCandyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD62F4E627C769CE005A5D0B /* BlackCandyUITests.swift */; };
 		DD62F4E927C769CE005A5D0B /* BlackCandyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD62F4E827C769CE005A5D0B /* BlackCandyUITestsLaunchTests.swift */; };
 		DD62F4F727C76C13005A5D0B /* Turbo in Frameworks */ = {isa = PBXBuildFile; productRef = DD62F4F627C76C13005A5D0B /* Turbo */; };
-		DD62F4F927C76D06005A5D0B /* TurboView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD62F4F827C76D06005A5D0B /* TurboView.swift */; };
 		DD6E0EA32884FEE100F39DB3 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = DD6E0EA22884FEE100F39DB3 /* ComposableArchitecture */; };
 		DD6E0EAE2885380C00F39DB3 /* LoginAuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6E0EAD2885380C00F39DB3 /* LoginAuthenticationView.swift */; };
 		DD751E052886835600B8128E /* LoginState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD751E042886835600B8128E /* LoginState.swift */; };
@@ -188,7 +187,6 @@
 		DD62F4E227C769CE005A5D0B /* BlackCandyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlackCandyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD62F4E627C769CE005A5D0B /* BlackCandyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackCandyUITests.swift; sourceTree = "<group>"; };
 		DD62F4E827C769CE005A5D0B /* BlackCandyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackCandyUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		DD62F4F827C76D06005A5D0B /* TurboView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurboView.swift; sourceTree = "<group>"; };
 		DD6E0EAD2885380C00F39DB3 /* LoginAuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAuthenticationView.swift; sourceTree = "<group>"; };
 		DD751E042886835600B8128E /* LoginState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginState.swift; sourceTree = "<group>"; };
 		DD751E0828869C4600B8128E /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
@@ -437,7 +435,6 @@
 		DD18368D27CC79BF0018ECF5 /* Turbo */ = {
 			isa = PBXGroup;
 			children = (
-				DD62F4F827C76D06005A5D0B /* TurboView.swift */,
 				DD18369227CC9FF60018ECF5 /* TurboSession.swift */,
 				DDB453A027CF11EF003BA1F9 /* TurboNavigationController.swift */,
 				DDA4922127CF15710063A35B /* TurboVisitableViewController.swift */,
@@ -751,7 +748,6 @@
 				DD4D05A028BDA3410035D26D /* AccountView.swift in Sources */,
 				641B5D942A12080300ECA220 /* LiveJSONDataClient.swift in Sources */,
 				DD7671C6290B6E1600F92825 /* AudioSessionControl.swift in Sources */,
-				DD62F4F927C76D06005A5D0B /* TurboView.swift in Sources */,
 				DD0A346C28E3E02E002211AE /* PlayerSliderView.swift in Sources */,
 				6446762A2A5FF2EF00CD9794 /* LoginView.swift in Sources */,
 				DDAD9DCA28E28CE200F8C96F /* PlayerControlView.swift in Sources */,
