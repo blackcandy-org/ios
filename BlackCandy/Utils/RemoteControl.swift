@@ -3,11 +3,8 @@ import MediaPlayer
 import ComposableArchitecture
 
 struct RemoteControl {
-  static let shared = RemoteControl()
-
-  let viewStore = ViewStore(AppStore.shared, removeDuplicates: ==)
-
-  func setup() {
+  static func setup(store: StoreOf<AppReducer>) {
+    let viewStore = ViewStore(store, removeDuplicates: ==)
     let commandCenter = MPRemoteCommandCenter.shared()
 
     commandCenter.playCommand.addTarget { _ in

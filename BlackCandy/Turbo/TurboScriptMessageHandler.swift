@@ -3,7 +3,12 @@ import WebKit
 import ComposableArchitecture
 
 class TurboScriptMessageHandler: NSObject, WKScriptMessageHandler {
-  let viewStore = ViewStore(AppStore.shared.stateless, removeDuplicates: ==)
+  let viewStore: ViewStore<Void, AppReducer.Action>
+
+  init(store: StoreOf<AppReducer>) {
+    self.viewStore = ViewStore(store.stateless, removeDuplicates: ==)
+    super.init()
+  }
 
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
     guard let body = message.body as? [String: Any],

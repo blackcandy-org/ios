@@ -7,11 +7,13 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
   @Dependency(\.userDefaultsClient) var userDefaultsClient
 
   let initPath: String
+  let store: StoreOf<AppReducer>
   let viewStore: ViewStoreOf<AppReducer>
 
-  init(_ initPath: String, viewStore: ViewStoreOf<AppReducer> = ViewStore(AppStore.shared, removeDuplicates: ==)) {
+  init(_ initPath: String, store: StoreOf<AppReducer> = AppStore.shared) {
     self.initPath = initPath
-    self.viewStore = viewStore
+    self.store = store
+    self.viewStore = ViewStore(store, removeDuplicates: ==)
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -21,14 +23,14 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
   }
 
   lazy var session: Session = {
-    let session = TurboSession.create()
+    let session = TurboSession.create(store: store)
     session.delegate = self
 
     return session
   }()
 
   private lazy var modalSession: Session = {
-    let session = TurboSession.create()
+    let session = TurboSession.create(store: store)
     session.delegate = self
 
     return session
@@ -120,7 +122,7 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
       case "account":
         return UIHostingController(
           rootView: AccountView(
-            store: AppStore.shared,
+            store: store,
             navItemTapped: { path in
               self.route(path)
             }

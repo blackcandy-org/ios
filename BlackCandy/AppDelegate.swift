@@ -6,10 +6,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     guard !_XCTIsTesting else { return true }
 
-    ViewStore(AppStore.shared.stateless, removeDuplicates: ==).send(.restoreStates)
+    let store = AppStore.shared
 
-    AudioSessionControl.shared.setup()
-    RemoteControl.shared.setup()
+    ViewStore(store.stateless, removeDuplicates: ==).send(.restoreStates)
+
+    AudioSessionControl.setup(store: store)
+    RemoteControl.setup(store: store)
 
     return true
   }

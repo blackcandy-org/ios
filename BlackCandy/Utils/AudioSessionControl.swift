@@ -3,29 +3,32 @@ import AVFAudio
 import ComposableArchitecture
 
 class AudioSessionControl {
-  static let shared = AudioSessionControl()
-
-  let viewStore = ViewStore(AppStore.shared.stateless, removeDuplicates: ==)
-
-  func setup() {
+  static func setup(store: StoreOf<AppReducer>) {
     let audioSession = AVAudioSession.sharedInstance()
     let notificationCenter = NotificationCenter.default
+    let audioSessionControl = AudioSessionControl(store: store)
 
     try? audioSession.setCategory(.playback)
 
     notificationCenter.addObserver(
-      self,
+      audioSessionControl,
       selector: #selector(handleInterruption),
       name: AVAudioSession.interruptionNotification,
       object: audioSession
     )
 
     notificationCenter.addObserver(
-      self,
+      audioSessionControl,
       selector: #selector(handleRouteChange),
       name: AVAudioSession.routeChangeNotification,
       object: nil
     )
+  }
+
+  let viewStore: ViewStore<Void, AppReducer.Action>
+
+  init(store: StoreOf<AppReducer>) {
+    self.viewStore = ViewStore(store.stateless, removeDuplicates: ==)
   }
 
   @objc func handleInterruption(notification: Notification) {
