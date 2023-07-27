@@ -41,3 +41,19 @@ struct AccountView: View {
     }
   }
 }
+
+struct AccountView_Previews: PreviewProvider {
+  static var previews: some View {
+    var state = AppReducer.State()
+    state.currentUser = User(
+      id: 0,
+      email: "test@test.com",
+      isAdmin: true
+    )
+
+    return AccountView(
+      store: Store(initialState: state) {},
+      navItemTapped: { _ in }
+    )
+  }
+}

@@ -57,3 +57,11 @@ struct PlayerActionsView: View {
     .padding(.horizontal, CustomStyle.spacing(.large))
   }
 }
+
+struct PlayerActionsView_Previews: PreviewProvider {
+  static var previews: some View {
+    PlayerActionsView(
+      store: Store(initialState: PlayerReducer.State()) {}
+    )
+  }
+}

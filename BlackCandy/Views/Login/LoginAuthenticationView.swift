@@ -30,3 +30,11 @@ struct LoginAuthenticationView: View {
     }
   }
 }
+
+struct LoginAuthenticationView_Previews: PreviewProvider {
+  static var previews: some View {
+    LoginAuthenticationView(
+      store: Store(initialState: LoginReducer.State()) {}
+    )
+  }
+}

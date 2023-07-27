@@ -37,6 +37,8 @@ extension APIClient: TestDependencyKey {
 
     addCurrentPlaylistSong: unimplemented("\(Self.self).addCurrentPlaylistSong")
   )
+
+  static let previewValue = testValue
 }
 
 extension DependencyValues {

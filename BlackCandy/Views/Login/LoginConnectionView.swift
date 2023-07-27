@@ -35,3 +35,11 @@ struct LoginConnectionView: View {
     }
   }
 }
+
+struct LoginConnectionView_Previews: PreviewProvider {
+  static var previews: some View {
+    LoginConnectionView(
+      store: Store(initialState: LoginReducer.State()) {}
+    )
+  }
+}
