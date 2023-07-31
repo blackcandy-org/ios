@@ -80,14 +80,14 @@ struct AppReducer: ReducerProtocol {
 
       case .logout:
         keychainClient.deleteAPIToken()
-        cookiesClient.cleanCookies(nil)
         jsonDataClient.deleteCurrentUser()
-
         windowClient.switchToLoginView()
 
         state.currentUser = nil
 
-        return .none
+        return .run { _ in
+          await cookiesClient.cleanCookies()
+        }
 
       case let .updateTheme(theme):
         state.currentTheme = theme

@@ -3,14 +3,14 @@ import Dependencies
 
 struct JSONDataClient {
   var currentUser: () -> User?
-  var updateCurrentUser: (User, (() -> Void)?) -> Void
+  var updateCurrentUser: (User) -> Void
   var deleteCurrentUser: () -> Void
 }
 
 extension JSONDataClient: TestDependencyKey {
   static let testValue = Self(
     currentUser: unimplemented("\(Self.self).currentUser"),
-    updateCurrentUser: { _, _ in },
+    updateCurrentUser: { _ in },
     deleteCurrentUser: {}
   )
 }

@@ -2,24 +2,20 @@ import XCTest
 import WebKit
 @testable import BlackCandy
 
+@MainActor
 final class CookiesClientTests: XCTestCase {
+  var cookieStore: WKHTTPCookieStore!
   var cookiesClient: CookiesClient!
 
-  override func setUpWithError() throws {
-    cookiesClient = CookiesClient.live()
+  override func setUp() async throws {
+    let dataStore = WKWebsiteDataStore.nonPersistent()
+    cookiesClient = CookiesClient.live(dataStore: dataStore)
+    cookieStore = dataStore.httpCookieStore
+
+    await cookiesClient.cleanCookies()
   }
 
-  override func tearDownWithError() throws {
-    let expectation = XCTestExpectation(description: "Clean Cookies")
-
-    cookiesClient.cleanCookies {
-      expectation.fulfill()
-    }
-
-    wait(for: [expectation], timeout: 10.0)
-  }
-
-  func testUpdateCookie() throws {
+  func testUpdateCookie() async throws {
     let cookie = HTTPCookie(properties: [
       .name: "testName",
       .value: "testValue",
@@ -27,49 +23,28 @@ final class CookiesClientTests: XCTestCase {
       .path: "/"
     ])!
 
-    let cookieStore = WKWebsiteDataStore.default().httpCookieStore
-    let expectation = XCTestExpectation(description: "Update Cookies")
+    await cookiesClient.updateCookies([cookie])
 
-    cookiesClient.updateCookies([cookie]) {
-      cookieStore.getAllCookies { allCookies in
-        XCTAssertEqual(cookie.value, allCookies.first?.value)
-        expectation.fulfill()
-      }
-    }
+    let allCookies = await cookieStore.allCookies()
 
-    wait(for: [expectation], timeout: 10.0)
+    XCTAssertEqual(cookie.value, allCookies.first?.value)
   }
 
-  func testCreateCookie() throws {
-    let cookieStore = WKWebsiteDataStore.default().httpCookieStore
-    let expectation = XCTestExpectation(description: "Create Cookies")
+  func testCreateCookie() async throws {
+    await cookiesClient.createCookie("newCookie", "newCookieValue")
 
-    cookiesClient.createCookie("newCookie", "newCookieValue") {
-      cookieStore.getAllCookies { allCookies in
-        XCTAssertEqual(allCookies.first?.name, "newCookie")
-        XCTAssertEqual(allCookies.first?.value, "newCookieValue")
+    let allCookies = await cookieStore.allCookies()
 
-        expectation.fulfill()
-      }
-    }
-
-    wait(for: [expectation], timeout: 10.0)
+    XCTAssertEqual(allCookies.first?.name, "newCookie")
+    XCTAssertEqual(allCookies.first?.value, "newCookieValue")
   }
 
-  func testCleanCookies() throws {
-    let cookieStore = WKWebsiteDataStore.default().httpCookieStore
-    let expectation = XCTestExpectation(description: "Clean Cookies")
+  func testCleanCookies() async throws {
+    await cookiesClient.createCookie("newCookie", "newCookieValue")
+    await cookiesClient.cleanCookies()
 
-    cookiesClient.createCookie("newCookie", "newCookieValue") {
-      self.cookiesClient.cleanCookies {
-        cookieStore.getAllCookies { allCookies in
-          XCTAssertTrue(allCookies.isEmpty)
+    let allCookies = await cookieStore.allCookies()
 
-          expectation.fulfill()
-        }
-      }
-    }
-
-    wait(for: [expectation], timeout: 10.0)
+    XCTAssertTrue(allCookies.isEmpty)
   }
 }

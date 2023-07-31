@@ -3,52 +3,41 @@ import Dependencies
 import WebKit
 
 extension CookiesClient: DependencyKey {
-  static func live() -> Self {
+  static func live(dataStore: WKWebsiteDataStore) -> Self {
     @Dependency(\.userDefaultsClient) var userDefaultClient
 
-    func updateCookies(_ cookies: [HTTPCookie], _ completionHandler: (() -> Void)?) {
-      let cookieStore = WKWebsiteDataStore.default().httpCookieStore
-      let group = DispatchGroup()
+    func updateCookies(_ cookies: [HTTPCookie]) async {
+      // WKWebsiteDataStore.httpCookieStore must be used from main thread only
+      let cookieStore = await MainActor.run { dataStore.httpCookieStore }
 
-      cookies.forEach { cookie in
-        group.enter()
-        cookieStore.setCookie(cookie) {
-          group.leave()
+      await withTaskGroup(of: Void.self) { taskGroup in
+        for cookie in cookies {
+          // SetCookie must be running in the main thread, otherwise it will throw an error.
+          taskGroup.addTask { @MainActor in
+            await cookieStore.setCookie(cookie)
+          }
         }
-      }
-
-      group.notify(queue: .main) {
-        completionHandler?()
       }
     }
 
     return Self(
-      updateCookies: { cookies, completionHandler in
-        updateCookies(cookies, completionHandler)
+      updateCookies: { cookies in
+        await updateCookies(cookies)
       },
 
-      cleanCookies: { completionHandler in
-        let cookieStore = WKWebsiteDataStore.default().httpCookieStore
-        let group = DispatchGroup()
+      cleanCookies: {
+        // WKWebsiteDataStore.httpCookieStore must be used from main thread only
+        let cookieStore = await MainActor.run { dataStore.httpCookieStore }
+        let cookies = await cookieStore.allCookies()
 
-        group.enter()
-
-        cookieStore.getAllCookies { cookies in
-          cookies.forEach { cookie in
-            group.enter()
-            cookieStore.delete(cookie) {
-              group.leave()
-            }
+        await withTaskGroup(of: Void.self) { taskGroup in
+          for cookie in cookies {
+            taskGroup.addTask { await cookieStore.deleteCookie(cookie) }
           }
-          group.leave()
-        }
-
-        group.notify(queue: .main) {
-          completionHandler?()
         }
       },
 
-      createCookie: { name, value, completionHandler in
+      createCookie: { name, value in
         guard let serverAddress = userDefaultClient.serverAddress() else { return }
 
         guard let cookie = HTTPCookie(properties: [
@@ -60,10 +49,10 @@ extension CookiesClient: DependencyKey {
           return
         }
 
-        updateCookies([cookie], completionHandler)
+        await updateCookies([cookie])
       }
     )
   }
 
-  static let liveValue = live()
+  static let liveValue = live(dataStore: WKWebsiteDataStore.default())
 }

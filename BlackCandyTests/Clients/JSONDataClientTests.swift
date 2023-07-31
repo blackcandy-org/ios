@@ -10,14 +10,9 @@ final class JSONDataClientTests: XCTestCase {
 
   func testDeleteCurrentUser() throws {
     let user = try users(id: 1)
-    let expectation = XCTestExpectation(description: "Update Current User")
 
-    jsonDataClient.updateCurrentUser(user) {
-      XCTAssertEqual(self.jsonDataClient.currentUser(), user)
-      expectation.fulfill()
-    }
-
-    wait(for: [expectation], timeout: 10.0)
+    jsonDataClient.updateCurrentUser(user)
+    XCTAssertEqual(self.jsonDataClient.currentUser(), user)
 
     jsonDataClient.deleteCurrentUser()
     XCTAssertNil(jsonDataClient.currentUser())

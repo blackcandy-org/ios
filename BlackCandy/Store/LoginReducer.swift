@@ -67,15 +67,16 @@ struct LoginReducer: ReducerProtocol {
         return .none
 
       case let .loginResponse(.success(response)):
-        cookiesClient.updateCookies(response.cookies, nil)
         keychainClient.updateAPIToken(response.token)
-        jsonDataClient.updateCurrentUser(response.user, nil)
+        jsonDataClient.updateCurrentUser(response.user)
 
         state.currentUser = response.user
 
         windowClient.switchToMainView()
 
-        return .none
+        return .run { _ in
+          await cookiesClient.updateCookies(response.cookies)
+        }
 
       case let .loginResponse(.failure(error)),
         let .systemInfoResponse(.failure(error)):

@@ -53,6 +53,8 @@
 		64D6BC72299C7750005B1078 /* CustomFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D6BC71299C7750005B1078 /* CustomFormatterTests.swift */; };
 		64D6BC75299C7E9D005B1078 /* LoginStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D6BC74299C7E9D005B1078 /* LoginStateTests.swift */; };
 		64D6BC77299C8658005B1078 /* ServerAddressStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D6BC76299C8658005B1078 /* ServerAddressStateTests.swift */; };
+		64D798B92A739F3400F0C92C /* GlobalQueueClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D798B82A739F3400F0C92C /* GlobalQueueClient.swift */; };
+		64D798BB2A73A2CD00F0C92C /* LiveGlobalQueueClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64D798BA2A73A2CD00F0C92C /* LiveGlobalQueueClient.swift */; };
 		64EAB25E2A1B0A4300F83F15 /* PlayerReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64EAB25D2A1B0A4300F83F15 /* PlayerReducerTests.swift */; };
 		64FF43A62A5D36A100BF3055 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FF43A42A5D36A100BF3055 /* SceneDelegate.swift */; };
 		64FF43A72A5D36A100BF3055 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FF43A52A5D36A100BF3055 /* AppDelegate.swift */; };
@@ -170,6 +172,8 @@
 		64D6BC71299C7750005B1078 /* CustomFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFormatterTests.swift; sourceTree = "<group>"; };
 		64D6BC74299C7E9D005B1078 /* LoginStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginStateTests.swift; sourceTree = "<group>"; };
 		64D6BC76299C8658005B1078 /* ServerAddressStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAddressStateTests.swift; sourceTree = "<group>"; };
+		64D798B82A739F3400F0C92C /* GlobalQueueClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalQueueClient.swift; sourceTree = "<group>"; };
+		64D798BA2A73A2CD00F0C92C /* LiveGlobalQueueClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveGlobalQueueClient.swift; sourceTree = "<group>"; };
 		64EAB25D2A1B0A4300F83F15 /* PlayerReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerReducerTests.swift; sourceTree = "<group>"; };
 		64FF43A42A5D36A100BF3055 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		64FF43A52A5D36A100BF3055 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -414,6 +418,15 @@
 			path = States;
 			sourceTree = "<group>";
 		};
+		64D798B72A739EC800F0C92C /* GlobalQueueClient */ = {
+			isa = PBXGroup;
+			children = (
+				64D798B82A739F3400F0C92C /* GlobalQueueClient.swift */,
+				64D798BA2A73A2CD00F0C92C /* LiveGlobalQueueClient.swift */,
+			);
+			path = GlobalQueueClient;
+			sourceTree = "<group>";
+		};
 		DD05117E28F8402C00104197 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -563,6 +576,7 @@
 		DD751E0A2887A37700B8128E /* Clients */ = {
 			isa = PBXGroup;
 			children = (
+				64D798B72A739EC800F0C92C /* GlobalQueueClient */,
 				645AF4202A5E864000D35670 /* WindowClient */,
 				641B5D8A2A11FCB700ECA220 /* NowPlayingClient */,
 				641B5D892A11FCAA00ECA220 /* PlayerClient */,
@@ -750,6 +764,7 @@
 				DD7671C6290B6E1600F92825 /* AudioSessionControl.swift in Sources */,
 				DD0A346C28E3E02E002211AE /* PlayerSliderView.swift in Sources */,
 				6446762A2A5FF2EF00CD9794 /* LoginView.swift in Sources */,
+				64D798B92A739F3400F0C92C /* GlobalQueueClient.swift in Sources */,
 				DDAD9DCA28E28CE200F8C96F /* PlayerControlView.swift in Sources */,
 				6435D833296D4E620068CC51 /* LoginConnectionView.swift in Sources */,
 				DD2332BE28FE49AA005E3F4F /* AppStore.swift in Sources */,
@@ -762,6 +777,7 @@
 				647623782949A77C00333378 /* AppReducer.swift in Sources */,
 				641B5D922A1206BF00ECA220 /* LiveKeychainClient.swift in Sources */,
 				644E9B41295AC796000DB3E3 /* SideBarNavigationViewController.swift in Sources */,
+				64D798BB2A73A2CD00F0C92C /* LiveGlobalQueueClient.swift in Sources */,
 				DDE710F228D077C900CE7494 /* CustomStyle.swift in Sources */,
 				DD87EAE028CED7880062DFE6 /* PlayerView.swift in Sources */,
 				6431DDF02963D0240013F135 /* PlayerViewController.swift in Sources */,

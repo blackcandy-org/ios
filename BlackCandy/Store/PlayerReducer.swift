@@ -107,11 +107,18 @@ struct PlayerReducer: ReducerProtocol {
 
         guard let currentSong = state.currentSong else { return .none }
 
-        cookiesClient.createCookie("current_song_id", String(currentSong.id), nil)
         playerClient.playOn(currentSong.url)
 
         return .run { _ in
-          await nowPlayingClient.updateInfo(currentSong)
+          await withTaskGroup(of: Void.self) { taskGroup in
+            taskGroup.addTask {
+              await nowPlayingClient.updateInfo(currentSong)
+            }
+
+            taskGroup.addTask {
+              await cookiesClient.createCookie("current_song_id", String(currentSong.id))
+            }
+          }
         }
 
       case .getCurrentTime:
