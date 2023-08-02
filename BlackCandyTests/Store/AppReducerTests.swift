@@ -16,7 +16,6 @@ final class AppReducerTests: XCTestCase {
     }
 
     await store.send(.restoreStates) {
-      $0.serverAddress = URL(string: "http://localhost:3000")
       $0.currentUser = currentUser
     }
   }

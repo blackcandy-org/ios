@@ -11,7 +11,6 @@ struct LoginReducer: Reducer {
 
   struct State: Equatable {
     var alert: AlertState<AppReducer.AlertAction>?
-    var serverAddress: URL?
     var currentUser: User?
 
     @BindingState var isAuthenticationViewVisible = false
@@ -57,7 +56,6 @@ struct LoginReducer: Reducer {
 
         userDefaultsClient.updateServerAddress(serverAddress)
 
-        state.serverAddress = serverAddress
         state.isAuthenticationViewVisible = true
 
         return .none

@@ -26,7 +26,6 @@ final class LoginReducerTests: XCTestCase {
     await store.send(.getSystemInfo(serverAddressState))
 
     await store.receive(.systemInfoResponse(.success(systemInfoResponse))) {
-      $0.serverAddress = systemInfoResponse.serverAddress
       $0.isAuthenticationViewVisible = true
     }
   }

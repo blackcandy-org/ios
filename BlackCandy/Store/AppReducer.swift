@@ -12,16 +12,11 @@ struct AppReducer: Reducer {
   struct State: Equatable {
     @PresentationState var alert: AlertState<AlertAction>?
 
-    var serverAddress: URL?
     var currentUser: User?
     var currentTheme = Theme.auto
 
     var isLoggedIn: Bool {
       currentUser != nil
-    }
-
-    var isAdmin: Bool {
-      currentUser?.isAdmin ?? false
     }
 
     var player: PlayerReducer.State {
@@ -43,7 +38,6 @@ struct AppReducer: Reducer {
         var state = _loginState
         state.alert = self.alert
         state.currentUser = self.currentUser
-        state.serverAddress = self.serverAddress
 
         return state
       }
@@ -53,7 +47,6 @@ struct AppReducer: Reducer {
 
         self.alert = newValue.alert
         self.currentUser = newValue.currentUser
-        self.serverAddress = newValue.serverAddress
       }
     }
 
@@ -77,7 +70,6 @@ struct AppReducer: Reducer {
     Reduce { state, action in
       switch action {
       case .restoreStates:
-        state.serverAddress = userDefaultsClient.serverAddress()
         state.currentUser = jsonDataClient.currentUser()
 
         return .none

@@ -11,7 +11,7 @@ struct AccountView: View {
 
     init(state: AppReducer.State) {
       self.currentUser = state.currentUser
-      self.isAdmin = state.isAdmin
+      self.isAdmin = state.currentUser?.isAdmin ?? false
     }
   }
 
