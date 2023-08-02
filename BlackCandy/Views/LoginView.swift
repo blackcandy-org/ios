@@ -4,8 +4,16 @@ import ComposableArchitecture
 struct LoginView: View {
   let store: StoreOf<LoginReducer>
 
+  struct ViewState: Equatable {
+    @BindingViewState var isAuthenticationViewVisible: Bool
+
+    init(store: BindingViewStore<LoginReducer.State>) {
+      self._isAuthenticationViewVisible = store.$isAuthenticationViewVisible
+    }
+  }
+
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: ViewState.init) { viewStore in
       NavigationView {
         VStack {
           LoginConnectionView(store: store)

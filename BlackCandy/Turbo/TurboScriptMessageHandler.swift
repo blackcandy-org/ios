@@ -3,10 +3,10 @@ import WebKit
 import ComposableArchitecture
 
 class TurboScriptMessageHandler: NSObject, WKScriptMessageHandler {
-  let viewStore: ViewStore<Void, AppReducer.Action>
+  let store: StoreOf<AppReducer>
 
   init(store: StoreOf<AppReducer>) {
-    self.viewStore = ViewStore(store.stateless, removeDuplicates: ==)
+    self.store = store
     super.init()
   }
 
@@ -16,16 +16,16 @@ class TurboScriptMessageHandler: NSObject, WKScriptMessageHandler {
 
     switch actionName {
     case "playAll":
-      viewStore.send(.player(.playAll))
+      store.send(.player(.playAll))
     case "playSong":
       guard let songId = body["songId"] as? Int else { return }
-      viewStore.send(.player(.playSong(songId)))
+      store.send(.player(.playSong(songId)))
     case "updateTheme":
       guard
         let theme = body["theme"] as? String,
         let currentTheme = AppReducer.State.Theme(rawValue: theme) else { return }
 
-      viewStore.send(.updateTheme(currentTheme))
+      store.send(.updateTheme(currentTheme))
     default:
       return
     }

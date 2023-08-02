@@ -5,7 +5,7 @@ struct PlayerActionsView: View {
   let store: StoreOf<PlayerReducer>
 
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }, content: { viewStore in
       HStack {
         Button(
           action: {
@@ -53,7 +53,7 @@ struct PlayerActionsView: View {
         .background(viewStore.isPlaylistVisible ? Color.init(.systemGray3) : Color.clear)
         .cornerRadius(CustomStyle.cornerRadius(.small))
       }
-    }
+    })
     .padding(.horizontal, CustomStyle.spacing(.large))
   }
 }

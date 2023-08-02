@@ -5,8 +5,18 @@ struct AccountView: View {
   let store: StoreOf<AppReducer>
   let navItemTapped: (String) -> Void
 
+  struct ViewState: Equatable {
+    let currentUser: User?
+    let isAdmin: Bool
+
+    init(state: AppReducer.State) {
+      self.currentUser = state.currentUser
+      self.isAdmin = state.isAdmin
+    }
+  }
+
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: ViewState.init) { viewStore in
       List {
         Button("label.settings") {
           navItemTapped("/setting")

@@ -8,12 +8,10 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
 
   let initPath: String
   let store: StoreOf<AppReducer>
-  let viewStore: ViewStoreOf<AppReducer>
 
   init(_ initPath: String, store: StoreOf<AppReducer> = AppStore.shared) {
     self.initPath = initPath
     self.store = store
-    self.viewStore = ViewStore(store, removeDuplicates: ==)
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -100,7 +98,7 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
       switch turboError {
       case .http(let statusCode):
         if statusCode == 401 {
-          viewStore.send(.logout)
+          store.send(.logout)
         }
       case .networkFailure, .timeoutFailure:
         return

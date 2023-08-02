@@ -20,7 +20,7 @@ extension WindowClient: DependencyKey {
 
         changeRootViewController(UIHostingController(
           rootView: LoginView(store: store.scope(state: \.login, action: AppReducer.Action.login))
-            .alert(store.scope(state: \.alert, action: { $0 }), dismiss: .dismissAlert)
+            .alert(store: store.scope(state: \.$alert, action: { .alert($0) }))
         ))
       }
     )

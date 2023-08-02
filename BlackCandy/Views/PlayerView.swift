@@ -4,8 +4,20 @@ import ComposableArchitecture
 struct PlayerView: View {
   let store: StoreOf<PlayerReducer>
 
+  struct ViewState: Equatable {
+    let isPlaylistVisible: Bool
+    let currentSong: Song?
+    let hasCurrentSong: Bool
+
+    init(state: PlayerReducer.State) {
+      self.currentSong = state.currentSong
+      self.isPlaylistVisible = state.isPlaylistVisible
+      self.hasCurrentSong = state.hasCurrentSong
+    }
+  }
+
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: ViewState.init) { viewStore in
       VStack {
         Spacer()
 

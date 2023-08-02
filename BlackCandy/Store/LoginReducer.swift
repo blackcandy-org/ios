@@ -1,7 +1,7 @@
 import Foundation
 import ComposableArchitecture
 
-struct LoginReducer: ReducerProtocol {
+struct LoginReducer: Reducer {
   @Dependency(\.apiClient) var apiClient
   @Dependency(\.userDefaultsClient) var userDefaultsClient
   @Dependency(\.cookiesClient) var cookiesClient
@@ -10,7 +10,7 @@ struct LoginReducer: ReducerProtocol {
   @Dependency(\.windowClient) var windowClient
 
   struct State: Equatable {
-    var alert: AlertState<AppReducer.Action>?
+    var alert: AlertState<AppReducer.AlertAction>?
     var serverAddress: URL?
     var currentUser: User?
 
@@ -25,15 +25,19 @@ struct LoginReducer: ReducerProtocol {
     case binding(BindingAction<State>)
   }
 
-  var body: some ReducerProtocolOf<Self> {
+  var body: some ReducerOf<Self> {
     BindingReducer()
 
     Reduce { state, action in
       switch action {
       case let .getSystemInfo(serverAddressState):
         if serverAddressState.isUrlValid {
-          return .task {
-            await .systemInfoResponse(TaskResult { try await apiClient.getSystemInfo(serverAddressState) })
+          return .run { send in
+            await send(
+              .systemInfoResponse(
+                TaskResult { try await apiClient.getSystemInfo(serverAddressState) }
+              )
+            )
           }
         } else {
           state.alert = .init(title: .init("text.invalidServerAddress"))
@@ -59,8 +63,12 @@ struct LoginReducer: ReducerProtocol {
         return .none
 
       case let .login(loginState):
-        return .task {
-          await .loginResponse(TaskResult { try await apiClient.authentication(loginState) })
+        return .run { send in
+          await send(
+            .loginResponse(
+              TaskResult { try await apiClient.authentication(loginState) }
+            )
+          )
         }
 
       case .binding(\.$isAuthenticationViewVisible):

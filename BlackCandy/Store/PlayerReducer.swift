@@ -2,14 +2,14 @@ import Foundation
 import ComposableArchitecture
 import CoreMedia
 
-struct PlayerReducer: ReducerProtocol {
+struct PlayerReducer: Reducer {
   @Dependency(\.apiClient) var apiClient
   @Dependency(\.playerClient) var playerClient
   @Dependency(\.nowPlayingClient) var nowPlayingClient
   @Dependency(\.cookiesClient) var cookiesClient
 
   struct State: Equatable {
-    var alert: AlertState<AppReducer.Action>?
+    var alert: AlertState<AppReducer.AlertAction>?
     var playlist = Playlist()
     var currentSong: Song?
     var currentTime: Double = 0
@@ -61,7 +61,7 @@ struct PlayerReducer: ReducerProtocol {
     case playSongResponse(TaskResult<Song>)
   }
 
-  var body: some ReducerProtocolOf<Self> {
+  var body: some ReducerOf<Self> {
     Reduce { state, action in
       switch action {
       case .play:
@@ -69,9 +69,7 @@ struct PlayerReducer: ReducerProtocol {
           playerClient.play()
           return .none
         } else {
-          return .task { [currentIndex = state.currentIndex] in
-            .playOn(currentIndex)
-          }
+          return self.playOn(state: &state, index: state.currentIndex)
         }
 
       case .pause:
@@ -85,41 +83,13 @@ struct PlayerReducer: ReducerProtocol {
         return .none
 
       case .next:
-        return .task { [currentIndex = state.currentIndex] in
-          .playOn(currentIndex + 1)
-        }
+        return self.playOn(state: &state, index: state.currentIndex + 1)
 
       case .previous:
-        return .task { [currentIndex = state.currentIndex] in
-          .playOn(currentIndex - 1)
-        }
+        return self.playOn(state: &state, index: state.currentIndex - 1)
 
       case let .playOn(index):
-        let songsCount = state.playlist.songs.count
-
-        if index >= songsCount {
-          state.currentSong = state.playlist.songs.first
-        } else if index < 0 {
-          state.currentSong = state.playlist.songs.last
-        } else {
-          state.currentSong = state.playlist.songs[index]
-        }
-
-        guard let currentSong = state.currentSong else { return .none }
-
-        playerClient.playOn(currentSong.url)
-
-        return .run { _ in
-          await withTaskGroup(of: Void.self) { taskGroup in
-            taskGroup.addTask {
-              await nowPlayingClient.updateInfo(currentSong)
-            }
-
-            taskGroup.addTask {
-              await cookiesClient.createCookie("current_song_id", String(currentSong.id))
-            }
-          }
-        }
+        return self.playOn(state: &state, index: index)
 
       case .getCurrentTime:
         return .run { send in
@@ -138,8 +108,12 @@ struct PlayerReducer: ReducerProtocol {
 
         state.currentSong?.isFavorited = !currentSong.isFavorited
 
-        return .task {
-          await .toggleFavoriteResponse(TaskResult { try await apiClient.toggleFavorite(currentSong) })
+        return .run { send in
+          await send(
+            .toggleFavoriteResponse(
+              TaskResult { try await apiClient.toggleFavorite(currentSong) }
+            )
+          )
         }
 
       case .toggleFavoriteResponse(.success):
@@ -163,9 +137,7 @@ struct PlayerReducer: ReducerProtocol {
         guard let currentSong = state.currentSong else { return .none }
         let position = currentSong.duration * ratio
 
-        return .task {
-          .seekToPosition(position)
-        }
+        return .send(.seekToPosition(position))
 
       case let .seekToPosition(position):
         let time = CMTime(seconds: position, preferredTimescale: 1)
@@ -192,7 +164,7 @@ struct PlayerReducer: ReducerProtocol {
           playerClient.replay()
           return .none
         } else {
-          return .task { .next }
+          return .send(.next)
         }
 
       case .nextMode:
@@ -211,8 +183,12 @@ struct PlayerReducer: ReducerProtocol {
           playerClient.stop()
         }
 
-        return .task {
-          await .deleteSongsResponse(TaskResult { try await apiClient.deleteCurrentPlaylistSongs(songs) })
+        return .run { send in
+          await send(
+            .deleteSongsResponse(
+              TaskResult { try await apiClient.deleteCurrentPlaylistSongs(songs) }
+            )
+          )
         }
 
       case let .moveSongs(fromOffsets, toOffset):
@@ -223,16 +199,24 @@ struct PlayerReducer: ReducerProtocol {
 
         guard let toIndex = state.playlist.orderedSongs.firstIndex(of: movedSong) else { return .none }
 
-        return .task {
-          await .moveSongsResponse(TaskResult { try await apiClient.moveCurrentPlaylistSongs(fromIndex + 1, toIndex + 1) })
+        return .run { send in
+          await send(
+            .moveSongsResponse(
+              TaskResult { try await apiClient.moveCurrentPlaylistSongs(fromIndex + 1, toIndex + 1) }
+            )
+          )
         }
 
       case .deleteSongsResponse(.success), .moveSongsResponse(.success):
         return .none
 
       case .getCurrentPlaylist:
-        return .task {
-          await .currentPlaylistResponse(TaskResult { try await apiClient.getCurrentPlaylistSongs() })
+        return .run { send in
+          await send(
+            .currentPlaylistResponse(
+              TaskResult { try await apiClient.getCurrentPlaylistSongs() }
+            )
+          )
         }
 
       case let .currentPlaylistResponse(.success(songs)):
@@ -242,28 +226,30 @@ struct PlayerReducer: ReducerProtocol {
         return .none
 
       case .playAll:
-        return .task {
-          await .playAllResponse(TaskResult { try await apiClient.getCurrentPlaylistSongs() })
+        return .run { send in
+          await send(
+            .playAllResponse(
+              TaskResult { try await apiClient.getCurrentPlaylistSongs() }
+            )
+          )
         }
 
       case let .playAllResponse(.success(songs)):
         state.playlist.update(songs: songs)
         state.currentSong = songs.first
 
-        return .task {
-          .playOn(0)
-        }
+        return self.playOn(state: &state, index: 0)
 
       case let .playSong(songId):
         if let songIndex = state.playlist.index(by: songId) {
-          return .task {
-            .playOn(songIndex)
-          }
+          return self.playOn(state: &state, index: songIndex)
         } else {
-          return .task { [currentSong = state.currentSong] in
-            await .playSongResponse(TaskResult {
-              try await apiClient.addCurrentPlaylistSong(songId, currentSong)
-            })
+          return .run { [currentSong = state.currentSong] send in
+            await send(
+              .playSongResponse(
+                TaskResult { try await apiClient.addCurrentPlaylistSong(songId, currentSong) }
+              )
+            )
           }
         }
 
@@ -271,9 +257,7 @@ struct PlayerReducer: ReducerProtocol {
         let insertIndex = min(state.currentIndex + 1, state.playlist.songs.endIndex)
         state.playlist.insert(song, at: insertIndex)
 
-        return .task {
-          .playOn(insertIndex)
-        }
+        return self.playOn(state: &state, index: insertIndex)
 
       case let .deleteSongsResponse(.failure(error)),
         let .moveSongsResponse(.failure(error)),
@@ -284,6 +268,34 @@ struct PlayerReducer: ReducerProtocol {
         state.alert = .init(title: .init(error.localizedString))
 
         return .none
+      }
+    }
+  }
+
+  func playOn(state: inout State, index: Int) -> Effect<Action> {
+    let songsCount = state.playlist.songs.count
+
+    if index >= songsCount {
+      state.currentSong = state.playlist.songs.first
+    } else if index < 0 {
+      state.currentSong = state.playlist.songs.last
+    } else {
+      state.currentSong = state.playlist.songs[index]
+    }
+
+    guard let currentSong = state.currentSong else { return .none }
+
+    playerClient.playOn(currentSong.url)
+
+    return .run { _ in
+      await withTaskGroup(of: Void.self) { taskGroup in
+        taskGroup.addTask {
+          await nowPlayingClient.updateInfo(currentSong)
+        }
+
+        taskGroup.addTask {
+          await cookiesClient.createCookie("current_song_id", String(currentSong.id))
+        }
       }
     }
   }

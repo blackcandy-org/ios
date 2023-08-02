@@ -5,8 +5,16 @@ struct LoginConnectionView: View {
   @StateObject var serverAddressState = ServerAddressState()
   let store: StoreOf<LoginReducer>
 
+  struct ViewState: Equatable {
+    let serverAddress: URL?
+
+    init(state: LoginReducer.State) {
+      self.serverAddress = state.serverAddress
+    }
+  }
+
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: ViewState.init) { viewStore in
       Form {
         Section(content: {
           TextField("label.serverAddress", text: $serverAddressState.url)

@@ -6,13 +6,13 @@ struct PlayerControlView: View {
   let durationFormatter = DurationFormatter()
 
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: { $0 }, content: { viewStore in
       VStack {
         songProgress(viewStore)
         playerControl(viewStore)
           .padding(CustomStyle.spacing(.large))
       }
-    }
+    })
   }
 
   func playerControl(_ viewStore: ViewStore<PlayerReducer.State, PlayerReducer.Action>) -> some View {

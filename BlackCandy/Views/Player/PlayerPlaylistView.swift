@@ -5,8 +5,18 @@ struct PlayerPlaylistView: View {
   let store: StoreOf<PlayerReducer>
   let durationFormatter = DurationFormatter()
 
+  struct ViewState: Equatable {
+    let playlist: Playlist
+    let currentSong: Song?
+
+    init(state: PlayerReducer.State) {
+      self.currentSong = state.currentSong
+      self.playlist = state.playlist
+    }
+  }
+
   var body: some View {
-    WithViewStore(self.store) { viewStore in
+    WithViewStore(self.store, observe: ViewState.init) { viewStore in
       VStack {
         HStack {
           Text("label.tracks(\(viewStore.playlist.songs.count))")

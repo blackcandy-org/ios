@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 import ComposableArchitecture
 
-struct AppReducer: ReducerProtocol {
+struct AppReducer: Reducer {
   @Dependency(\.userDefaultsClient) var userDefaultsClient
   @Dependency(\.cookiesClient) var cookiesClient
   @Dependency(\.keychainClient) var keychainClient
@@ -10,7 +10,8 @@ struct AppReducer: ReducerProtocol {
   @Dependency(\.windowClient) var windowClient
 
   struct State: Equatable {
-    var alert: AlertState<Action>?
+    @PresentationState var alert: AlertState<AlertAction>?
+
     var serverAddress: URL?
     var currentUser: User?
     var currentTheme = Theme.auto
@@ -61,6 +62,7 @@ struct AppReducer: ReducerProtocol {
   }
 
   enum Action: Equatable {
+    case alert(PresentationAction<AlertAction>)
     case dismissAlert
     case restoreStates
     case logout
@@ -69,7 +71,9 @@ struct AppReducer: ReducerProtocol {
     case login(LoginReducer.Action)
   }
 
-  var body: some ReducerProtocolOf<Self> {
+  enum AlertAction: Equatable {}
+
+  var body: some ReducerOf<Self> {
     Reduce { state, action in
       switch action {
       case .restoreStates:
@@ -94,16 +98,19 @@ struct AppReducer: ReducerProtocol {
         return .none
 
       case .dismissAlert:
-        state.alert = nil
-        return .none
+        return .send(.alert(.dismiss))
 
       case .player:
         return .none
 
       case .login:
         return .none
+
+      case .alert:
+        return .none
       }
     }
+    .ifLet(\.$alert, action: /Action.alert)
 
     Scope(state: \.player, action: /Action.player) {
       PlayerReducer()

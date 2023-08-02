@@ -7,11 +7,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     guard !_XCTIsTesting else { return true }
 
     let store = AppStore.shared
+    let playerStore = store.scope(state: \.player, action: AppReducer.Action.player)
 
-    ViewStore(store.stateless, removeDuplicates: ==).send(.restoreStates)
+    store.send(.restoreStates)
 
-    AudioSessionControl.setup(store: store)
-    RemoteControl.setup(store: store)
+    AudioSessionControl.setup(store: playerStore)
+    RemoteControl.setup(store: playerStore)
 
     return true
   }

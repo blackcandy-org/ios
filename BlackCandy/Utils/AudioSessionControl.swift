@@ -3,7 +3,7 @@ import AVFAudio
 import ComposableArchitecture
 
 class AudioSessionControl {
-  static func setup(store: StoreOf<AppReducer>) {
+  static func setup(store: StoreOf<PlayerReducer>) {
     let audioSession = AVAudioSession.sharedInstance()
     let notificationCenter = NotificationCenter.default
     let audioSessionControl = AudioSessionControl(store: store)
@@ -25,10 +25,10 @@ class AudioSessionControl {
     )
   }
 
-  let viewStore: ViewStore<Void, AppReducer.Action>
+  let store: StoreOf<PlayerReducer>
 
-  init(store: StoreOf<AppReducer>) {
-    self.viewStore = ViewStore(store.stateless, removeDuplicates: ==)
+  init(store: StoreOf<PlayerReducer>) {
+    self.store = store
   }
 
   @objc func handleInterruption(notification: Notification) {
@@ -41,7 +41,7 @@ class AudioSessionControl {
 
     switch type {
     case .began:
-      viewStore.send(.player(.pause))
+      store.send(.pause)
     case .ended:
       // An interruption ended. Resume playback, if appropriate.
       guard let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
@@ -49,11 +49,11 @@ class AudioSessionControl {
       let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
 
       if options.contains(.shouldResume) {
-        viewStore.send(.player(.play))
+        store.send(.play)
       }
 
     default:
-      viewStore.send(.player(.pause))
+      store.send(.pause)
     }
   }
 
@@ -73,7 +73,7 @@ class AudioSessionControl {
       }
 
       if hasHeadphones(in: previousRoute) {
-        viewStore.send(.player(.pause))
+        store.send(.pause)
       }
 
     default: ()

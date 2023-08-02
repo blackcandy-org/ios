@@ -19,7 +19,7 @@ final class PlayerReducerTests: XCTestCase {
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(playlist: playlist),
-        reducer: PlayerReducer()
+        reducer: { PlayerReducer() }
       )
     }
 
@@ -45,7 +45,7 @@ final class PlayerReducerTests: XCTestCase {
 
     let store = TestStore(
       initialState: PlayerReducer.State(playlist: playlist),
-      reducer: PlayerReducer()
+      reducer: { PlayerReducer() }
     )
 
     await store.send(.playOn(-1)) {
@@ -62,6 +62,8 @@ final class PlayerReducerTests: XCTestCase {
   }
 
   func testPlayCurrentSong() async throws {
+    let getStatusTask = AsyncStream.makeStream(of: PlayerClient.Status.self)
+
     var playlist = Playlist()
     let songs = try songs()
 
@@ -69,18 +71,27 @@ final class PlayerReducerTests: XCTestCase {
 
     let store = withDependencies {
       $0.playerClient.hasCurrentItem = { false }
+      $0.playerClient.getStatus = { getStatusTask.stream }
+      $0.playerClient.playOn = { _ in getStatusTask.continuation.yield(.playing) }
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(
           playlist: playlist,
           currentSong: songs.first
         ),
-        reducer: PlayerReducer()
+        reducer: { PlayerReducer() }
       )
     }
 
     await store.send(.play)
-    await store.receive(.playOn(0))
+    await store.send(.getStatus)
+
+    await store.receive(.handleStatusChange(.playing)) {
+      $0.status = .playing
+    }
+
+    getStatusTask.continuation.finish()
+    await store.finish()
   }
 
   func testPlayPausedSong() async throws {
@@ -93,7 +104,7 @@ final class PlayerReducerTests: XCTestCase {
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(),
-        reducer: PlayerReducer()
+        reducer: { PlayerReducer() }
       )
     }
 
@@ -117,7 +128,7 @@ final class PlayerReducerTests: XCTestCase {
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(status: .playing),
-        reducer: PlayerReducer()
+        reducer: { PlayerReducer() }
       )
     }
 
@@ -145,7 +156,7 @@ final class PlayerReducerTests: XCTestCase {
           currentSong: currentSong,
           status: .playing
         ),
-        reducer: PlayerReducer()
+        reducer: { PlayerReducer() }
       )
     }
 
@@ -171,16 +182,14 @@ final class PlayerReducerTests: XCTestCase {
 
     let store = TestStore(
       initialState: PlayerReducer.State(playlist: playlist),
-      reducer: PlayerReducer()
+      reducer: { PlayerReducer() }
     )
 
     await store.send(.playOn(0)) {
       $0.currentSong = songs.first
     }
 
-    await store.send(.next)
-
-    await store.receive(.playOn(1)) {
+    await store.send(.next) {
       $0.currentSong = songs[1]
     }
   }
@@ -193,16 +202,14 @@ final class PlayerReducerTests: XCTestCase {
 
     let store = TestStore(
       initialState: PlayerReducer.State(playlist: playlist),
-      reducer: PlayerReducer()
+      reducer: { PlayerReducer() }
     )
 
     await store.send(.playOn(1)) {
       $0.currentSong = songs[1]
     }
 
-    await store.send(.previous)
-
-    await store.receive(.playOn(0)) {
+    await store.send(.previous) {
       $0.currentSong = songs.first
     }
   }
@@ -215,7 +222,7 @@ final class PlayerReducerTests: XCTestCase {
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(),
-        reducer: PlayerReducer()
+        reducer: { PlayerReducer() }
       )
     }
 
@@ -237,7 +244,7 @@ final class PlayerReducerTests: XCTestCase {
       initialState: PlayerReducer.State(
         currentSong: currenSong
       ),
-      reducer: PlayerReducer()
+      reducer: { PlayerReducer() }
     )
 
     await store.send(.toggleFavorite) {
@@ -258,7 +265,7 @@ final class PlayerReducerTests: XCTestCase {
         initialState: PlayerReducer.State(
           currentSong: currenSong
         ),
-        reducer: PlayerReducer()
+        reducer: { PlayerReducer() }
       )
     }
 
@@ -275,7 +282,7 @@ final class PlayerReducerTests: XCTestCase {
   func testTogglePlaylistVisible() async throws {
     let store = TestStore(
       initialState: PlayerReducer.State(),
-      reducer: PlayerReducer()
+      reducer: { PlayerReducer() }
     )
 
     await store.send(.togglePlaylistVisible) {
@@ -289,7 +296,7 @@ final class PlayerReducerTests: XCTestCase {
       initialState: PlayerReducer.State(
         currentSong: currenSong
       ),
-      reducer: PlayerReducer()
+      reducer: { PlayerReducer() }
     )
 
     let seekRation = 0.5
@@ -313,7 +320,7 @@ final class PlayerReducerTests: XCTestCase {
         initialState: PlayerReducer.State(
           currentSong: currenSong
         ),
-        reducer: PlayerReducer()
+        reducer: { PlayerReducer() }
       )
     }
 
@@ -338,7 +345,7 @@ final class PlayerReducerTests: XCTestCase {
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(),
-        reducer: PlayerReducer()
+        reducer: { PlayerReducer() }
       )
     }
 
@@ -372,7 +379,7 @@ final class PlayerReducerTests: XCTestCase {
           currentSong: songs.first,
           mode: .single
         ),
-        reducer: PlayerReducer()
+        reducer: { PlayerReducer() }
       )
     }
 
@@ -396,7 +403,7 @@ final class PlayerReducerTests: XCTestCase {
       initialState: PlayerReducer.State(
         mode: .repead
       ),
-      reducer: PlayerReducer()
+      reducer: { PlayerReducer() }
     )
 
     await store.send(.nextMode) {
@@ -417,7 +424,7 @@ final class PlayerReducerTests: XCTestCase {
 
     let store = TestStore(
       initialState: PlayerReducer.State(playlist: playlist),
-      reducer: PlayerReducer()
+      reducer: { PlayerReducer() }
     )
 
     store.exhaustivity = .off
@@ -447,7 +454,7 @@ final class PlayerReducerTests: XCTestCase {
           currentSong: songs.first,
           status: .playing
         ),
-        reducer: PlayerReducer()
+        reducer: { PlayerReducer() }
       )
     }
 
@@ -471,7 +478,7 @@ final class PlayerReducerTests: XCTestCase {
 
     let store = TestStore(
       initialState: PlayerReducer.State(playlist: playlist),
-      reducer: PlayerReducer()
+      reducer: { PlayerReducer() }
     )
 
     store.exhaustivity = .off
@@ -488,7 +495,7 @@ final class PlayerReducerTests: XCTestCase {
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(),
-        reducer: PlayerReducer()
+        reducer: { PlayerReducer() }
       )
     }
 
@@ -509,7 +516,7 @@ final class PlayerReducerTests: XCTestCase {
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(),
-        reducer: PlayerReducer()
+        reducer: { PlayerReducer() }
       )
     }
 
@@ -521,8 +528,6 @@ final class PlayerReducerTests: XCTestCase {
       $0.playlist.orderedSongs = songs
       $0.currentSong = songs.first
     }
-
-    await store.receive(.playOn(0))
   }
 
   func testPlaySongInPlaylist() async throws {
@@ -533,12 +538,10 @@ final class PlayerReducerTests: XCTestCase {
 
     let store = TestStore(
       initialState: PlayerReducer.State(playlist: playlist),
-      reducer: PlayerReducer()
+      reducer: { PlayerReducer() }
     )
 
-    await store.send(.playSong(1))
-
-    await store.receive(.playOn(0)) {
+    await store.send(.playSong(1)) {
       $0.currentSong = songs.first
     }
   }
@@ -556,7 +559,7 @@ final class PlayerReducerTests: XCTestCase {
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(playlist: playlist),
-        reducer: PlayerReducer()
+        reducer: { PlayerReducer() }
       )
     }
 
@@ -566,9 +569,8 @@ final class PlayerReducerTests: XCTestCase {
 
     await store.receive(.playSongResponse(.success(playingSong))) {
       $0.playlist.orderedSongs = [song, playingSong]
+      $0.currentSong = playingSong
     }
-
-    await store.receive(.playOn(1))
   }
 
   func testAddSongIntoEmptyPlaylist() async throws {
@@ -580,7 +582,7 @@ final class PlayerReducerTests: XCTestCase {
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(),
-        reducer: PlayerReducer()
+        reducer: { PlayerReducer() }
       )
     }
 
@@ -590,8 +592,7 @@ final class PlayerReducerTests: XCTestCase {
 
     await store.receive(.playSongResponse(.success(song))) {
       $0.playlist.orderedSongs = [song]
+      $0.currentSong = song
     }
-
-    await store.receive(.playOn(0))
   }
 }

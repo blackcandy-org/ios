@@ -15,7 +15,9 @@ final class LoginReducerTests: XCTestCase {
         systemInfoResponse
       }
     } operation: {
-      TestStore(initialState: LoginReducer.State(), reducer: LoginReducer())
+      TestStore(initialState: LoginReducer.State()) {
+        LoginReducer()
+      }
     }
 
     let serverAddressState = ServerAddressState()
@@ -30,7 +32,9 @@ final class LoginReducerTests: XCTestCase {
   }
 
   func testGetSystemInfoWithInvalidServerAddress() async throws {
-    let store = TestStore(initialState: LoginReducer.State(), reducer: LoginReducer())
+    let store = TestStore(initialState: LoginReducer.State()) {
+      LoginReducer()
+    }
 
     let serverAddressState = ServerAddressState()
     serverAddressState.url = "invalid address"
@@ -54,7 +58,9 @@ final class LoginReducerTests: XCTestCase {
         systemInfoResponse
       }
     } operation: {
-      TestStore(initialState: LoginReducer.State(), reducer: LoginReducer())
+      TestStore(initialState: LoginReducer.State()) {
+        LoginReducer()
+      }
     }
 
     await store.send(.getSystemInfo(serverAddressState))
@@ -78,7 +84,9 @@ final class LoginReducerTests: XCTestCase {
         systemInfoResponse
       }
     } operation: {
-      TestStore(initialState: LoginReducer.State(), reducer: LoginReducer())
+      TestStore(initialState: LoginReducer.State()) {
+        LoginReducer()
+      }
     }
 
     await store.send(.getSystemInfo(serverAddressState))
@@ -104,7 +112,9 @@ final class LoginReducerTests: XCTestCase {
         loginResponse
       }
     } operation: {
-      TestStore(initialState: LoginReducer.State(), reducer: LoginReducer())
+      TestStore(initialState: LoginReducer.State()) {
+        LoginReducer()
+      }
     }
 
     let loginState = LoginState()
@@ -126,7 +136,9 @@ final class LoginReducerTests: XCTestCase {
         throw responseError
       }
     } operation: {
-      TestStore(initialState: LoginReducer.State(), reducer: LoginReducer())
+      TestStore(initialState: LoginReducer.State()) {
+        LoginReducer()
+      }
     }
 
     let loginState = LoginState()

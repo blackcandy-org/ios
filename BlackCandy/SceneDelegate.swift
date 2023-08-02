@@ -16,19 +16,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     let window = UIWindow(windowScene: windowScene)
     let store = AppStore.shared
-    let viewStore = ViewStore(store)
 
-    if viewStore.isLoggedIn {
+    if store.withState(\.isLoggedIn) {
       window.rootViewController = MainViewController(store: store)
     } else {
       window.rootViewController = UIHostingController(
         rootView: LoginView(store: store.scope(state: \.login, action: AppReducer.Action.login))
-          .alert(store.scope(state: \.alert, action: { $0 }), dismiss: .dismissAlert)
+          .alert(store: store.scope(state: \.$alert, action: { .alert($0) }))
       )
     }
 
-    viewStore.publisher
-      .map { $0.currentTheme.interfaceStyle }
+    store.publisher.currentTheme
+      .map { $0.interfaceStyle }
       .assign(to: \.overrideUserInterfaceStyle, on: window)
       .store(in: &self.cancellables)
 
