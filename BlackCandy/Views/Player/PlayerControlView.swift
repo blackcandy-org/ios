@@ -6,11 +6,13 @@ struct PlayerControlView: View {
   let durationFormatter = DurationFormatter()
 
   var body: some View {
-    WithViewStore(self.store) { viewStore in
-      songProgress(viewStore)
-      playerControl(viewStore)
-        .padding(CustomStyle.spacing(.large))
-    }
+    WithViewStore(self.store, observe: { $0 }, content: { viewStore in
+      VStack {
+        songProgress(viewStore)
+        playerControl(viewStore)
+          .padding(CustomStyle.spacing(.large))
+      }
+    })
   }
 
   func playerControl(_ viewStore: ViewStore<PlayerReducer.State, PlayerReducer.Action>) -> some View {
@@ -94,5 +96,30 @@ struct PlayerControlView: View {
           .foregroundColor(.secondary)
       }
     }
+  }
+}
+
+struct PlayerControlView_Previews: PreviewProvider {
+  static var previews: some View {
+    let song = Song(
+      id: 0,
+      name: "Hi Hi",
+      duration: 120,
+      url: URL(string: "http:localhost")!,
+      albumName: "Test",
+      artistName: "Test artist",
+      format: "mp3",
+      albumImageUrl: .init(
+        small: URL(string: "http:localhost")!,
+        medium: URL(string: "http:localhost")!,
+        large: URL(string: "http:localhost")!),
+      isFavorited: true
+    )
+
+    PlayerControlView(
+      store: Store(initialState: PlayerReducer.State(
+        currentSong: song
+      )) {}
+    )
   }
 }

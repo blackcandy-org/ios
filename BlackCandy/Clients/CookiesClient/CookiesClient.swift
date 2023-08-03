@@ -3,16 +3,16 @@ import Dependencies
 import WebKit
 
 struct CookiesClient {
-  var updateCookies: ([HTTPCookie], (() -> Void)?) -> Void
-  var cleanCookies: ((() -> Void)?) -> Void
-  var createCookie: (String, String, (() -> Void)?) -> Void
+  var updateCookies: ([HTTPCookie]) async -> Void
+  var cleanCookies: () async -> Void
+  var createCookie: (String, String) async -> Void
 }
 
 extension CookiesClient: TestDependencyKey {
   static let testValue = Self(
-    updateCookies: { _, _  in },
-    cleanCookies: { _ in },
-    createCookie: {_, _, _ in }
+    updateCookies: { _  in },
+    cleanCookies: { },
+    createCookie: {_, _ in }
   )
 }
 

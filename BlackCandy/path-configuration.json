@@ -2,10 +2,39 @@
   "rules": [
     {
       "patterns": [
-        "/dialog/*"
+        "^/$"
+      ],
+      "properties": {
+        "nav_button": {
+          "path": "/account",
+          "title": "Account",
+          "icon": "person.circle"
+        }
+      }
+    },
+    {
+      "patterns": [
+        "^/library$"
+      ],
+      "properties": {
+        "has_search_bar": true
+      }
+    },
+    {
+      "patterns": [
+        "^/dialog/*"
       ],
       "properties": {
         "presentation": "modal"
+      }
+    },
+    {
+      "patterns": [
+        "^/account*"
+      ],
+      "properties": {
+        "presentation": "modal",
+        "root_view": "account"
       }
     }
   ]

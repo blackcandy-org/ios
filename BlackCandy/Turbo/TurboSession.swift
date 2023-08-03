@@ -1,12 +1,13 @@
 import WebKit
+import ComposableArchitecture
 import Turbo
 
 struct TurboSession {
   static let processPool = WKProcessPool()
 
-  static func create() -> Session {
+  static func create(store: StoreOf<AppReducer>) -> Session {
     let configuration = WKWebViewConfiguration()
-    let scriptMessageHandler = TurboScriptMessageHandler()
+    let scriptMessageHandler = TurboScriptMessageHandler(store: store)
     let pathConfiguration = PathConfiguration(sources: [
       .file(Bundle.main.url(forResource: "path-configuration", withExtension: "json")!)
     ])

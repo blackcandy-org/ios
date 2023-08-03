@@ -14,6 +14,8 @@ extension UserDefaultsClient: TestDependencyKey {
 
     updateServerAddress: { _ in }
   )
+
+  static let previewValue = testValue
 }
 
 extension DependencyValues {

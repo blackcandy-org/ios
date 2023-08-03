@@ -4,16 +4,14 @@ import ComposableArchitecture
 import Turbo
 
 class TurboNavigationController: UINavigationController, SessionDelegate {
-  let hasSearchBar: Bool
-  let url: URL
-  let viewStore = ViewStore(AppStore.shared, removeDuplicates: ==)
+  @Dependency(\.userDefaultsClient) var userDefaultsClient
 
-  private let sharedSession: Session?
+  let initPath: String
+  let store: StoreOf<AppReducer>
 
-  init(path: String, session: Session? = nil, hasSearchBar: Bool = false) {
-    self.sharedSession = session
-    self.hasSearchBar = hasSearchBar
-    self.url = viewStore.serverAddress!.appendingPathComponent(path)
+  init(_ initPath: String, store: StoreOf<AppReducer> = AppStore.shared) {
+    self.initPath = initPath
+    self.store = store
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -22,50 +20,33 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
     fatalError("init(coder:) has not been implemented")
   }
 
-  lazy var viewSession: Session = {
-    let session = self.sharedSession ?? TurboSession.create()
+  lazy var session: Session = {
+    let session = TurboSession.create(store: store)
     session.delegate = self
 
     return session
   }()
 
   private lazy var modalSession: Session = {
-    let session = TurboSession.create()
+    let session = TurboSession.create(store: store)
     session.delegate = self
 
     return session
   }()
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
+  func route(_ path: String) {
+    let url = userDefaultsClient.serverAddress()!.appendingPathComponent(path)
+    let options = VisitOptions(action: .advance, response: nil)
+    let properties = session.pathConfiguration?.properties(for: url) ?? PathProperties()
+    let proposal = VisitProposal(url: url, options: options, properties: properties)
 
-    let visitableViewController = TurboVisitableViewController(url: url)
-    let navigationBarAppearance = UINavigationBarAppearance()
-    navigationBarAppearance.configureWithDefaultBackground()
-
-    navigationBar.standardAppearance = navigationBarAppearance
-    navigationBar.scrollEdgeAppearance = navigationBarAppearance
-
-    visitableViewController.hasSearchBar = hasSearchBar
-
-    if url.path == "/" {
-      visitableViewController.navigationItem.rightBarButtonItem = .init(
-        image: .init(systemName: "person.circle"),
-        style: .done,
-        target: self,
-        action: #selector(self.showAccount)
-      )
-    }
-
-    viewControllers = [visitableViewController]
-
-    viewSession.visit(visitableViewController)
+    route(proposal: proposal)
   }
 
-  func session(_ session: Turbo.Session, didProposeVisit proposal: Turbo.VisitProposal) {
-    let viewController = TurboVisitableViewController(url: proposal.url)
+  func route(proposal: VisitProposal) {
     let presentation = proposal.properties["presentation"] as? String
     let visitOptions = proposal.options
+    let viewController = makeViewController(for: proposal.url, properties: proposal.properties)
 
     // Dismiss any modals when receiving a new navigation
     if presentedViewController != nil {
@@ -76,7 +57,7 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
       let modalViewController = UINavigationController(rootViewController: viewController)
 
       present(modalViewController, animated: true)
-      modalSession.visit(viewController, options: visitOptions)
+      visit(viewController: viewController, with: visitOptions, modal: true)
       return
     }
 
@@ -84,12 +65,28 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
       let viewControllers = Array(viewControllers.dropLast()) + [viewController]
 
       setViewControllers(viewControllers, animated: false)
-      session.visit(viewController, options: visitOptions)
+      visit(viewController: viewController, with: visitOptions)
       return
     }
 
     pushViewController(viewController, animated: true)
-    session.visit(viewController, options: visitOptions)
+    visit(viewController: viewController, with: visitOptions)
+  }
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
+    let navigationBarAppearance = UINavigationBarAppearance()
+    navigationBarAppearance.configureWithDefaultBackground()
+
+    navigationBar.standardAppearance = navigationBarAppearance
+    navigationBar.scrollEdgeAppearance = navigationBarAppearance
+
+    route(initPath)
+  }
+
+  func session(_ session: Turbo.Session, didProposeVisit proposal: Turbo.VisitProposal) {
+    route(proposal: proposal)
   }
 
   func sessionWebViewProcessDidTerminate(_ session: Turbo.Session) {
@@ -101,7 +98,7 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
       switch turboError {
       case .http(let statusCode):
         if statusCode == 401 {
-          viewStore.send(.logout)
+          store.send(.logout)
         }
       case .networkFailure, .timeoutFailure:
         return
@@ -115,7 +112,35 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
     }
   }
 
-  @objc func showAccount() {
-    present(UIHostingController(rootView: AccountView(store: AppStore.shared)), animated: true)
+  private func makeViewController(for url: URL, properties: PathProperties) -> UIViewController {
+    let defaultViewController = TurboVisitableViewController(url, properties: properties)
+
+    if let rootView = properties["root_view"] as? String {
+      switch rootView {
+      case "account":
+        return UIHostingController(
+          rootView: AccountView(
+            store: store,
+            navItemTapped: { path in
+              self.route(path)
+            }
+          )
+        )
+      default:
+        return defaultViewController
+      }
+    }
+
+    return defaultViewController
+  }
+
+  private func visit(viewController: UIViewController, with options: VisitOptions, modal: Bool = false) {
+    guard let visitable = viewController as? Visitable else { return }
+
+    if modal {
+      modalSession.visit(visitable, options: options)
+    } else {
+      session.visit(visitable, options: options)
+    }
   }
 }

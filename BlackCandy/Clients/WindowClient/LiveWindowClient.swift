@@ -16,7 +16,12 @@ extension WindowClient: DependencyKey {
       },
 
       switchToLoginView: {
-        changeRootViewController(UIHostingController(rootView: LoginView(store: AppStore.shared)))
+        let store = AppStore.shared
+
+        changeRootViewController(UIHostingController(
+          rootView: LoginView(store: store.scope(state: \.login, action: AppReducer.Action.login))
+            .alert(store: store.scope(state: \.$alert, action: { .alert($0) }))
+        ))
       }
     )
   }

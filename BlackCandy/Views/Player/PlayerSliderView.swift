@@ -44,3 +44,9 @@ struct PlayerSliderView: UIViewRepresentable {
     .init(value: $value)
   }
 }
+
+struct PlayerSliderView_Previews: PreviewProvider {
+  static var previews: some View {
+    PlayerSliderView(value: .constant(0.5))
+  }
+}

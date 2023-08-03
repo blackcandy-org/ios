@@ -3,29 +3,32 @@ import AVFAudio
 import ComposableArchitecture
 
 class AudioSessionControl {
-  static let shared = AudioSessionControl()
-
-  let viewStore = ViewStore(AppStore.shared.stateless, removeDuplicates: ==)
-
-  func setup() {
+  static func setup(store: StoreOf<PlayerReducer>) {
     let audioSession = AVAudioSession.sharedInstance()
     let notificationCenter = NotificationCenter.default
+    let audioSessionControl = AudioSessionControl(store: store)
 
     try? audioSession.setCategory(.playback)
 
     notificationCenter.addObserver(
-      self,
+      audioSessionControl,
       selector: #selector(handleInterruption),
       name: AVAudioSession.interruptionNotification,
       object: audioSession
     )
 
     notificationCenter.addObserver(
-      self,
+      audioSessionControl,
       selector: #selector(handleRouteChange),
       name: AVAudioSession.routeChangeNotification,
       object: nil
     )
+  }
+
+  let store: StoreOf<PlayerReducer>
+
+  init(store: StoreOf<PlayerReducer>) {
+    self.store = store
   }
 
   @objc func handleInterruption(notification: Notification) {
@@ -38,7 +41,7 @@ class AudioSessionControl {
 
     switch type {
     case .began:
-      viewStore.send(.player(.pause))
+      store.send(.pause)
     case .ended:
       // An interruption ended. Resume playback, if appropriate.
       guard let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
@@ -46,11 +49,11 @@ class AudioSessionControl {
       let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
 
       if options.contains(.shouldResume) {
-        viewStore.send(.player(.play))
+        store.send(.play)
       }
 
     default:
-      viewStore.send(.player(.pause))
+      store.send(.pause)
     }
   }
 
@@ -70,7 +73,7 @@ class AudioSessionControl {
       }
 
       if hasHeadphones(in: previousRoute) {
-        viewStore.send(.player(.pause))
+        store.send(.pause)
       }
 
     default: ()

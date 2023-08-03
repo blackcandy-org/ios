@@ -3,69 +3,67 @@ import ComposableArchitecture
 
 struct AccountView: View {
   let store: StoreOf<AppReducer>
-  let session = TurboSession.create()
+  let navItemTapped: (String) -> Void
+
+  struct ViewState: Equatable {
+    let currentUser: User?
+    let isAdmin: Bool
+
+    init(state: AppReducer.State) {
+      self.currentUser = state.currentUser
+      self.isAdmin = state.currentUser?.isAdmin ?? false
+    }
+  }
 
   var body: some View {
-    WithViewStore(self.store) { viewStore in
-      NavigationView {
-        VStack {
-          List {
-            NavigationLink(
-              "label.settings",
-              destination: TurboView(
-                path: "/setting",
-                session: session,
-                hasNavigationBar: false
-              )
-              .navigationTitle("label.settings")
-              .ignoresSafeArea(edges: .vertical)
-            )
-
-            if viewStore.isAdmin {
-              NavigationLink(
-                "label.manageUsers",
-                destination: TurboView(
-                  path: "/users",
-                  session: session,
-                  hasNavigationBar: false
-                )
-                .navigationTitle("label.manageUsers")
-                .ignoresSafeArea(edges: .vertical)
-              )
-            }
-
-            if viewStore.isLoggedIn {
-              NavigationLink(
-                "label.updateProfile",
-                destination: TurboView(
-                  path: "/users/\(viewStore.currentUser!.id)/edit",
-                  session: session,
-                  hasNavigationBar: false
-                )
-                .navigationTitle("label.updateProfile")
-                .ignoresSafeArea(edges: .vertical)
-              )
-            }
-
-            Section {
-              Button(
-                role: .destructive,
-                action: {
-                  viewStore.send(.logout)
-                },
-                label: {
-                  Text("label.logout")
-                }
-              )
-              .frame(maxWidth: .infinity)
-            }
-          }
-          .listStyle(.insetGrouped)
+    WithViewStore(self.store, observe: ViewState.init) { viewStore in
+      List {
+        Button("label.settings") {
+          navItemTapped("/setting")
         }
-        .navigationTitle("label.account")
-        .navigationBarTitleDisplayMode(.inline)
+
+        if viewStore.isAdmin {
+          Button("label.manageUsers") {
+            navItemTapped("/users")
+          }
+        }
+
+        Button("label.updateProfile") {
+          navItemTapped("/users/\(viewStore.currentUser!.id)/edit")
+        }
+
+        Section {
+          Button(
+            role: .destructive,
+            action: {
+              viewStore.send(.logout)
+            },
+            label: {
+              Text("label.logout")
+            }
+          )
+          .frame(maxWidth: .infinity)
+        }
       }
-      .navigationViewStyle(.stack)
+      .listStyle(.insetGrouped)
+      .navigationTitle("label.account")
+      .navigationBarTitleDisplayMode(.inline)
     }
+  }
+}
+
+struct AccountView_Previews: PreviewProvider {
+  static var previews: some View {
+    var state = AppReducer.State()
+    state.currentUser = User(
+      id: 0,
+      email: "test@test.com",
+      isAdmin: true
+    )
+
+    return AccountView(
+      store: Store(initialState: state) {},
+      navItemTapped: { _ in }
+    )
   }
 }

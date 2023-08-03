@@ -7,23 +7,23 @@ import Alamofire
 class PlayerViewController: UIHostingController<PlayerView> {
   @objc var _ln_interactionLimitRect: CGRect = .zero
 
-  let viewStore: ViewStoreOf<PlayerReducer>
+  let store: StoreOf<PlayerReducer>
   var cancellables: Set<AnyCancellable> = []
 
   init(store: StoreOf<PlayerReducer>) {
-    self.viewStore = ViewStore(store)
+    self.store = store
     super.init(rootView: PlayerView(store: store))
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    self.viewStore.publisher
-      .map { $0.currentSong?.name ?? NSLocalizedString("label.notPlaying", comment: "") }
+    self.store.publisher.currentSong
+      .map { $0?.name ?? NSLocalizedString("label.notPlaying", comment: "") }
       .assign(to: \.title, on: popupItem)
       .store(in: &self.cancellables)
 
-    self.viewStore.publisher
+    self.store.publisher
       .map { state in
         let pauseButton = UIBarButtonItem(image: .init(systemName: "pause.fill"), style: .plain, target: self, action: #selector(self.pause))
         let playButton = UIBarButtonItem(image: .init(systemName: "play.fill"), style: .plain, target: self, action: #selector(self.play))
@@ -43,7 +43,7 @@ class PlayerViewController: UIHostingController<PlayerView> {
       .assign(to: \.barButtonItems, on: popupItem)
       .store(in: &self.cancellables)
 
-    self.viewStore.publisher.currentSong
+    self.store.publisher.currentSong
       .sink { [weak self] currentSong in
         guard let imageUrl = currentSong?.albumImageUrl.small else { return }
 
@@ -92,15 +92,15 @@ class PlayerViewController: UIHostingController<PlayerView> {
   }
 
   @objc private func pause() {
-    self.viewStore.send(.pause)
+    self.store.send(.pause)
   }
 
   @objc private func play() {
-    self.viewStore.send(.play)
+    self.store.send(.play)
   }
 
   @objc private func nextSong() {
-    self.viewStore.send(.next)
+    self.store.send(.next)
   }
 }
 

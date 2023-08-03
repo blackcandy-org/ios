@@ -4,11 +4,11 @@ import SwiftUI
 import Combine
 
 class MainViewController: UISplitViewController, UISplitViewControllerDelegate {
-  let viewStore: ViewStoreOf<AppReducer>
+  let store: StoreOf<AppReducer>
   var cancellables: Set<AnyCancellable> = []
 
   init(store: StoreOf<AppReducer>) {
-    viewStore = ViewStore(store)
+    self.store = store
 
     super.init(style: .doubleColumn)
 
@@ -31,11 +31,11 @@ class MainViewController: UISplitViewController, UISplitViewControllerDelegate {
   }
 
   override func viewDidAppear(_ animated: Bool) {
-    viewStore.send(.player(.getCurrentPlaylist))
+    store.send(.player(.getCurrentPlaylist))
   }
 
   override func viewDidLoad() {
-    self.viewStore.publisher.alert
+    self.store.publisher.alert
       .sink { [weak self] alert in
         guard let self = self else { return }
         guard let alert = alert else { return }
@@ -48,7 +48,7 @@ class MainViewController: UISplitViewController, UISplitViewControllerDelegate {
 
         alertController.addAction(
           UIAlertAction(title: NSLocalizedString("label.ok", comment: ""), style: .default) { _ in
-            self.viewStore.send(.dismissAlert)
+            self.store.send(.dismissAlert)
           }
         )
 
