@@ -30,17 +30,15 @@ final class CookiesClientTests: XCTestCase {
     XCTAssertEqual(cookie.value, allCookies.first?.value)
   }
 
-  func testCreateCookie() async throws {
-    await cookiesClient.createCookie("newCookie", "newCookieValue")
-
-    let allCookies = await cookieStore.allCookies()
-
-    XCTAssertEqual(allCookies.first?.name, "newCookie")
-    XCTAssertEqual(allCookies.first?.value, "newCookieValue")
-  }
-
   func testCleanCookies() async throws {
-    await cookiesClient.createCookie("newCookie", "newCookieValue")
+    let cookie = HTTPCookie(properties: [
+      .name: "testName",
+      .value: "testValue",
+      .originURL: URL(string: "http://localhost:3000")!,
+      .path: "/"
+    ])!
+
+    await cookiesClient.updateCookies([cookie])
     await cookiesClient.cleanCookies()
 
     let allCookies = await cookieStore.allCookies()

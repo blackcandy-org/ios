@@ -288,15 +288,7 @@ struct PlayerReducer: Reducer {
     playerClient.playOn(currentSong.url)
 
     return .run { _ in
-      await withTaskGroup(of: Void.self) { taskGroup in
-        taskGroup.addTask {
-          await nowPlayingClient.updateInfo(currentSong)
-        }
-
-        taskGroup.addTask {
-          await cookiesClient.createCookie("current_song_id", String(currentSong.id))
-        }
-      }
+      await nowPlayingClient.updateInfo(currentSong)
     }
   }
 }
