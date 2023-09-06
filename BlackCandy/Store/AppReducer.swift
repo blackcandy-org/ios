@@ -36,7 +36,6 @@ struct AppReducer: Reducer {
     var login: LoginReducer.State {
       get {
         var state = _loginState
-        state.alert = self.alert
         state.currentUser = self.currentUser
 
         return state
@@ -44,8 +43,6 @@ struct AppReducer: Reducer {
 
       set {
         self._loginState = newValue
-
-        self.alert = newValue.alert
         self.currentUser = newValue.currentUser
       }
     }
@@ -77,7 +74,7 @@ struct AppReducer: Reducer {
       case .logout:
         keychainClient.deleteAPIToken()
         jsonDataClient.deleteCurrentUser()
-        windowClient.switchToLoginView()
+        windowClient.changeRootViewController(LoginViewController(store: AppStore.shared))
 
         state.currentUser = nil
 

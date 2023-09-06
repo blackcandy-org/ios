@@ -27,6 +27,9 @@ struct LoginView: View {
         }
       }
       .navigationViewStyle(.stack)
+      .alert(
+        store: store.scope(state: \.$alert, action: { .alert($0) })
+      )
     }
   }
 }

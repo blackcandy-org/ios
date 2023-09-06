@@ -10,19 +10,22 @@ struct LoginReducer: Reducer {
   @Dependency(\.windowClient) var windowClient
 
   struct State: Equatable {
-    var alert: AlertState<AppReducer.AlertAction>?
-    var currentUser: User?
-
+    @PresentationState var alert: AlertState<LoginReducer.AlertAction>?
     @BindingState var isAuthenticationViewVisible = false
+
+    var currentUser: User?
   }
 
   enum Action: Equatable, BindableAction {
+    case alert(PresentationAction<AlertAction>)
     case getSystemInfo(ServerAddressState)
     case systemInfoResponse(TaskResult<SystemInfo>)
     case login(LoginState)
     case loginResponse(TaskResult<APIClient.AuthenticationResponse>)
     case binding(BindingAction<State>)
   }
+
+  enum AlertAction: Equatable {}
 
   var body: some ReducerOf<Self> {
     BindingReducer()
@@ -75,10 +78,9 @@ struct LoginReducer: Reducer {
       case let .loginResponse(.success(response)):
         keychainClient.updateAPIToken(response.token)
         jsonDataClient.updateCurrentUser(response.user)
+        windowClient.changeRootViewController(MainViewController(store: AppStore.shared))
 
         state.currentUser = response.user
-
-        windowClient.switchToMainView()
 
         return .run { _ in
           await cookiesClient.updateCookies(response.cookies)
@@ -93,7 +95,11 @@ struct LoginReducer: Reducer {
 
       case .binding:
         return .none
+
+      case .alert:
+        return .none
       }
     }
+    .ifLet(\.$alert, action: /Action.alert)
   }
 }

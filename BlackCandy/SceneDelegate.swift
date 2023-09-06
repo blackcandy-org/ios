@@ -20,10 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     if store.withState(\.isLoggedIn) {
       window.rootViewController = MainViewController(store: store)
     } else {
-      window.rootViewController = UIHostingController(
-        rootView: LoginView(store: store.scope(state: \.login, action: AppReducer.Action.login))
-          .alert(store: store.scope(state: \.$alert, action: { .alert($0) }))
-      )
+      window.rootViewController = LoginViewController(store: store)
     }
 
     store.publisher.currentTheme
