@@ -14,5 +14,5 @@ extension UserDefaultsClient: DependencyKey {
     )
   }
 
-  static var liveValue = live(serverAddressKey: "com.aidewooode.BlackCandy.serverAddressKey")
+  static var liveValue = live(serverAddressKey: "org.BlackCandy.serverAddressKey")
 }

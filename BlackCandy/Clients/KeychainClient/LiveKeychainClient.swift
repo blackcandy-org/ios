@@ -48,5 +48,5 @@ extension KeychainClient: DependencyKey {
     )
   }
 
-  static let liveValue  = live(apiTokenKey: "com.aidewooode.BlackCandy.apiTokenKey")
+  static let liveValue  = live(apiTokenKey: "org.BlackCandy.apiTokenKey")
 }
