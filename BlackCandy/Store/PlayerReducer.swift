@@ -39,14 +39,13 @@ struct PlayerReducer: Reducer {
     case next
     case previous
     case playOn(Int)
-    case getCurrentTime
     case updateCurrentTime(Double)
     case toggleFavorite
     case toggleFavoriteResponse(TaskResult<APIClient.NoContentResponse>)
     case togglePlaylistVisible
     case seekToRatio(Double)
     case seekToPosition(TimeInterval)
-    case getStatus
+    case getLivingStates
     case handleStatusChange(PlayerClient.Status)
     case nextMode
     case deleteSongs(IndexSet)
@@ -91,13 +90,6 @@ struct PlayerReducer: Reducer {
       case let .playOn(index):
         return self.playOn(state: &state, index: index)
 
-      case .getCurrentTime:
-        return .run { send in
-          for await currentTime in playerClient.getCurrentTime() {
-            await send(.updateCurrentTime(currentTime))
-          }
-        }
-
       case let .updateCurrentTime(currentTime):
         state.currentTime = currentTime
 
@@ -119,7 +111,7 @@ struct PlayerReducer: Reducer {
       case .toggleFavoriteResponse(.success):
         return .none
 
-        // Toogle favorite state back if toggle favorite failed
+      // Toogle favorite state back if toggle favorite failed
       case let .toggleFavoriteResponse(.failure(error)):
         state.currentSong?.isFavorited.toggle()
 
@@ -145,10 +137,20 @@ struct PlayerReducer: Reducer {
 
         return .none
 
-      case .getStatus:
+      case .getLivingStates:
         return .run { send in
-          for await status in playerClient.getStatus() {
-            await send(.handleStatusChange(status))
+          await withTaskGroup(of: Void.self) { taskGroup in
+            taskGroup.addTask {
+              for await status in playerClient.getStatus() {
+                await send(.handleStatusChange(status))
+              }
+            }
+
+            taskGroup.addTask {
+              for await currentTime in playerClient.getCurrentTime() {
+                await send(.updateCurrentTime(currentTime))
+              }
+            }
           }
         }
 

@@ -36,9 +36,8 @@ struct PlayerView: View {
       .padding()
       .padding(.bottom, CustomStyle.spacing(.wide))
       .frame(maxWidth: CustomStyle.playerMaxWidth)
-      .onAppear {
-        viewStore.send(.getStatus)
-        viewStore.send(.getCurrentTime)
+      .task {
+        await viewStore.send(.getLivingStates).finish()
       }
     }
   }
