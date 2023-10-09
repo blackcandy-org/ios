@@ -6,14 +6,14 @@ extension PlayerClient: DependencyKey {
   static func live(player: AVPlayer) -> Self {
     @Dependency(\.keychainClient) var keychainClient
 
+    let apiToken = keychainClient.apiToken() ?? ""
+
     return Self(
       hasCurrentItem: {
         player.currentItem != nil
       },
 
       playOn: { songUrl in
-        guard let apiToken = keychainClient.apiToken() else { return }
-
         let asset = AVURLAsset(url: songUrl, options: [
           "AVURLAssetHTTPHeaderFieldsKey": [
             "Authorization": "Token \(apiToken)",

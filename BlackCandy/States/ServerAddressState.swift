@@ -8,17 +8,17 @@ class ServerAddressState: ObservableObject, Equatable {
     url.isEmpty
   }
 
-  var isUrlValid: Bool {
-    if let serverUrl = URL(string: url) {
-      // Add http scheme to serverAddress if it dosen't have
-      if !["http", "https"].contains(serverUrl.scheme) {
-        url = "http://" + url
-      }
+  func validateUrl() -> Bool {
+    let schemeRegex = try! NSRegularExpression(pattern: "^https?://.*", options: .caseInsensitive)
+    let hasScheme = schemeRegex.firstMatch(in: url, range: .init(location: 0, length: url.utf16.count)) != nil
 
-      return UIApplication.shared.canOpenURL(URL(string: url)!)
+    if !hasScheme {
+      url = "http://" + url
     }
 
-    return false
+    guard let serverUrl = URL(string: url) else { return false }
+
+    return UIApplication.shared.canOpenURL(serverUrl)
   }
 
   static func == (lhs: ServerAddressState, rhs: ServerAddressState) -> Bool {

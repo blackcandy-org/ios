@@ -39,7 +39,6 @@ struct PlayerReducer: Reducer {
     case next
     case previous
     case playOn(Int)
-    case getCurrentTime
     case updateCurrentTime(Double)
     case toggleFavorite
     case toggleFavoriteResponse(TaskResult<APIClient.NoContentResponse>)
@@ -47,6 +46,8 @@ struct PlayerReducer: Reducer {
     case seekToRatio(Double)
     case seekToPosition(TimeInterval)
     case getStatus
+    case getCurrentTime
+    case getLivingStates
     case handleStatusChange(PlayerClient.Status)
     case nextMode
     case deleteSongs(IndexSet)
@@ -91,13 +92,6 @@ struct PlayerReducer: Reducer {
       case let .playOn(index):
         return self.playOn(state: &state, index: index)
 
-      case .getCurrentTime:
-        return .run { send in
-          for await currentTime in playerClient.getCurrentTime() {
-            await send(.updateCurrentTime(currentTime))
-          }
-        }
-
       case let .updateCurrentTime(currentTime):
         state.currentTime = currentTime
 
@@ -119,7 +113,7 @@ struct PlayerReducer: Reducer {
       case .toggleFavoriteResponse(.success):
         return .none
 
-        // Toogle favorite state back if toggle favorite failed
+      // Toogle favorite state back if toggle favorite failed
       case let .toggleFavoriteResponse(.failure(error)):
         state.currentSong?.isFavorited.toggle()
 
@@ -145,10 +139,30 @@ struct PlayerReducer: Reducer {
 
         return .none
 
+      case .getCurrentTime:
+        return .run { send in
+          for await currentTime in playerClient.getCurrentTime() {
+            await send(.updateCurrentTime(currentTime))
+          }
+        }
+
       case .getStatus:
         return .run { send in
           for await status in playerClient.getStatus() {
             await send(.handleStatusChange(status))
+          }
+        }
+
+      case .getLivingStates:
+        return .run { send in
+          await withTaskGroup(of: Void.self) { taskGroup in
+            taskGroup.addTask {
+              await send(.getStatus)
+            }
+
+            taskGroup.addTask {
+              await send(.getCurrentTime)
+            }
           }
         }
 

@@ -49,7 +49,7 @@ final class LoginReducerTests: XCTestCase {
 
     let systemInfoResponse = SystemInfo(
       version: .init(major: 3, minor: 0, patch: 0, pre: ""),
-      serverAddress: URL(string: "invalid address")
+      serverAddress: nil
     )
 
     let store = withDependencies {
