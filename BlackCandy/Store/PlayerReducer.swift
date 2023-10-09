@@ -45,6 +45,8 @@ struct PlayerReducer: Reducer {
     case togglePlaylistVisible
     case seekToRatio(Double)
     case seekToPosition(TimeInterval)
+    case getStatus
+    case getCurrentTime
     case getLivingStates
     case handleStatusChange(PlayerClient.Status)
     case nextMode
@@ -137,19 +139,29 @@ struct PlayerReducer: Reducer {
 
         return .none
 
+      case .getCurrentTime:
+        return .run { send in
+          for await currentTime in playerClient.getCurrentTime() {
+            await send(.updateCurrentTime(currentTime))
+          }
+        }
+
+      case .getStatus:
+        return .run { send in
+          for await status in playerClient.getStatus() {
+            await send(.handleStatusChange(status))
+          }
+        }
+
       case .getLivingStates:
         return .run { send in
           await withTaskGroup(of: Void.self) { taskGroup in
             taskGroup.addTask {
-              for await status in playerClient.getStatus() {
-                await send(.handleStatusChange(status))
-              }
+              await send(.getStatus)
             }
 
             taskGroup.addTask {
-              for await currentTime in playerClient.getCurrentTime() {
-                await send(.updateCurrentTime(currentTime))
-              }
+              await send(.getCurrentTime)
             }
           }
         }

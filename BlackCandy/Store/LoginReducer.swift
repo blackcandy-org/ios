@@ -33,7 +33,7 @@ struct LoginReducer: Reducer {
     Reduce { state, action in
       switch action {
       case let .getSystemInfo(serverAddressState):
-        if serverAddressState.isUrlValid {
+        if serverAddressState.validateUrl() {
           return .run { send in
             await send(
               .systemInfoResponse(

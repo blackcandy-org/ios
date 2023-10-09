@@ -26,20 +26,20 @@ final class ServerAddressStateTests: XCTestCase {
     let state = ServerAddressState()
 
     state.url = "erro yyy"
-    XCTAssertFalse(state.isUrlValid)
+    XCTAssertFalse(state.validateUrl())
 
     state.url = "http://foobar.com"
-    XCTAssertTrue(state.isUrlValid)
+    XCTAssertTrue(state.validateUrl())
 
     state.url = "localhost:3000"
-    XCTAssertTrue(state.isUrlValid)
+    XCTAssertTrue(state.validateUrl())
   }
 
   func testAutomaticllyAddHttpSchemeAfterChekUrlValidation() throws {
     let state = ServerAddressState()
 
     state.url = "localhost:3000"
-    XCTAssertTrue(state.isUrlValid)
+    XCTAssertTrue(state.validateUrl())
     XCTAssertEqual(state.url, "http://localhost:3000")
   }
 }
