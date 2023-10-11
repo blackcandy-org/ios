@@ -5,7 +5,7 @@ import Alamofire
 struct APIClient {
   var authentication: (LoginState) async throws -> AuthenticationResponse
   var getCurrentPlaylistSongs: () async throws -> [Song]
-  var toggleFavorite: (Song) async throws -> NoContentResponse
+  var toggleFavorite: (Song) async throws -> Int
   var deleteCurrentPlaylistSongs: ([Song]) async throws -> NoContentResponse
   var moveCurrentPlaylistSongs: (Int, Int) async throws -> NoContentResponse
   var getSong: (Int) async throws -> Song
@@ -19,9 +19,7 @@ extension APIClient: TestDependencyKey {
 
     getCurrentPlaylistSongs: unimplemented("\(Self.self).getCurrentPlaylistSongs"),
 
-    toggleFavorite: { _ in
-      NoContentResponse()
-    },
+    toggleFavorite: unimplemented("\(Self.self).toggleFavorite"),
 
     deleteCurrentPlaylistSongs: { _ in
       NoContentResponse()

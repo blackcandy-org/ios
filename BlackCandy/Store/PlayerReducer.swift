@@ -29,7 +29,6 @@ struct PlayerReducer: Reducer {
     var hasCurrentSong: Bool {
       currentSong != nil
     }
-
   }
 
   enum Action: Equatable {
@@ -41,7 +40,7 @@ struct PlayerReducer: Reducer {
     case playOn(Int)
     case updateCurrentTime(Double)
     case toggleFavorite
-    case toggleFavoriteResponse(TaskResult<APIClient.NoContentResponse>)
+    case toggleFavoriteResponse(TaskResult<Int>)
     case togglePlaylistVisible
     case seekToRatio(Double)
     case seekToPosition(TimeInterval)
@@ -100,8 +99,6 @@ struct PlayerReducer: Reducer {
       case .toggleFavorite:
         guard let currentSong = state.currentSong else { return .none }
 
-        state.currentSong?.isFavorited = !currentSong.isFavorited
-
         return .run { send in
           await send(
             .toggleFavoriteResponse(
@@ -110,13 +107,19 @@ struct PlayerReducer: Reducer {
           )
         }
 
-      case .toggleFavoriteResponse(.success):
+      case let .toggleFavoriteResponse(.success(songId)):
+        guard var song = state.playlist.find(by: songId) else { return .none }
+        song.isFavorited.toggle()
+
+        state.playlist.update(song: song)
+
+        if state.currentSong?.id == songId {
+          state.currentSong = song
+        }
+
         return .none
 
-      // Toogle favorite state back if toggle favorite failed
       case let .toggleFavoriteResponse(.failure(error)):
-        state.currentSong?.isFavorited.toggle()
-
         guard let error = error as? APIClient.APIError else { return .none }
         state.alert = .init(title: .init(error.localizedString))
 
