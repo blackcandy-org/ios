@@ -85,12 +85,12 @@ final class APIClientTests: XCTestCase {
     let song = try songs(id: 1)
 
     stub(condition: isMethodPOST() && isPath("/api/v1/favorite_playlist/songs")) { _ in
-      return .init(jsonObject: [] as [Any], statusCode: 200, headers: nil)
+      return .init(jsonObject: ["id": 1], statusCode: 200, headers: nil)
     }
 
     let response = try await apiClient.toggleFavorite(song)
 
-    XCTAssertEqual(response.self, APIClient.NoContentResponse.value)
+    XCTAssertEqual(response.self, 1)
   }
 
   func testDeleteCurrentPlaylistSongs() async throws {

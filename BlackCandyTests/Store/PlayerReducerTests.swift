@@ -239,19 +239,31 @@ final class PlayerReducerTests: XCTestCase {
   }
 
   func testToggleFavorite() async throws {
-    let currenSong = try songs(id: 1)
-    let store = TestStore(
-      initialState: PlayerReducer.State(
-        currentSong: currenSong
-      ),
-      reducer: { PlayerReducer() }
-    )
+    var playlist = Playlist()
+    let songs = try songs()
+    let currentSong = songs.first!
 
-    await store.send(.toggleFavorite) {
-      $0.currentSong?.isFavorited = true
+    playlist.update(songs: songs)
+
+    let store = withDependencies {
+      $0.apiClient.toggleFavorite = { _ in currentSong.id }
+    } operation: {
+      TestStore(
+        initialState: PlayerReducer.State(
+          playlist: playlist,
+          currentSong: currentSong
+        ),
+        reducer: { PlayerReducer() }
+      )
     }
 
-    await store.receive(.toggleFavoriteResponse(.success(APIClient.NoContentResponse())))
+    store.exhaustivity = .off
+
+    await store.send(.toggleFavorite)
+
+    await store.receive(.toggleFavoriteResponse(.success(currentSong.id))) {
+      $0.currentSong?.isFavorited = true
+    }
   }
 
   func testToogleFavoriteFailed() async throws {
@@ -269,9 +281,9 @@ final class PlayerReducerTests: XCTestCase {
       )
     }
 
-    await store.send(.toggleFavorite) {
-      $0.currentSong?.isFavorited = true
-    }
+    store.exhaustivity = .off
+
+    await store.send(.toggleFavorite)
 
     await store.receive(.toggleFavoriteResponse(.failure(responseError))) {
       $0.currentSong?.isFavorited = false

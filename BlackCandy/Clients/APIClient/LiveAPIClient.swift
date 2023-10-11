@@ -146,10 +146,11 @@ extension APIClient: DependencyKey {
           headers: headers
         )
           .validate()
-          .serializingDecodable(NoContentResponse.self)
+          .serializingData()
 
         return try await handleRequest(request) { request, _ in
-          try await request.value
+          let value = try await request.value
+          return decodeJSON(value)?["id"] as! Int
         }
       },
 
