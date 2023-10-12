@@ -78,7 +78,7 @@ struct LoginReducer: Reducer {
       case let .loginResponse(.success(response)):
         keychainClient.updateAPIToken(response.token)
         jsonDataClient.updateCurrentUser(response.user)
-        windowClient.changeRootViewController(MainViewController(store: AppStore.shared))
+        windowClient.changeRootViewController(MainViewController(store: AppStore.shared, initPlaylist: true))
 
         state.currentUser = response.user
 

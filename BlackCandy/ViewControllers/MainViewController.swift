@@ -7,7 +7,7 @@ class MainViewController: UISplitViewController, UISplitViewControllerDelegate {
   let store: StoreOf<AppReducer>
   var cancellables: Set<AnyCancellable> = []
 
-  init(store: StoreOf<AppReducer>) {
+  init(store: StoreOf<AppReducer>, initPlaylist: Bool = false) {
     self.store = store
 
     super.init(style: .doubleColumn)
@@ -24,18 +24,18 @@ class MainViewController: UISplitViewController, UISplitViewControllerDelegate {
     setViewController(sidebarViewController, for: .primary)
     setViewController(tabBarViewController, for: .secondary)
     setViewController(tabBarViewController, for: .compact)
+
+    if initPlaylist {
+      store.send(.player(.getCurrentPlaylist))
+    }
   }
 
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 
-  override func viewDidAppear(_ animated: Bool) {
-    store.send(.player(.getCurrentPlaylist))
-  }
-
   override func viewDidLoad() {
-    self.store.publisher.alert
+    store.publisher.alert
       .sink { [weak self] alert in
         guard let self = self else { return }
         guard let alert = alert else { return }
