@@ -17,8 +17,18 @@ struct Playlist: Equatable {
     songs.firstIndex(where: { $0.id == songId })
   }
 
-  func find(by songId: Int) -> Song? {
-    songs.first(where: { $0.id == songId })
+  func find(bySongId id: Int) -> Song? {
+    songs.first(where: { $0.id == id })
+  }
+
+  func find(byIndex index: Int) -> Song? {
+    if index >= songs.count {
+      return songs.first
+    } else if index < 0 {
+      return songs.last
+    } else {
+      return songs[index]
+    }
   }
 
   mutating func update(songs: [Song]) {

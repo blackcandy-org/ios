@@ -108,7 +108,7 @@ struct PlayerReducer: Reducer {
         }
 
       case let .toggleFavoriteResponse(.success(songId)):
-        guard var song = state.playlist.find(by: songId) else { return .none }
+        guard var song = state.playlist.find(bySongId: songId) else { return .none }
         song.isFavorited.toggle()
 
         state.playlist.update(song: song)
@@ -192,12 +192,13 @@ struct PlayerReducer: Reducer {
 
       case let .deleteSongs(indexSet):
         let songs = indexSet.map { state.playlist.songs[$0] }
+        let currentIndex = state.currentIndex
 
         state.playlist.remove(songs: songs)
 
         if let currentSong = state.currentSong, songs.contains(currentSong) {
-          state.currentSong = nil
           playerClient.stop()
+          state.currentSong = state.playlist.find(byIndex: currentIndex)
         }
 
         return .run { send in
@@ -238,7 +239,16 @@ struct PlayerReducer: Reducer {
 
       case let .currentPlaylistResponse(.success(songs)):
         state.playlist.update(songs: songs)
-        state.currentSong = songs.first
+
+        guard let currentSong = state.currentSong else {
+          state.currentSong = songs.first
+          return .none
+        }
+
+        if !state.isPlaying && (state.playlist.index(of: currentSong) == nil) {
+          state.currentSong = songs.first
+          playerClient.stop()
+        }
 
         return .none
 
@@ -290,16 +300,7 @@ struct PlayerReducer: Reducer {
   }
 
   func playOn(state: inout State, index: Int) -> Effect<Action> {
-    let songsCount = state.playlist.songs.count
-
-    if index >= songsCount {
-      state.currentSong = state.playlist.songs.first
-    } else if index < 0 {
-      state.currentSong = state.playlist.songs.last
-    } else {
-      state.currentSong = state.playlist.songs[index]
-    }
-
+    state.currentSong = state.playlist.find(byIndex: index)
     guard let currentSong = state.currentSong else { return .none }
 
     playerClient.playOn(currentSong.url)
