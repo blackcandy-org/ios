@@ -5,10 +5,12 @@ import Combine
 
 class MainViewController: UISplitViewController, UISplitViewControllerDelegate {
   let store: StoreOf<AppReducer>
+  let initPlaylist: Bool
   var cancellables: Set<AnyCancellable> = []
 
   init(store: StoreOf<AppReducer>, initPlaylist: Bool = false) {
     self.store = store
+    self.initPlaylist = initPlaylist
 
     super.init(style: .doubleColumn)
 
@@ -24,10 +26,6 @@ class MainViewController: UISplitViewController, UISplitViewControllerDelegate {
     setViewController(sidebarViewController, for: .primary)
     setViewController(tabBarViewController, for: .secondary)
     setViewController(tabBarViewController, for: .compact)
-
-    if initPlaylist {
-      store.send(.player(.getCurrentPlaylist))
-    }
   }
 
   required init?(coder: NSCoder) {
@@ -35,6 +33,10 @@ class MainViewController: UISplitViewController, UISplitViewControllerDelegate {
   }
 
   override func viewDidLoad() {
+    if initPlaylist {
+      store.send(.player(.getCurrentPlaylist))
+    }
+
     store.publisher.alert
       .sink { [weak self] alert in
         guard let self = self else { return }

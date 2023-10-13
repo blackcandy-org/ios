@@ -48,12 +48,14 @@ extension PlayerClient: DependencyKey {
       stop: {
         player.seek(to: CMTime.zero)
         player.pause()
+        player.replaceCurrentItem(with: nil)
       },
 
       getCurrentTime: {
         AsyncStream { continuation in
           let observer = player.addPeriodicTimeObserver(forInterval: .init(seconds: 1, preferredTimescale: 1), queue: .global(qos: .background), using: { _ in
-            continuation.yield(player.currentTime().seconds )
+            let seconds = player.currentTime().seconds
+            continuation.yield(seconds.isNaN ? 0 : seconds)
           })
 
           continuation.onTermination = { @Sendable _ in

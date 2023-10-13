@@ -474,7 +474,7 @@ final class PlayerReducerTests: XCTestCase {
 
     await store.send(.getStatus)
     await store.send(.deleteSongs(.init(arrayLiteral: 0))) {
-      $0.currentSong = nil
+      $0.currentSong = songs[1]
     }
 
     await store.receive(.handleStatusChange(.pause))
