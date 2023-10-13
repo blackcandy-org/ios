@@ -22,9 +22,7 @@ struct Playlist: Equatable {
   }
 
   func find(byIndex index: Int) -> Song? {
-    let songsCount = songs.count
-
-    if index >= songsCount {
+    if index >= songs.count {
       return songs.first
     } else if index < 0 {
       return songs.last
