@@ -169,11 +169,11 @@ extension APIClient: DependencyKey {
         }
       },
 
-      moveCurrentPlaylistSongs: { fromPosition, toPosition in
+      moveCurrentPlaylistSongs: { songId, destinationSongId in
         let request = AF.request(
           requestURL("/current_playlist/songs"),
           method: .patch,
-          parameters: ["from_position": fromPosition, "to_position": toPosition],
+          parameters: ["song_id": songId, "destination_song_id": destinationSongId],
           headers: headers
         )
           .validate()

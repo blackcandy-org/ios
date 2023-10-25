@@ -211,16 +211,21 @@ struct PlayerReducer: Reducer {
 
       case let .moveSongs(fromOffsets, toOffset):
         guard let fromIndex = fromOffsets.first else { return .none }
-        let movedSong = state.playlist.orderedSongs[fromIndex]
+        var destinationIndex = toOffset
+
+        if fromIndex < toOffset {
+          destinationIndex -= 1
+        }
+
+        let movingSong = state.playlist.orderedSongs[fromIndex]
+        let destinationSong = state.playlist.orderedSongs[destinationIndex]
 
         state.playlist.orderedSongs.move(fromOffsets: fromOffsets, toOffset: toOffset)
-
-        guard let toIndex = state.playlist.orderedSongs.firstIndex(of: movedSong) else { return .none }
 
         return .run { send in
           await send(
             .moveSongsResponse(
-              TaskResult { try await apiClient.moveCurrentPlaylistSongs(fromIndex + 1, toIndex + 1) }
+              TaskResult { try await apiClient.moveCurrentPlaylistSongs(movingSong.id, destinationSong.id) }
             )
           )
         }
