@@ -24,11 +24,21 @@ final class AppReducerTests: XCTestCase {
     var state = AppReducer.State()
     state.currentUser = try users(id: 1)
 
-    let store = TestStore(initialState: state) {
-      AppReducer()
+    let logoutResponse = APIClient.NoContentResponse()
+
+    let store = withDependencies {
+      $0.apiClient.logout = {
+        logoutResponse
+      }
+    } operation: {
+      TestStore(initialState: state) {
+        AppReducer()
+      }
     }
 
-    await store.send(.logout) {
+    await store.send(.logout)
+
+    await store.receive(.logoutResponse(.success(logoutResponse))) {
       $0.currentUser = nil
     }
   }

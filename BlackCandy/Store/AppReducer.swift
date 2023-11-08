@@ -3,6 +3,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct AppReducer: Reducer {
+  @Dependency(\.apiClient) var apiClient
   @Dependency(\.userDefaultsClient) var userDefaultsClient
   @Dependency(\.cookiesClient) var cookiesClient
   @Dependency(\.keychainClient) var keychainClient
@@ -56,6 +57,7 @@ struct AppReducer: Reducer {
     case dismissAlert
     case restoreStates
     case logout
+    case logoutResponse(TaskResult<APIClient.NoContentResponse>)
     case updateTheme(State.Theme)
     case player(PlayerReducer.Action)
     case login(LoginReducer.Action)
@@ -72,6 +74,15 @@ struct AppReducer: Reducer {
         return .none
 
       case .logout:
+        return .run { send in
+          await send(
+            .logoutResponse(
+              TaskResult { try await apiClient.logout() }
+            )
+          )
+        }
+
+      case .logoutResponse(.success):
         keychainClient.deleteAPIToken()
         jsonDataClient.deleteCurrentUser()
         windowClient.changeRootViewController(LoginViewController(store: AppStore.shared))
@@ -81,6 +92,12 @@ struct AppReducer: Reducer {
         return .run { _ in
           await cookiesClient.cleanCookies()
         }
+
+      case let .logoutResponse(.failure(error)):
+        guard let error = error as? APIClient.APIError else { return .none }
+        state.alert = .init(title: .init(error.localizedString))
+
+        return .none
 
       case let .updateTheme(theme):
         state.currentTheme = theme

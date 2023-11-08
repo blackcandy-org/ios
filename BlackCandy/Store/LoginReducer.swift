@@ -67,7 +67,7 @@ struct LoginReducer: Reducer {
         return .run { send in
           await send(
             .loginResponse(
-              TaskResult { try await apiClient.authentication(loginState) }
+              TaskResult { try await apiClient.login(loginState) }
             )
           )
         }

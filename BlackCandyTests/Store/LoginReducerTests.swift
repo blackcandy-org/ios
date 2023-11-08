@@ -107,7 +107,7 @@ final class LoginReducerTests: XCTestCase {
     let loginResponse = APIClient.AuthenticationResponse(token: "test_token", user: user, cookies: [cookie])
 
     let store = withDependencies {
-      $0.apiClient.authentication = { _ in
+      $0.apiClient.login = { _ in
         loginResponse
       }
     } operation: {
@@ -131,7 +131,7 @@ final class LoginReducerTests: XCTestCase {
     let responseError = APIClient.APIError.unknown
 
     let store = withDependencies {
-      $0.apiClient.authentication = { _ in
+      $0.apiClient.login = { _ in
         throw responseError
       }
     } operation: {

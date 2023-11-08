@@ -3,7 +3,8 @@ import Dependencies
 import Alamofire
 
 struct APIClient {
-  var authentication: (LoginState) async throws -> AuthenticationResponse
+  var login: (LoginState) async throws -> AuthenticationResponse
+  var logout: () async throws -> NoContentResponse
   var getCurrentPlaylistSongs: () async throws -> [Song]
   var toggleFavorite: (Song) async throws -> Int
   var deleteCurrentPlaylistSongs: ([Song]) async throws -> NoContentResponse
@@ -15,7 +16,9 @@ struct APIClient {
 
 extension APIClient: TestDependencyKey {
   static let testValue = Self(
-    authentication: unimplemented("\(Self.self).authentication"),
+    login: unimplemented("\(Self.self).login"),
+
+    logout: unimplemented("\(Self.self).logout"),
 
     getCurrentPlaylistSongs: unimplemented("\(Self.self).getCurrentPlaylistSongs"),
 

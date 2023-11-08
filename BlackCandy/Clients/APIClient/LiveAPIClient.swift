@@ -90,10 +90,10 @@ extension APIClient: DependencyKey {
     }
 
     return Self(
-      authentication: { loginState in
+      login: { loginState in
         let parameters: [String: Any] = [
-          "with_session": "true",
-          "user_session": [
+          "with_cookie": "true",
+          "session": [
             "email": loginState.email,
             "password": loginState.password
           ]
@@ -122,6 +122,20 @@ extension APIClient: DependencyKey {
             user: User(id: id, email: email, isAdmin: isAdmin),
             cookies: HTTPCookie.cookies(withResponseHeaderFields: responseHeaders, for: userDefaultClient.serverAddress()!)
           )
+        }
+      },
+
+      logout: {
+        let request = AF.request(
+          requestURL("/authentication"),
+          method: .delete,
+          headers: headers
+        )
+          .validate()
+          .serializingDecodable(NoContentResponse.self)
+
+        return try await handleRequest(request) { request, _ in
+          try await request.value
         }
       },
 

@@ -61,7 +61,7 @@ final class APIClientTests: XCTestCase {
     loginState.email = "admin@admin.com"
     loginState.password = "foobar"
 
-    let authenticationResponse = try await apiClient.authentication(loginState)
+    let authenticationResponse = try await apiClient.login(loginState)
     let responseCookie = authenticationResponse.cookies.first!
 
     XCTAssertEqual(authenticationResponse.user.email, "admin@admin.com")
