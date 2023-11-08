@@ -5,6 +5,7 @@ import AVFoundation
 extension PlayerClient: DependencyKey {
   static func live(player: AVPlayer) -> Self {
     @Dependency(\.keychainClient) var keychainClient
+    @Dependency(\.userDefaultsClient) var userDefaultClient
 
     let apiToken = keychainClient.apiToken() ?? ""
 
@@ -17,7 +18,7 @@ extension PlayerClient: DependencyKey {
         let asset = AVURLAsset(url: songUrl, options: [
           "AVURLAssetHTTPHeaderFieldsKey": [
             "Authorization": "Token \(apiToken)",
-            "User-Agent": "Turbo Native iOS"
+            "User-Agent": userDefaultClient.userAgent
           ]
         ])
 

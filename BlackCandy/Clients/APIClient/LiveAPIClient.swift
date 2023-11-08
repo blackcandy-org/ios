@@ -9,7 +9,7 @@ extension APIClient: DependencyKey {
 
     var headers: HTTPHeaders {
       var basicHeaders: HTTPHeaders = [
-        .userAgent("Turbo Native iOS")
+        .userAgent(userDefaultClient.userAgent)
       ]
 
       if let token = keychainClient.apiToken() {

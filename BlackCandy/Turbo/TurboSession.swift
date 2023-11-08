@@ -6,13 +6,15 @@ struct TurboSession {
   static let processPool = WKProcessPool()
 
   static func create(store: StoreOf<AppReducer>) -> Session {
+    @Dependency(\.userDefaultsClient) var userDefaultClient
+
     let configuration = WKWebViewConfiguration()
     let scriptMessageHandler = TurboScriptMessageHandler(store: store)
     let pathConfiguration = PathConfiguration(sources: [
       .file(Bundle.main.url(forResource: "path-configuration", withExtension: "json")!)
     ])
 
-    configuration.applicationNameForUserAgent = "Turbo Native iOS"
+    configuration.applicationNameForUserAgent = userDefaultClient.userAgent
     configuration.processPool = TurboSession.processPool
     configuration.userContentController.add(scriptMessageHandler, name: "nativeApp")
 
