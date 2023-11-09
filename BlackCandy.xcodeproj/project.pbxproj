@@ -18,6 +18,7 @@
 		641B5D942A12080300ECA220 /* LiveJSONDataClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641B5D932A12080300ECA220 /* LiveJSONDataClient.swift */; };
 		641B5D962A1209C000ECA220 /* LivePlayerClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641B5D952A1209C000ECA220 /* LivePlayerClient.swift */; };
 		641B5D982A120B9800ECA220 /* LiveNowPlayingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 641B5D972A120B9800ECA220 /* LiveNowPlayingClient.swift */; };
+		6426B5CF2AFD1EFF00EEDA3D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6426B5CE2AFD1EFF00EEDA3D /* Constants.swift */; };
 		642B04ED2A02376400EEF844 /* CookiesClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 642B04EC2A02376400EEF844 /* CookiesClientTests.swift */; };
 		6431DDF02963D0240013F135 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6431DDEF2963D0240013F135 /* PlayerViewController.swift */; };
 		6431DDF82964167E0013F135 /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6431DDF72964167E0013F135 /* NotificationName.swift */; };
@@ -141,6 +142,7 @@
 		641B5D932A12080300ECA220 /* LiveJSONDataClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveJSONDataClient.swift; sourceTree = "<group>"; };
 		641B5D952A1209C000ECA220 /* LivePlayerClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivePlayerClient.swift; sourceTree = "<group>"; };
 		641B5D972A120B9800ECA220 /* LiveNowPlayingClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveNowPlayingClient.swift; sourceTree = "<group>"; };
+		6426B5CE2AFD1EFF00EEDA3D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		642B04EC2A02376400EEF844 /* CookiesClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookiesClientTests.swift; sourceTree = "<group>"; };
 		6431DDEF2963D0240013F135 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		6431DDF72964167E0013F135 /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
@@ -565,6 +567,7 @@
 				DD7671C5290B6E1600F92825 /* AudioSessionControl.swift */,
 				DD7671C8290B76AE00F92825 /* RemoteControl.swift */,
 				6431DDF72964167E0013F135 /* NotificationName.swift */,
+				6426B5CE2AFD1EFF00EEDA3D /* Constants.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -798,6 +801,7 @@
 				DD18369327CC9FF60018ECF5 /* TurboSession.swift in Sources */,
 				DDE710EE28D05DED00CE7494 /* PlayerPlaylistView.swift in Sources */,
 				DD7671C9290B76AE00F92825 /* RemoteControl.swift in Sources */,
+				6426B5CF2AFD1EFF00EEDA3D /* Constants.swift in Sources */,
 				6431DDF82964167E0013F135 /* NotificationName.swift in Sources */,
 				DD4D05A328BDE7810035D26D /* User.swift in Sources */,
 				DD751E0E2888F19100B8128E /* CookiesClient.swift in Sources */,

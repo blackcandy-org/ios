@@ -9,7 +9,7 @@ extension APIClient: DependencyKey {
 
     var headers: HTTPHeaders {
       var basicHeaders: HTTPHeaders = [
-        .userAgent(userDefaultClient.userAgent)
+        .userAgent(BLACK_CANDY_USER_AGENT)
       ]
 
       if let token = keychainClient.apiToken() {

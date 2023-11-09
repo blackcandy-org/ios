@@ -2,7 +2,6 @@ import Foundation
 import Dependencies
 
 struct UserDefaultsClient {
-  let userAgent = "Black Candy iOS"
   var serverAddress: () -> URL?
   var updateServerAddress: (URL?) -> Void
 }
