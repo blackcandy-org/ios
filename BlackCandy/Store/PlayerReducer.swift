@@ -119,12 +119,6 @@ struct PlayerReducer: Reducer {
 
         return .none
 
-      case let .toggleFavoriteResponse(.failure(error)):
-        guard let error = error as? APIClient.APIError else { return .none }
-        state.alert = .init(title: .init(error.localizedString))
-
-        return .none
-
       case .togglePlaylistVisible:
         state.isPlaylistVisible.toggle()
 
@@ -295,9 +289,15 @@ struct PlayerReducer: Reducer {
         let .moveSongsResponse(.failure(error)),
         let .currentPlaylistResponse(.failure(error)),
         let .playAllResponse(.failure(error)),
-        let .playSongResponse(.failure(error)):
+        let .playSongResponse(.failure(error)),
+        let .toggleFavoriteResponse(.failure(error)):
         guard let error = error as? APIClient.APIError else { return .none }
-        state.alert = .init(title: .init(error.localizedString))
+
+        if error == .unauthorized {
+          AppStore.shared.send(.logout)
+        } else {
+          state.alert = .init(title: .init(error.localizedString))
+        }
 
         return .none
       }

@@ -82,7 +82,7 @@ struct AppReducer: Reducer {
           )
         }
 
-      case .logoutResponse(.success):
+      case .logoutResponse:
         keychainClient.deleteAPIToken()
         jsonDataClient.deleteCurrentUser()
         windowClient.changeRootViewController(LoginViewController(store: AppStore.shared))
@@ -92,12 +92,6 @@ struct AppReducer: Reducer {
         return .run { _ in
           await cookiesClient.cleanCookies()
         }
-
-      case let .logoutResponse(.failure(error)):
-        guard let error = error as? APIClient.APIError else { return .none }
-        state.alert = .init(title: .init(error.localizedString))
-
-        return .none
 
       case let .updateTheme(theme):
         state.currentTheme = theme
