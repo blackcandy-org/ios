@@ -13,10 +13,12 @@ struct PlayerActionsView: View {
           },
           label: {
             Image(systemName: viewStore.mode.symbol)
-              .tint(.primary)
+              .tint(viewStore.mode == .noRepeat ? .primary : .white)
           }
         )
         .padding(CustomStyle.spacing(.tiny))
+        .background(viewStore.mode == .noRepeat ? .clear : .accentColor)
+        .cornerRadius(CustomStyle.cornerRadius(.medium))
         .disabled(viewStore.isPlaylistVisible)
 
         Spacer()

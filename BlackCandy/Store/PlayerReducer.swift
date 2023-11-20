@@ -15,7 +15,7 @@ struct PlayerReducer: Reducer {
     var currentTime: Double = 0
     var isPlaylistVisible = false
     var status = PlayerClient.Status.pause
-    var mode = Mode.repead
+    var mode = Mode.noRepeat
 
     var isPlaying: Bool {
       status == .playing || status == .loading
@@ -171,10 +171,20 @@ struct PlayerReducer: Reducer {
 
         guard status == .end else { return .none }
 
-        if state.mode == .single {
+        switch state.mode {
+        case .noRepeat:
+          if state.currentIndex == state.playlist.songs.count - 1 {
+            playerClient.stop()
+            state.currentSong = nil
+
+            return .none
+          } else {
+            return .send(.next)
+          }
+        case .single:
           playerClient.replay()
           return .none
-        } else {
+        default:
           return .send(.next)
         }
 
@@ -318,12 +328,15 @@ struct PlayerReducer: Reducer {
 
 extension PlayerReducer.State {
   enum Mode: CaseIterable {
+    case noRepeat
     case repead
     case single
     case shuffle
 
     var symbol: String {
       switch self {
+      case .noRepeat:
+        return "repeat"
       case .repead:
         return "repeat"
       case .single:
