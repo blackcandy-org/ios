@@ -17,4 +17,4 @@ jobs:
       - name: Test and Lint
         run: |
           swiftlint
-          set -o pipefail && xcodebuild test -scheme "BlackCandy" -destination platform="iOS Simulator,name=iPhone 15 Pro Max,OS=17.0" | xcpretty --test
+          xcodebuild test -scheme "BlackCandy" -destination platform="iOS Simulator,name=iPhone 15 Pro Max,OS=17.0.1" | xcpretty --test && exit ${PIPESTATUS[0]}
