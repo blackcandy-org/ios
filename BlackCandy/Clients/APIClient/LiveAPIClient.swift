@@ -139,7 +139,7 @@ extension APIClient: DependencyKey {
         }
       },
 
-      getCurrentPlaylistSongs: {
+      getSongsFromCurrentPlaylist: {
         let request = AF.request(
           requestURL("/current_playlist/songs"),
           headers: headers
@@ -152,10 +152,10 @@ extension APIClient: DependencyKey {
         }
       },
 
-      toggleFavorite: { song in
+      addSongToFavorite: { song in
         let request = AF.request(
           requestURL("/favorite_playlist/songs"),
-          method: song.isFavorited ? .delete : .post,
+          method: .post,
           parameters: ["song_id": song.id],
           headers: headers
         )
@@ -168,11 +168,25 @@ extension APIClient: DependencyKey {
         }
       },
 
-      deleteCurrentPlaylistSongs: { songs in
+      deleteSongInFavorite: { song in
         let request = AF.request(
-          requestURL("/current_playlist/songs"),
+          requestURL("/favorite_playlist/songs/\(song.id)"),
           method: .delete,
-          parameters: ["song_ids": songs.map { $0.id }],
+          headers: headers
+        )
+          .validate()
+          .serializingData()
+
+        return try await handleRequest(request) { request, _ in
+          let value = try await request.value
+          return decodeJSON(value)?["id"] as! Int
+        }
+      },
+
+      deleteSongInCurrentPlaylist: { song in
+        let request = AF.request(
+          requestURL("/current_playlist/songs/\(song.id)"),
+          method: .delete,
           headers: headers
         )
           .validate()
@@ -183,11 +197,11 @@ extension APIClient: DependencyKey {
         }
       },
 
-      moveCurrentPlaylistSongs: { songId, destinationSongId in
+      moveSongInCurrentPlaylist: { songId, destinationSongId in
         let request = AF.request(
-          requestURL("/current_playlist/songs"),
-          method: .patch,
-          parameters: ["song_id": songId, "destination_song_id": destinationSongId],
+          requestURL("/current_playlist/songs/\(songId)/move"),
+          method: .put,
+          parameters: ["destination_song_id": destinationSongId],
           headers: headers
         )
           .validate()
@@ -231,7 +245,7 @@ extension APIClient: DependencyKey {
         }
       },
 
-      addCurrentPlaylistSong: { songId, currentSong in
+      addSongToCurrentPlaylist: { songId, currentSong in
         var parameters = ["song_id": songId]
 
         if let currentSongId = currentSong?.id {

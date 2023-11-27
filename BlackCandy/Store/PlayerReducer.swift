@@ -102,7 +102,13 @@ struct PlayerReducer: Reducer {
         return .run { send in
           await send(
             .toggleFavoriteResponse(
-              TaskResult { try await apiClient.toggleFavorite(currentSong) }
+              TaskResult {
+                if currentSong.isFavorited {
+                  try await apiClient.deleteSongInFavorite(currentSong)
+                } else {
+                  try await apiClient.addSongToFavorite(currentSong)
+                }
+              }
             )
           )
         }
@@ -206,11 +212,17 @@ struct PlayerReducer: Reducer {
         }
 
         return .run { send in
-          await send(
-            .deleteSongsResponse(
-              TaskResult { try await apiClient.deleteCurrentPlaylistSongs(songs) }
-            )
-          )
+          await withTaskGroup(of: Void.self) { taskGroup in
+            for song in songs {
+              taskGroup.addTask {
+                await send(
+                  .deleteSongsResponse(
+                    TaskResult { try await apiClient.deleteSongInCurrentPlaylist(song) }
+                  )
+                )
+              }
+            }
+          }
         }
 
       case let .moveSongs(fromOffsets, toOffset):
@@ -229,7 +241,7 @@ struct PlayerReducer: Reducer {
         return .run { send in
           await send(
             .moveSongsResponse(
-              TaskResult { try await apiClient.moveCurrentPlaylistSongs(movingSong.id, destinationSong.id) }
+              TaskResult { try await apiClient.moveSongInCurrentPlaylist(movingSong.id, destinationSong.id) }
             )
           )
         }
@@ -241,7 +253,7 @@ struct PlayerReducer: Reducer {
         return .run { send in
           await send(
             .currentPlaylistResponse(
-              TaskResult { try await apiClient.getCurrentPlaylistSongs() }
+              TaskResult { try await apiClient.getSongsFromCurrentPlaylist() }
             )
           )
         }
@@ -265,7 +277,7 @@ struct PlayerReducer: Reducer {
         return .run { send in
           await send(
             .playAllResponse(
-              TaskResult { try await apiClient.getCurrentPlaylistSongs() }
+              TaskResult { try await apiClient.getSongsFromCurrentPlaylist() }
             )
           )
         }
@@ -283,7 +295,7 @@ struct PlayerReducer: Reducer {
           return .run { [currentSong = state.currentSong] send in
             await send(
               .playSongResponse(
-                TaskResult { try await apiClient.addCurrentPlaylistSong(songId, currentSong) }
+                TaskResult { try await apiClient.addSongToCurrentPlaylist(songId, currentSong) }
               )
             )
           }

@@ -5,13 +5,14 @@ import Alamofire
 struct APIClient {
   var login: (LoginState) async throws -> AuthenticationResponse
   var logout: () async throws -> NoContentResponse
-  var getCurrentPlaylistSongs: () async throws -> [Song]
-  var toggleFavorite: (Song) async throws -> Int
-  var deleteCurrentPlaylistSongs: ([Song]) async throws -> NoContentResponse
-  var moveCurrentPlaylistSongs: (Int, Int) async throws -> NoContentResponse
+  var getSongsFromCurrentPlaylist: () async throws -> [Song]
+  var addSongToFavorite: (Song) async throws -> Int
+  var deleteSongInFavorite: (Song) async throws -> Int
+  var deleteSongInCurrentPlaylist: (Song) async throws -> NoContentResponse
+  var moveSongInCurrentPlaylist: (Int, Int) async throws -> NoContentResponse
   var getSong: (Int) async throws -> Song
   var getSystemInfo: (ServerAddressState) async throws -> SystemInfo
-  var addCurrentPlaylistSong: (Int, Song?) async throws -> Song
+  var addSongToCurrentPlaylist: (Int, Song?) async throws -> Song
 }
 
 extension APIClient: TestDependencyKey {
@@ -20,15 +21,17 @@ extension APIClient: TestDependencyKey {
 
     logout: unimplemented("\(Self.self).logout"),
 
-    getCurrentPlaylistSongs: unimplemented("\(Self.self).getCurrentPlaylistSongs"),
+    getSongsFromCurrentPlaylist: unimplemented("\(Self.self).getSongsFromCurrentPlaylist"),
 
-    toggleFavorite: unimplemented("\(Self.self).toggleFavorite"),
+    addSongToFavorite: unimplemented("\(Self.self).addSongToFavorite"),
 
-    deleteCurrentPlaylistSongs: { _ in
+    deleteSongInFavorite: unimplemented("\(Self.self).deleteSongInFavorite"),
+
+    deleteSongInCurrentPlaylist: { _ in
       NoContentResponse()
     },
 
-    moveCurrentPlaylistSongs: { _, _ in
+    moveSongInCurrentPlaylist: { _, _ in
       NoContentResponse()
     },
 
@@ -36,7 +39,7 @@ extension APIClient: TestDependencyKey {
 
     getSystemInfo: unimplemented("\(Self.self).getSystemInfo"),
 
-    addCurrentPlaylistSong: unimplemented("\(Self.self).addCurrentPlaylistSong")
+    addSongToCurrentPlaylist: unimplemented("\(Self.self).addSongToCurrentPlaylist")
   )
 
   static let previewValue = testValue

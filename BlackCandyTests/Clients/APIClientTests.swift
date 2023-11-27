@@ -76,19 +76,31 @@ final class APIClientTests: XCTestCase {
       return fixture(filePath: stubPath!, headers: nil)
     }
 
-    let response = try await apiClient.getCurrentPlaylistSongs()
+    let response = try await apiClient.getSongsFromCurrentPlaylist()
 
     XCTAssertEqual(response.count, 5)
   }
 
-  func testToggleFavorite() async throws {
+  func testAddSongToFavorite() async throws {
     let song = try songs(id: 1)
 
     stub(condition: isMethodPOST() && isPath("/api/v1/favorite_playlist/songs")) { _ in
       return .init(jsonObject: ["id": 1], statusCode: 200, headers: nil)
     }
 
-    let response = try await apiClient.toggleFavorite(song)
+    let response = try await apiClient.addSongToFavorite(song)
+
+    XCTAssertEqual(response.self, 1)
+  }
+
+  func testDeleteSongFromFavorite() async throws {
+    let song = try songs(id: 1)
+
+    stub(condition: isMethodDELETE() && isPath("/api/v1/favorite_playlist/songs/\(song.id)")) { _ in
+      return .init(jsonObject: ["id": 1], statusCode: 200, headers: nil)
+    }
+
+    let response = try await apiClient.deleteSongInFavorite(song)
 
     XCTAssertEqual(response.self, 1)
   }
@@ -96,21 +108,23 @@ final class APIClientTests: XCTestCase {
   func testDeleteCurrentPlaylistSongs() async throws {
     let song = try songs(id: 1)
 
-    stub(condition: isMethodDELETE() && isPath("/api/v1/current_playlist/songs")) { _ in
+    stub(condition: isMethodDELETE() && isPath("/api/v1/current_playlist/songs/\(song.id)")) { _ in
       return .init(jsonObject: [] as [Any], statusCode: 200, headers: nil)
     }
 
-    let response = try await apiClient.deleteCurrentPlaylistSongs([song])
+    let response = try await apiClient.deleteSongInCurrentPlaylist(song)
 
     XCTAssertEqual(response.self, APIClient.NoContentResponse.value)
   }
 
   func testMoveCurrentPlaylistSongs() async throws {
-    stub(condition: isMethodPATCH() && isPath("/api/v1/current_playlist/songs")) { _ in
+    let songId = 0
+
+    stub(condition: isMethodPUT() && isPath("/api/v1/current_playlist/songs/\(songId)/move")) { _ in
       return .init(jsonObject: [] as [Any], statusCode: 200, headers: nil)
     }
 
-    let response = try await apiClient.moveCurrentPlaylistSongs(0, 1)
+    let response = try await apiClient.moveSongInCurrentPlaylist(songId, 1)
 
     XCTAssertEqual(response.self, APIClient.NoContentResponse.value)
   }
@@ -180,7 +194,7 @@ final class APIClientTests: XCTestCase {
     }
   }
 
-  func testAddCurrentPlaylistSong() async throws {
+  func testAddSongToCurrentPlaylist() async throws {
     let responseJSON = """
       {
         "id":1,
@@ -205,7 +219,7 @@ final class APIClientTests: XCTestCase {
       return .init(data: responseJSON, statusCode: 200, headers: nil)
     }
 
-    let response = try await apiClient.addCurrentPlaylistSong(1, currentSong)
+    let response = try await apiClient.addSongToCurrentPlaylist(1, currentSong)
 
     XCTAssertEqual(response.id, 1)
     XCTAssertEqual(response.name, "sample1")

@@ -246,7 +246,7 @@ final class PlayerReducerTests: XCTestCase {
     playlist.update(songs: songs)
 
     let store = withDependencies {
-      $0.apiClient.toggleFavorite = { _ in currentSong.id }
+      $0.apiClient.addSongToFavorite = { _ in currentSong.id }
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(
@@ -271,7 +271,7 @@ final class PlayerReducerTests: XCTestCase {
     let responseError = APIClient.APIError.unknown
 
     let store = withDependencies {
-      $0.apiClient.toggleFavorite = { _ in throw responseError }
+      $0.apiClient.addSongToFavorite = { _ in throw responseError }
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(
@@ -503,7 +503,7 @@ final class PlayerReducerTests: XCTestCase {
   func testGetCurrentPlaylist() async throws {
     let songs = try songs()
     let store = withDependencies {
-      $0.apiClient.getCurrentPlaylistSongs = { songs }
+      $0.apiClient.getSongsFromCurrentPlaylist = { songs }
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(),
@@ -524,7 +524,7 @@ final class PlayerReducerTests: XCTestCase {
   func testPlayAll() async throws {
     let songs = try songs()
     let store = withDependencies {
-      $0.apiClient.getCurrentPlaylistSongs = { songs }
+      $0.apiClient.getSongsFromCurrentPlaylist = { songs }
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(),
@@ -567,7 +567,7 @@ final class PlayerReducerTests: XCTestCase {
 
     let store = withDependencies {
       $0.apiClient.getSong = { _ in  playingSong }
-      $0.apiClient.addCurrentPlaylistSong = { _, _ in playingSong}
+      $0.apiClient.addSongToCurrentPlaylist = { _, _ in playingSong}
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(playlist: playlist),
@@ -590,7 +590,7 @@ final class PlayerReducerTests: XCTestCase {
 
     let store = withDependencies {
       $0.apiClient.getSong = { _ in song }
-      $0.apiClient.addCurrentPlaylistSong = { _, _ in song }
+      $0.apiClient.addSongToCurrentPlaylist = { _, _ in song }
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(),
