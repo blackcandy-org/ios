@@ -10,6 +10,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: Install xcbeautify
+        run: brew install xcbeautify
       - name: Setup
         run:  ./Scripts/setup.sh
         env:
@@ -17,4 +19,4 @@ jobs:
       - name: Test and Lint
         run: |
           swiftlint
-          xcodebuild test -scheme "BlackCandy" -destination platform="iOS Simulator,name=iPhone 15 Pro Max,OS=17.0.1" | xcpretty --test && exit ${PIPESTATUS[0]}
+          set -o pipefail && xcodebuild test -scheme "BlackCandy" -destination platform="iOS Simulator,name=iPhone 15 Pro Max,OS=17.0.1" | xcbeautify --renderer github-actions
