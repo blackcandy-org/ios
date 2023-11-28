@@ -104,9 +104,9 @@ struct PlayerReducer: Reducer {
             .toggleFavoriteResponse(
               TaskResult {
                 if currentSong.isFavorited {
-                  try await apiClient.deleteSongInFavorite(currentSong)
+                  return try await apiClient.deleteSongInFavorite(currentSong)
                 } else {
-                  try await apiClient.addSongToFavorite(currentSong)
+                  return try await apiClient.addSongToFavorite(currentSong)
                 }
               }
             )
