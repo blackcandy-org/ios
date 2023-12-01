@@ -55,7 +55,7 @@ struct PlayerReducer: Reducer {
     case moveSongsResponse(TaskResult<APIClient.NoContentResponse>)
     case getCurrentPlaylist
     case currentPlaylistResponse(TaskResult<[Song]>)
-    case playAll
+    case playAll(String, Int)
     case playAllResponse(TaskResult<[Song]>)
     case playSong(Int)
     case playSongResponse(TaskResult<Song>)
@@ -273,11 +273,20 @@ struct PlayerReducer: Reducer {
 
         return .none
 
-      case .playAll:
+      case let .playAll(resourceType, resourceId):
         return .run { send in
           await send(
             .playAllResponse(
-              TaskResult { try await apiClient.getSongsFromCurrentPlaylist() }
+              TaskResult {
+                switch resourceType {
+                case "albums":
+                  return try await apiClient.replaceCurrentPlaylistWithAlbumSongs(resourceId)
+                case "playlists":
+                  return try await apiClient.replaceCurrentPlaylistWithPlaylistSongs(resourceId)
+                default:
+                  throw APIClient.APIError.invalidRequest
+                }
+              }
             )
           )
         }

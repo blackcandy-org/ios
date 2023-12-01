@@ -264,6 +264,34 @@ extension APIClient: DependencyKey {
         return try await handleRequest(request) { request, _ in
           try await request.value
         }
+      },
+
+      replaceCurrentPlaylistWithAlbumSongs: { albumId in
+        let request = AF.request(
+          requestURL("/current_playlist/songs/albums/\(albumId)"),
+          method: .put,
+          headers: headers
+        )
+          .validate()
+          .serializingDecodable([Song].self, decoder: jsonDecoder)
+
+        return try await handleRequest(request) { request, _ in
+          try await request.value
+        }
+      },
+
+      replaceCurrentPlaylistWithPlaylistSongs: { playlistId in
+        let request = AF.request(
+          requestURL("/current_playlist/songs/playlists/\(playlistId)"),
+          method: .put,
+          headers: headers
+        )
+          .validate()
+          .serializingDecodable([Song].self, decoder: jsonDecoder)
+
+        return try await handleRequest(request) { request, _ in
+          try await request.value
+        }
       }
     )
   }
