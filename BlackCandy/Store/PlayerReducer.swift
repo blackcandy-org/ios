@@ -7,6 +7,7 @@ struct PlayerReducer: Reducer {
   @Dependency(\.playerClient) var playerClient
   @Dependency(\.nowPlayingClient) var nowPlayingClient
   @Dependency(\.cookiesClient) var cookiesClient
+  @Dependency(\.flashMessageClient) var flashMessageClient
 
   struct State: Equatable {
     var alert: AlertState<AppReducer.AlertAction>?
@@ -345,10 +346,14 @@ struct PlayerReducer: Reducer {
 
       case let .playNextResponse(.success(song)):
         _ = state.insertSongNextToCurrent(song: song)
+        flashMessageClient.showMessage("text.addedToPlaylist")
+
         return .none
 
       case let .playLastResponse(.success(song)):
         state.playlist.append(song)
+        flashMessageClient.showMessage("text.addedToPlaylist")
+
         return .none
 
       case let .deleteSongsResponse(.failure(error)),

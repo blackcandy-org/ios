@@ -29,6 +29,9 @@
 		6446762A2A5FF2EF00CD9794 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644676292A5FF2EF00CD9794 /* LoginView.swift */; };
 		644E9B41295AC796000DB3E3 /* SideBarNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E9B40295AC796000DB3E3 /* SideBarNavigationViewController.swift */; };
 		644E9B43295AC7C0000DB3E3 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E9B42295AC7C0000DB3E3 /* TabBarViewController.swift */; };
+		6451FF3D2B19AB580098FD11 /* FlashMessageClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6451FF3C2B19AB580098FD11 /* FlashMessageClient.swift */; };
+		6451FF3F2B19ACB60098FD11 /* LiveFlashMessageClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6451FF3E2B19ACB60098FD11 /* LiveFlashMessageClient.swift */; };
+		6451FF422B19B34C0098FD11 /* AlertKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6451FF412B19B34C0098FD11 /* AlertKit */; };
 		645AF4222A5E86AE00D35670 /* WindowClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645AF4212A5E86AE00D35670 /* WindowClient.swift */; };
 		645AF4242A5E887500D35670 /* LiveWindowClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645AF4232A5E887500D35670 /* LiveWindowClient.swift */; };
 		645D7067299B18F30020146A /* PlaylistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D7066299B18F30020146A /* PlaylistTests.swift */; };
@@ -153,6 +156,8 @@
 		644676292A5FF2EF00CD9794 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		644E9B40295AC796000DB3E3 /* SideBarNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarNavigationViewController.swift; sourceTree = "<group>"; };
 		644E9B42295AC7C0000DB3E3 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		6451FF3C2B19AB580098FD11 /* FlashMessageClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashMessageClient.swift; sourceTree = "<group>"; };
+		6451FF3E2B19ACB60098FD11 /* LiveFlashMessageClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveFlashMessageClient.swift; sourceTree = "<group>"; };
 		645AF4212A5E86AE00D35670 /* WindowClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowClient.swift; sourceTree = "<group>"; };
 		645AF4232A5E887500D35670 /* LiveWindowClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveWindowClient.swift; sourceTree = "<group>"; };
 		645D7066299B18F30020146A /* PlaylistTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTests.swift; sourceTree = "<group>"; };
@@ -228,6 +233,7 @@
 			files = (
 				DD6E0EA32884FEE100F39DB3 /* ComposableArchitecture in Frameworks */,
 				DD83970B28DC043000BC8C11 /* Alamofire in Frameworks */,
+				6451FF422B19B34C0098FD11 /* AlertKit in Frameworks */,
 				DD62F4F727C76C13005A5D0B /* Turbo in Frameworks */,
 				646315252971A2910016EBCA /* LNPopupController in Frameworks */,
 			);
@@ -351,6 +357,15 @@
 				6431DDEF2963D0240013F135 /* PlayerViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		6451FF3B2B19AB200098FD11 /* FlashMessageClient */ = {
+			isa = PBXGroup;
+			children = (
+				6451FF3C2B19AB580098FD11 /* FlashMessageClient.swift */,
+				6451FF3E2B19ACB60098FD11 /* LiveFlashMessageClient.swift */,
+			);
+			path = FlashMessageClient;
 			sourceTree = "<group>";
 		};
 		645AF4202A5E864000D35670 /* WindowClient */ = {
@@ -584,6 +599,7 @@
 		DD751E0A2887A37700B8128E /* Clients */ = {
 			isa = PBXGroup;
 			children = (
+				6451FF3B2B19AB200098FD11 /* FlashMessageClient */,
 				64D798B72A739EC800F0C92C /* GlobalQueueClient */,
 				645AF4202A5E864000D35670 /* WindowClient */,
 				641B5D8A2A11FCB700ECA220 /* NowPlayingClient */,
@@ -631,6 +647,7 @@
 				DD6E0EA22884FEE100F39DB3 /* ComposableArchitecture */,
 				DD83970A28DC043000BC8C11 /* Alamofire */,
 				646315242971A2910016EBCA /* LNPopupController */,
+				6451FF412B19B34C0098FD11 /* AlertKit */,
 			);
 			productName = BlackCandy;
 			productReference = DD62F4C827C769CC005A5D0B /* BlackCandy.app */;
@@ -713,6 +730,7 @@
 				DD83970928DC043000BC8C11 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				646315232971A2900016EBCA /* XCRemoteSwiftPackageReference "LNPopupController" */,
 				648AA714299F6D8F002EED64 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */,
+				6451FF402B19B34C0098FD11 /* XCRemoteSwiftPackageReference "AlertKit" */,
 			);
 			productRefGroup = DD62F4C927C769CC005A5D0B /* Products */;
 			projectDirPath = "";
@@ -808,8 +826,10 @@
 				6476237C2949B60300333378 /* PlayerReducer.swift in Sources */,
 				64783D3B2AA8554F009F075B /* LoginViewController.swift in Sources */,
 				DD87EAE228CF0A940062DFE6 /* Playlist.swift in Sources */,
+				6451FF3D2B19AB580098FD11 /* FlashMessageClient.swift in Sources */,
 				DDB453A127CF11EF003BA1F9 /* TurboNavigationController.swift in Sources */,
 				DDA1A70828D3041F009D80C6 /* PlayerClient.swift in Sources */,
+				6451FF3F2B19ACB60098FD11 /* LiveFlashMessageClient.swift in Sources */,
 				64FF43A62A5D36A100BF3055 /* SceneDelegate.swift in Sources */,
 				645AF4242A5E887500D35670 /* LiveWindowClient.swift in Sources */,
 				64654A622A692883008ADCF8 /* LoginReducer.swift in Sources */,
@@ -1173,6 +1193,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		6451FF402B19B34C0098FD11 /* XCRemoteSwiftPackageReference "AlertKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparrowcode/AlertKit";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 5.1.8;
+			};
+		};
 		646315232971A2900016EBCA /* XCRemoteSwiftPackageReference "LNPopupController" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/LeoNatan/LNPopupController";
@@ -1216,6 +1244,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		6451FF412B19B34C0098FD11 /* AlertKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6451FF402B19B34C0098FD11 /* XCRemoteSwiftPackageReference "AlertKit" */;
+			productName = AlertKit;
+		};
 		646315242971A2910016EBCA /* LNPopupController */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 646315232971A2900016EBCA /* XCRemoteSwiftPackageReference "LNPopupController" */;
