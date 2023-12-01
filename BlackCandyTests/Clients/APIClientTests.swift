@@ -219,7 +219,7 @@ final class APIClientTests: XCTestCase {
       return .init(data: responseJSON, statusCode: 200, headers: nil)
     }
 
-    let response = try await apiClient.addSongToCurrentPlaylist(1, currentSong)
+    let response = try await apiClient.addSongToCurrentPlaylist(1, currentSong, nil)
 
     XCTAssertEqual(response.id, 1)
     XCTAssertEqual(response.name, "sample1")

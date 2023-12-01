@@ -23,6 +23,12 @@ class TurboScriptMessageHandler: NSObject, WKScriptMessageHandler {
     case "playSong":
       guard let songId = body["songId"] as? Int else { return }
       store.send(.player(.playSong(songId)))
+    case "playNext":
+      guard let songId = body["songId"] as? Int else { return }
+      store.send(.player(.playNext(songId)))
+    case "playLast":
+      guard let songId = body["songId"] as? Int else { return }
+      store.send(.player(.playLast(songId)))
     case "updateTheme":
       guard
         let theme = body["theme"] as? String,

@@ -12,7 +12,7 @@ struct APIClient {
   var moveSongInCurrentPlaylist: (Int, Int) async throws -> NoContentResponse
   var getSong: (Int) async throws -> Song
   var getSystemInfo: (ServerAddressState) async throws -> SystemInfo
-  var addSongToCurrentPlaylist: (Int, Song?) async throws -> Song
+  var addSongToCurrentPlaylist: (Int, Song?, String?) async throws -> Song
   var replaceCurrentPlaylistWithAlbumSongs: (Int) async throws -> [Song]
   var replaceCurrentPlaylistWithPlaylistSongs: (Int) async throws -> [Song]
 }
