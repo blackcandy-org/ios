@@ -7,6 +7,7 @@ struct PlayerReducer: Reducer {
   @Dependency(\.playerClient) var playerClient
   @Dependency(\.nowPlayingClient) var nowPlayingClient
   @Dependency(\.cookiesClient) var cookiesClient
+  @Dependency(\.flashMessageClient) var flashMessageClient
 
   struct State: Equatable {
     var alert: AlertState<AppReducer.AlertAction>?
@@ -28,6 +29,13 @@ struct PlayerReducer: Reducer {
 
     var hasCurrentSong: Bool {
       currentSong != nil
+    }
+
+    mutating func insertSongNextToCurrent(song: Song) -> Int {
+      let insertIndex = min(currentIndex + 1, playlist.songs.endIndex)
+      playlist.insert(song, at: insertIndex)
+
+      return insertIndex
     }
   }
 
@@ -55,10 +63,14 @@ struct PlayerReducer: Reducer {
     case moveSongsResponse(TaskResult<APIClient.NoContentResponse>)
     case getCurrentPlaylist
     case currentPlaylistResponse(TaskResult<[Song]>)
-    case playAll
+    case playAll(String, Int)
     case playAllResponse(TaskResult<[Song]>)
     case playSong(Int)
+    case playNext(Int)
+    case playLast(Int)
     case playSongResponse(TaskResult<Song>)
+    case playNextResponse(TaskResult<Song>)
+    case playLastResponse(TaskResult<Song>)
   }
 
   var body: some ReducerOf<Self> {
@@ -273,11 +285,20 @@ struct PlayerReducer: Reducer {
 
         return .none
 
-      case .playAll:
+      case let .playAll(resourceType, resourceId):
         return .run { send in
           await send(
             .playAllResponse(
-              TaskResult { try await apiClient.getSongsFromCurrentPlaylist() }
+              TaskResult {
+                switch resourceType {
+                case "albums":
+                  return try await apiClient.replaceCurrentPlaylistWithAlbumSongs(resourceId)
+                case "playlists":
+                  return try await apiClient.replaceCurrentPlaylistWithPlaylistSongs(resourceId)
+                default:
+                  throw APIClient.APIError.invalidRequest
+                }
+              }
             )
           )
         }
@@ -295,23 +316,53 @@ struct PlayerReducer: Reducer {
           return .run { [currentSong = state.currentSong] send in
             await send(
               .playSongResponse(
-                TaskResult { try await apiClient.addSongToCurrentPlaylist(songId, currentSong) }
+                TaskResult { try await apiClient.addSongToCurrentPlaylist(songId, currentSong, nil) }
               )
             )
           }
         }
 
-      case let .playSongResponse(.success(song)):
-        let insertIndex = min(state.currentIndex + 1, state.playlist.songs.endIndex)
-        state.playlist.insert(song, at: insertIndex)
+      case let .playNext(songId):
+        return .run { [currentSong = state.currentSong] send in
+          await send(
+            .playNextResponse(
+              TaskResult { try await apiClient.addSongToCurrentPlaylist(songId, currentSong, nil) }
+            )
+          )
+        }
 
+      case let .playLast(songId):
+        return .run { send in
+          await send(
+            .playLastResponse(
+              TaskResult { try await apiClient.addSongToCurrentPlaylist(songId, nil, "last") }
+            )
+          )
+        }
+
+      case let .playSongResponse(.success(song)):
+        let insertIndex = state.insertSongNextToCurrent(song: song)
         return self.playOn(state: &state, index: insertIndex)
+
+      case let .playNextResponse(.success(song)):
+        _ = state.insertSongNextToCurrent(song: song)
+        flashMessageClient.showMessage("text.addedToPlaylist")
+
+        return .none
+
+      case let .playLastResponse(.success(song)):
+        state.playlist.append(song)
+        flashMessageClient.showMessage("text.addedToPlaylist")
+
+        return .none
 
       case let .deleteSongsResponse(.failure(error)),
         let .moveSongsResponse(.failure(error)),
         let .currentPlaylistResponse(.failure(error)),
         let .playAllResponse(.failure(error)),
         let .playSongResponse(.failure(error)),
+        let .playNextResponse(.failure(error)),
+        let .playLastResponse(.failure(error)),
         let .toggleFavoriteResponse(.failure(error)):
         guard let error = error as? APIClient.APIError else { return .none }
 

@@ -12,7 +12,9 @@ struct APIClient {
   var moveSongInCurrentPlaylist: (Int, Int) async throws -> NoContentResponse
   var getSong: (Int) async throws -> Song
   var getSystemInfo: (ServerAddressState) async throws -> SystemInfo
-  var addSongToCurrentPlaylist: (Int, Song?) async throws -> Song
+  var addSongToCurrentPlaylist: (Int, Song?, String?) async throws -> Song
+  var replaceCurrentPlaylistWithAlbumSongs: (Int) async throws -> [Song]
+  var replaceCurrentPlaylistWithPlaylistSongs: (Int) async throws -> [Song]
 }
 
 extension APIClient: TestDependencyKey {
@@ -39,7 +41,11 @@ extension APIClient: TestDependencyKey {
 
     getSystemInfo: unimplemented("\(Self.self).getSystemInfo"),
 
-    addSongToCurrentPlaylist: unimplemented("\(Self.self).addSongToCurrentPlaylist")
+    addSongToCurrentPlaylist: unimplemented("\(Self.self).addSongToCurrentPlaylist"),
+
+    replaceCurrentPlaylistWithAlbumSongs: unimplemented("\(Self.self).replaceCurrentPlaylistWithAlbumSongs"),
+
+    replaceCurrentPlaylistWithPlaylistSongs: unimplemented("\(Self.self).replaceCurrentPlaylistWithPlaylistSongs")
   )
 
   static let previewValue = testValue

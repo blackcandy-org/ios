@@ -55,4 +55,9 @@ struct Playlist: Equatable {
     orderedSongs.insert(song, at: index)
     shuffledSongs.insert(song, at: index)
   }
+
+  mutating func append(_ song: Song) {
+    orderedSongs.append(song)
+    shuffledSongs.append(song)
+  }
 }

@@ -521,10 +521,10 @@ final class PlayerReducerTests: XCTestCase {
     }
   }
 
-  func testPlayAll() async throws {
+  func testPlayAllSongFromAlbum() async throws {
     let songs = try songs()
     let store = withDependencies {
-      $0.apiClient.getSongsFromCurrentPlaylist = { songs }
+      $0.apiClient.replaceCurrentPlaylistWithAlbumSongs = { _ in songs }
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(),
@@ -534,7 +534,28 @@ final class PlayerReducerTests: XCTestCase {
 
     store.exhaustivity = .off
 
-    await store.send(.playAll)
+    await store.send(.playAll("albums", 1))
+
+    await store.receive(.playAllResponse(.success(songs))) {
+      $0.playlist.orderedSongs = songs
+      $0.currentSong = songs.first
+    }
+  }
+
+  func testPlayAllSongFromPlaylists() async throws {
+    let songs = try songs()
+    let store = withDependencies {
+      $0.apiClient.replaceCurrentPlaylistWithPlaylistSongs = { _ in songs }
+    } operation: {
+      TestStore(
+        initialState: PlayerReducer.State(),
+        reducer: { PlayerReducer() }
+      )
+    }
+
+    store.exhaustivity = .off
+
+    await store.send(.playAll("playlists", 1))
 
     await store.receive(.playAllResponse(.success(songs))) {
       $0.playlist.orderedSongs = songs
@@ -567,7 +588,7 @@ final class PlayerReducerTests: XCTestCase {
 
     let store = withDependencies {
       $0.apiClient.getSong = { _ in  playingSong }
-      $0.apiClient.addSongToCurrentPlaylist = { _, _ in playingSong}
+      $0.apiClient.addSongToCurrentPlaylist = { _, _, _ in playingSong}
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(playlist: playlist),
@@ -590,7 +611,7 @@ final class PlayerReducerTests: XCTestCase {
 
     let store = withDependencies {
       $0.apiClient.getSong = { _ in song }
-      $0.apiClient.addSongToCurrentPlaylist = { _, _ in song }
+      $0.apiClient.addSongToCurrentPlaylist = { _, _, _ in song }
     } operation: {
       TestStore(
         initialState: PlayerReducer.State(),
