@@ -1,11 +1,16 @@
 import Foundation
+import UIKit
 import Dependencies
-import AlertKit
+import SPAlert
 
 extension FlashMessageClient: DependencyKey {
   static let liveValue = Self(
     showMessage: { message in
-      AlertKitAPI.present(title: String(localized: message), style: .iOS16AppleMusic)
+      let alertView = SPAlertView(message: String(localized: message))
+
+      alertView.subtitleLabel?.font = .preferredFont(forTextStyle: .headline)
+      alertView.subtitleLabel?.textColor = .secondaryLabel
+      alertView.present()
     }
   )
 }
