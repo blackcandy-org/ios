@@ -31,7 +31,6 @@
 		644E9B43295AC7C0000DB3E3 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E9B42295AC7C0000DB3E3 /* TabBarViewController.swift */; };
 		6451FF3D2B19AB580098FD11 /* FlashMessageClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6451FF3C2B19AB580098FD11 /* FlashMessageClient.swift */; };
 		6451FF3F2B19ACB60098FD11 /* LiveFlashMessageClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6451FF3E2B19ACB60098FD11 /* LiveFlashMessageClient.swift */; };
-		6451FF422B19B34C0098FD11 /* AlertKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6451FF412B19B34C0098FD11 /* AlertKit */; };
 		645AF4222A5E86AE00D35670 /* WindowClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645AF4212A5E86AE00D35670 /* WindowClient.swift */; };
 		645AF4242A5E887500D35670 /* LiveWindowClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645AF4232A5E887500D35670 /* LiveWindowClient.swift */; };
 		645D7067299B18F30020146A /* PlaylistTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D7066299B18F30020146A /* PlaylistTests.swift */; };
@@ -39,6 +38,7 @@
 		645D706C299B52EA0020146A /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D706B299B52EA0020146A /* TestHelper.swift */; };
 		645D706E299B5E660020146A /* SongTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D706D299B5E660020146A /* SongTests.swift */; };
 		645D7070299B5F8E0020146A /* SystemInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645D706F299B5F8E0020146A /* SystemInfoTests.swift */; };
+		64602E722B1A202600966C12 /* SPAlert in Frameworks */ = {isa = PBXBuildFile; productRef = 64602E712B1A202600966C12 /* SPAlert */; };
 		646152292A08C17000513C46 /* PlayerClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646152282A08C17000513C46 /* PlayerClientTests.swift */; };
 		6461522B2A08C39400513C46 /* song.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6461522A2A08C39400513C46 /* song.mp3 */; };
 		646315252971A2910016EBCA /* LNPopupController in Frameworks */ = {isa = PBXBuildFile; productRef = 646315242971A2910016EBCA /* LNPopupController */; };
@@ -232,8 +232,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD6E0EA32884FEE100F39DB3 /* ComposableArchitecture in Frameworks */,
+				64602E722B1A202600966C12 /* SPAlert in Frameworks */,
 				DD83970B28DC043000BC8C11 /* Alamofire in Frameworks */,
-				6451FF422B19B34C0098FD11 /* AlertKit in Frameworks */,
 				DD62F4F727C76C13005A5D0B /* Turbo in Frameworks */,
 				646315252971A2910016EBCA /* LNPopupController in Frameworks */,
 			);
@@ -647,7 +647,7 @@
 				DD6E0EA22884FEE100F39DB3 /* ComposableArchitecture */,
 				DD83970A28DC043000BC8C11 /* Alamofire */,
 				646315242971A2910016EBCA /* LNPopupController */,
-				6451FF412B19B34C0098FD11 /* AlertKit */,
+				64602E712B1A202600966C12 /* SPAlert */,
 			);
 			productName = BlackCandy;
 			productReference = DD62F4C827C769CC005A5D0B /* BlackCandy.app */;
@@ -730,7 +730,7 @@
 				DD83970928DC043000BC8C11 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				646315232971A2900016EBCA /* XCRemoteSwiftPackageReference "LNPopupController" */,
 				648AA714299F6D8F002EED64 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */,
-				6451FF402B19B34C0098FD11 /* XCRemoteSwiftPackageReference "AlertKit" */,
+				64602E702B1A202600966C12 /* XCRemoteSwiftPackageReference "AlertKit" */,
 			);
 			productRefGroup = DD62F4C927C769CC005A5D0B /* Products */;
 			projectDirPath = "";
@@ -1193,12 +1193,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		6451FF402B19B34C0098FD11 /* XCRemoteSwiftPackageReference "AlertKit" */ = {
+		64602E702B1A202600966C12 /* XCRemoteSwiftPackageReference "AlertKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sparrowcode/AlertKit";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 5.1.8;
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.2.0;
 			};
 		};
 		646315232971A2900016EBCA /* XCRemoteSwiftPackageReference "LNPopupController" */ = {
@@ -1244,10 +1244,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		6451FF412B19B34C0098FD11 /* AlertKit */ = {
+		64602E712B1A202600966C12 /* SPAlert */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 6451FF402B19B34C0098FD11 /* XCRemoteSwiftPackageReference "AlertKit" */;
-			productName = AlertKit;
+			package = 64602E702B1A202600966C12 /* XCRemoteSwiftPackageReference "AlertKit" */;
+			productName = SPAlert;
 		};
 		646315242971A2910016EBCA /* LNPopupController */ = {
 			isa = XCSwiftPackageProductDependency;
