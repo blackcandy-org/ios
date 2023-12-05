@@ -2,11 +2,13 @@ import Foundation
 import Dependencies
 
 struct FlashMessageClient {
-  var showMessage: (String.LocalizationValue) -> Void
+  var showLocalizedMessage: (String.LocalizationValue) -> Void
+  var showMessage: (String) -> Void
 }
 
 extension FlashMessageClient: TestDependencyKey {
   static let testValue = Self(
+    showLocalizedMessage: { _ in },
     showMessage: { _ in }
   )
 }

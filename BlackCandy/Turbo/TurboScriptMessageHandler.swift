@@ -3,6 +3,8 @@ import WebKit
 import ComposableArchitecture
 
 class TurboScriptMessageHandler: NSObject, WKScriptMessageHandler {
+  @Dependency(\.flashMessageClient) var flashMessageClient
+
   let store: StoreOf<AppReducer>
 
   init(store: StoreOf<AppReducer>) {
@@ -29,6 +31,9 @@ class TurboScriptMessageHandler: NSObject, WKScriptMessageHandler {
     case "playLast":
       guard let songId = body["songId"] as? Int else { return }
       store.send(.player(.playLast(songId)))
+    case "showFlashMessage":
+      guard let message = body["message"] as? String else { return }
+      flashMessageClient.showMessage(message)
     case "updateTheme":
       guard
         let theme = body["theme"] as? String,

@@ -346,13 +346,13 @@ struct PlayerReducer: Reducer {
 
       case let .playNextResponse(.success(song)):
         _ = state.insertSongNextToCurrent(song: song)
-        flashMessageClient.showMessage("text.addedToPlaylist")
+        flashMessageClient.showLocalizedMessage("text.addedToPlaylist")
 
         return .none
 
       case let .playLastResponse(.success(song)):
         state.playlist.append(song)
-        flashMessageClient.showMessage("text.addedToPlaylist")
+        flashMessageClient.showLocalizedMessage("text.addedToPlaylist")
 
         return .none
 
