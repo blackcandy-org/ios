@@ -50,6 +50,10 @@ class TurboNavigationController: UINavigationController, SessionDelegate {
 
     // Dismiss any modals when receiving a new navigation
     if presentedViewController != nil {
+      // After finishing the operation on the modal session, then clear the snapshot cache in the default session,
+      // to avoid getting stale cached snapshot.
+      session.clearSnapshotCache()
+
       dismiss(animated: true)
     }
 
