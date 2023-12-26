@@ -16,10 +16,9 @@ struct PlayerActionsView: View {
               .tint(viewStore.mode == .noRepeat ? .primary : .white)
           }
         )
-        .padding(CustomStyle.spacing(.tiny))
+        .padding(CustomStyle.spacing(.narrow))
         .background(viewStore.mode == .noRepeat ? .clear : .accentColor)
         .cornerRadius(CustomStyle.cornerRadius(.medium))
-        .disabled(viewStore.isPlaylistVisible)
 
         Spacer()
 
@@ -37,8 +36,8 @@ struct PlayerActionsView: View {
             }
           }
         )
-        .padding(CustomStyle.spacing(.tiny))
-        .disabled(viewStore.isPlaylistVisible || !viewStore.hasCurrentSong)
+        .padding(CustomStyle.spacing(.narrow))
+        .disabled(!viewStore.hasCurrentSong)
 
         Spacer()
 
@@ -48,15 +47,14 @@ struct PlayerActionsView: View {
           },
           label: {
             Image(systemName: "list.bullet")
-              .tint(.primary)
+              .tint(viewStore.isPlaylistVisible ? .white : .primary)
           }
         )
-        .padding(CustomStyle.spacing(.tiny))
-        .background(viewStore.isPlaylistVisible ? Color.init(.systemGray3) : Color.clear)
-        .cornerRadius(CustomStyle.cornerRadius(.small))
+        .padding(CustomStyle.spacing(.narrow))
+        .background(viewStore.isPlaylistVisible ? Color.accentColor : .clear)
+        .cornerRadius(CustomStyle.cornerRadius(.medium))
       }
     })
-    .padding(.horizontal, CustomStyle.spacing(.large))
   }
 }
 

@@ -12,7 +12,15 @@ class SideBarViewController: UIViewController {
     playerViewController = UIHostingController(
       rootView: VStack {
         Divider()
-        PlayerView(store: store)
+        PlayerView(
+          store: store,
+          padding: .init(
+            top: CustomStyle.spacing(.tiny),
+            leading: CustomStyle.spacing(.tiny),
+            bottom: 0,
+            trailing: CustomStyle.spacing(.tiny)
+          )
+        )
       }
     )
 

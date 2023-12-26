@@ -12,7 +12,17 @@ class PlayerViewController: UIHostingController<PlayerView> {
 
   init(store: StoreOf<PlayerReducer>) {
     self.store = store
-    super.init(rootView: PlayerView(store: store))
+    super.init(
+      rootView: PlayerView(
+        store: store,
+        padding: .init(
+          top: CustomStyle.spacing(.medium),
+          leading: 0,
+          bottom: CustomStyle.spacing(.narrow),
+          trailing: 0
+        )
+      )
+    )
   }
 
   override func viewDidLoad() {
