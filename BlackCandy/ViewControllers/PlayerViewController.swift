@@ -41,9 +41,11 @@ class PlayerViewController: UIHostingController<PlayerView> {
 
         pauseButton.isEnabled = state.hasCurrentSong
         pauseButton.tintColor = .label
+        pauseButton.width = CustomStyle.spacing(.ultraWide)
 
         playButton.isEnabled = state.hasCurrentSong
         playButton.tintColor = .label
+        playButton.width = CustomStyle.spacing(.ultraWide)
 
         nextButton.isEnabled = state.hasCurrentSong
         nextButton.tintColor = .label
