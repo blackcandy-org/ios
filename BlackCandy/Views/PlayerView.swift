@@ -3,6 +3,7 @@ import ComposableArchitecture
 
 struct PlayerView: View {
   let store: StoreOf<PlayerReducer>
+  var padding: EdgeInsets = .init()
 
   struct ViewState: Equatable {
     let isPlaylistVisible: Bool
@@ -23,18 +24,22 @@ struct PlayerView: View {
 
         if viewStore.isPlaylistVisible {
           PlayerPlaylistView(store: store)
+            .padding(.horizontal, CustomStyle.spacing(.tiny))
+
         } else {
           PlayerSongInfoView(currentSong: viewStore.currentSong)
           PlayerControlView(store: store)
             .disabled(!viewStore.hasCurrentSong)
+            .padding(.horizontal, CustomStyle.spacing(.small))
         }
 
         Spacer()
 
         PlayerActionsView(store: store)
+          .padding(.vertical, CustomStyle.spacing(.medium))
+          .padding(.horizontal, CustomStyle.spacing(.large))
       }
-      .padding()
-      .padding(.bottom, CustomStyle.spacing(.wide))
+      .padding(padding)
       .frame(maxWidth: CustomStyle.playerMaxWidth)
       .task {
         await viewStore.send(.getLivingStates).finish()

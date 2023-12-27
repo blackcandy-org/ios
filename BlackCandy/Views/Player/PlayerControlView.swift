@@ -42,11 +42,11 @@ struct PlayerControlView: View {
           if viewStore.isPlaying {
             Image(systemName: "pause.fill")
               .tint(.primary)
-              .customStyle(.largeSymbol)
+              .customStyle(.extraLargeSymbol)
           } else {
             Image(systemName: "play.fill")
               .tint(.primary)
-              .customStyle(.largeSymbol)
+              .customStyle(.extraLargeSymbol)
           }
         }
       )

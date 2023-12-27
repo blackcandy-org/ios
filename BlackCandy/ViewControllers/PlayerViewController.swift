@@ -12,7 +12,17 @@ class PlayerViewController: UIHostingController<PlayerView> {
 
   init(store: StoreOf<PlayerReducer>) {
     self.store = store
-    super.init(rootView: PlayerView(store: store))
+    super.init(
+      rootView: PlayerView(
+        store: store,
+        padding: .init(
+          top: CustomStyle.spacing(.medium),
+          leading: 0,
+          bottom: CustomStyle.spacing(.narrow),
+          trailing: 0
+        )
+      )
+    )
   }
 
   override func viewDidLoad() {
@@ -31,9 +41,11 @@ class PlayerViewController: UIHostingController<PlayerView> {
 
         pauseButton.isEnabled = state.hasCurrentSong
         pauseButton.tintColor = .label
+        pauseButton.width = CustomStyle.spacing(.ultraWide)
 
         playButton.isEnabled = state.hasCurrentSong
         playButton.tintColor = .label
+        playButton.width = CustomStyle.spacing(.ultraWide)
 
         nextButton.isEnabled = state.hasCurrentSong
         nextButton.tintColor = .label

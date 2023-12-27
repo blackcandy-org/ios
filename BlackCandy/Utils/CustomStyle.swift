@@ -28,6 +28,7 @@ struct CustomStyle {
 
   enum Style {
     case largeSymbol
+    case extraLargeSymbol
     case smallFont
     case mediumFont
     case playerProgressLoader
@@ -55,6 +56,9 @@ extension View {
     switch style {
     case .largeSymbol:
       font(.system(size: CustomStyle.spacing(.wide)))
+
+    case .extraLargeSymbol:
+      font(.system(size: CustomStyle.spacing(.extraWide)))
 
     case .smallFont:
       font(.system(size: CustomStyle.fontSize(.small)))
