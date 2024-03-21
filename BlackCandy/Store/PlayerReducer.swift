@@ -291,9 +291,9 @@ struct PlayerReducer: Reducer {
             .playAllResponse(
               TaskResult {
                 switch resourceType {
-                case "albums":
+                case "album":
                   return try await apiClient.replaceCurrentPlaylistWithAlbumSongs(resourceId)
-                case "playlists":
+                case "playlist":
                   return try await apiClient.replaceCurrentPlaylistWithPlaylistSongs(resourceId)
                 default:
                   throw APIClient.APIError.invalidRequest
