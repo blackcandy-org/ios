@@ -7,6 +7,15 @@ extension APIClient: DependencyKey {
     @Dependency(\.userDefaultsClient) var userDefaultClient
     @Dependency(\.keychainClient) var keychainClient
 
+    lazy var session: Session = {
+      let configuration = URLSessionConfiguration.af.default
+
+      configuration.waitsForConnectivity = true
+      configuration.timeoutIntervalForResource = 300
+
+      return Session(configuration: configuration)
+    }()
+
     var headers: HTTPHeaders {
       var basicHeaders: HTTPHeaders = [
         .userAgent(BLACK_CANDY_USER_AGENT)
@@ -99,7 +108,7 @@ extension APIClient: DependencyKey {
           ]
         ]
 
-        let request = AF.request(
+        let request = session.request(
           requestURL("/authentication"),
           method: .post,
           parameters: parameters,
@@ -126,7 +135,7 @@ extension APIClient: DependencyKey {
       },
 
       logout: {
-        let request = AF.request(
+        let request = session.request(
           requestURL("/authentication"),
           method: .delete,
           headers: headers
@@ -140,7 +149,7 @@ extension APIClient: DependencyKey {
       },
 
       getSongsFromCurrentPlaylist: {
-        let request = AF.request(
+        let request = session.request(
           requestURL("/current_playlist/songs"),
           headers: headers
         )
@@ -153,7 +162,7 @@ extension APIClient: DependencyKey {
       },
 
       addSongToFavorite: { song in
-        let request = AF.request(
+        let request = session.request(
           requestURL("/favorite_playlist/songs"),
           method: .post,
           parameters: ["song_id": song.id],
@@ -169,7 +178,7 @@ extension APIClient: DependencyKey {
       },
 
       deleteSongInFavorite: { song in
-        let request = AF.request(
+        let request = session.request(
           requestURL("/favorite_playlist/songs/\(song.id)"),
           method: .delete,
           headers: headers
@@ -184,7 +193,7 @@ extension APIClient: DependencyKey {
       },
 
       deleteSongInCurrentPlaylist: { song in
-        let request = AF.request(
+        let request = session.request(
           requestURL("/current_playlist/songs/\(song.id)"),
           method: .delete,
           headers: headers
@@ -198,7 +207,7 @@ extension APIClient: DependencyKey {
       },
 
       moveSongInCurrentPlaylist: { songId, destinationSongId in
-        let request = AF.request(
+        let request = session.request(
           requestURL("/current_playlist/songs/\(songId)/move"),
           method: .put,
           parameters: ["destination_song_id": destinationSongId],
@@ -213,7 +222,7 @@ extension APIClient: DependencyKey {
       },
 
       getSong: { songId in
-        let request = AF.request(
+        let request = session.request(
           requestURL("/songs/\(songId)"),
           headers: headers
         )
@@ -228,7 +237,7 @@ extension APIClient: DependencyKey {
       getSystemInfo: { serverAddressState in
         let url = "\(serverAddressState.url)/api/v1/system"
 
-        let request = AF.request(
+        let request = session.request(
           url,
           headers: headers
         )
@@ -256,7 +265,7 @@ extension APIClient: DependencyKey {
           parameters["location"] = location
         }
 
-        let request = AF.request(
+        let request = session.request(
           requestURL("/current_playlist/songs"),
           method: .post,
           parameters: parameters,
@@ -271,7 +280,7 @@ extension APIClient: DependencyKey {
       },
 
       replaceCurrentPlaylistWithAlbumSongs: { albumId in
-        let request = AF.request(
+        let request = session.request(
           requestURL("/current_playlist/songs/albums/\(albumId)"),
           method: .put,
           headers: headers
@@ -285,7 +294,7 @@ extension APIClient: DependencyKey {
       },
 
       replaceCurrentPlaylistWithPlaylistSongs: { playlistId in
-        let request = AF.request(
+        let request = session.request(
           requestURL("/current_playlist/songs/playlists/\(playlistId)"),
           method: .put,
           headers: headers
