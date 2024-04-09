@@ -193,7 +193,7 @@ struct PlayerReducer: Reducer {
         case .noRepeat:
           if state.currentIndex == state.playlist.songs.count - 1 {
             playerClient.stop()
-            state.currentSong = nil
+            state.currentSong = state.playlist.songs.first
 
             return .none
           } else {
