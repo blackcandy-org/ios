@@ -534,9 +534,9 @@ final class PlayerReducerTests: XCTestCase {
 
     store.exhaustivity = .off
 
-    await store.send(.playAll("album", 1))
+    await store.send(.playAlbum(1))
 
-    await store.receive(.playAllResponse(.success(songs))) {
+    await store.receive(.playSongsResponse(.success(songs))) {
       $0.playlist.orderedSongs = songs
       $0.currentSong = songs.first
     }
@@ -555,9 +555,9 @@ final class PlayerReducerTests: XCTestCase {
 
     store.exhaustivity = .off
 
-    await store.send(.playAll("playlist", 1))
+    await store.send(.playPlaylist(1))
 
-    await store.receive(.playAllResponse(.success(songs))) {
+    await store.receive(.playSongsResponse(.success(songs))) {
       $0.playlist.orderedSongs = songs
       $0.currentSong = songs.first
     }
@@ -574,7 +574,7 @@ final class PlayerReducerTests: XCTestCase {
       reducer: { PlayerReducer() }
     )
 
-    await store.send(.playSong(1)) {
+    await store.send(.playNow(1)) {
       $0.currentSong = songs.first
     }
   }
@@ -598,9 +598,9 @@ final class PlayerReducerTests: XCTestCase {
 
     store.exhaustivity = .off
 
-    await store.send(.playSong(2))
+    await store.send(.playNow(2))
 
-    await store.receive(.playSongResponse(.success(playingSong))) {
+    await store.receive(.playNowResponse(.success(playingSong))) {
       $0.playlist.orderedSongs = [song, playingSong]
       $0.currentSong = playingSong
     }
@@ -621,9 +621,9 @@ final class PlayerReducerTests: XCTestCase {
 
     store.exhaustivity = .off
 
-    await store.send(.playSong(1))
+    await store.send(.playNow(1))
 
-    await store.receive(.playSongResponse(.success(song))) {
+    await store.receive(.playNowResponse(.success(song))) {
       $0.playlist.orderedSongs = [song]
       $0.currentSong = song
     }
