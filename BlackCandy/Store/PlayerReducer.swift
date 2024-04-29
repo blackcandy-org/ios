@@ -63,12 +63,16 @@ struct PlayerReducer: Reducer {
     case moveSongsResponse(TaskResult<APIClient.NoContentResponse>)
     case getCurrentPlaylist
     case currentPlaylistResponse(TaskResult<[Song]>)
-    case playAll(String, Int)
-    case playAllResponse(TaskResult<[Song]>)
-    case playSong(Int)
+    case playAlbum(Int)
+    case playAlbumBeginWith(Int, Int)
+    case playPlaylist(Int)
+    case playPlaylistBeginWith(Int, Int)
+    case playSongsResponse(TaskResult<[Song]>)
+    case playSongsBeginWithResponse(TaskResult<[Song]>, Int)
+    case playNow(Int)
     case playNext(Int)
     case playLast(Int)
-    case playSongResponse(TaskResult<Song>)
+    case playNowResponse(TaskResult<Song>)
     case playNextResponse(TaskResult<Song>)
     case playLastResponse(TaskResult<Song>)
   }
@@ -285,37 +289,72 @@ struct PlayerReducer: Reducer {
 
         return .none
 
-      case let .playAll(resourceType, resourceId):
+      case let .playAlbum(albumId):
         return .run { send in
           await send(
-            .playAllResponse(
+            .playSongsResponse(
               TaskResult {
-                switch resourceType {
-                case "album":
-                  return try await apiClient.replaceCurrentPlaylistWithAlbumSongs(resourceId)
-                case "playlist":
-                  return try await apiClient.replaceCurrentPlaylistWithPlaylistSongs(resourceId)
-                default:
-                  throw APIClient.APIError.invalidRequest
-                }
+                try await apiClient.replaceCurrentPlaylistWithAlbumSongs(albumId)
               }
             )
           )
         }
 
-      case let .playAllResponse(.success(songs)):
+      case let .playAlbumBeginWith(albumId, songId):
+        return .run { send in
+          await send(
+            .playSongsBeginWithResponse(
+              TaskResult { try await apiClient.replaceCurrentPlaylistWithAlbumSongs(albumId) },
+              songId
+            )
+          )
+        }
+
+      case let .playPlaylist(playlistId):
+        return .run { send in
+          await send(
+            .playSongsResponse(
+              TaskResult {
+                try await apiClient.replaceCurrentPlaylistWithPlaylistSongs(playlistId)
+              }
+            )
+          )
+        }
+
+      case let .playPlaylistBeginWith(playlistId, songId):
+        return .run { send in
+          await send(
+            .playSongsBeginWithResponse(
+              TaskResult { try await apiClient.replaceCurrentPlaylistWithPlaylistSongs(playlistId) },
+              songId
+            )
+          )
+        }
+
+      case let .playSongsResponse(.success(songs)):
         state.playlist.update(songs: songs)
         state.currentSong = songs.first
 
         return self.playOn(state: &state, index: 0)
 
-      case let .playSong(songId):
+      case let .playSongsBeginWithResponse(.success(songs), songId):
+        state.playlist.update(songs: songs)
+
+        if let songIndex = state.playlist.index(by: songId) {
+          state.currentSong = state.playlist.find(byIndex: songIndex)
+          return self.playOn(state: &state, index: songIndex)
+        } else {
+          state.currentSong = songs.first
+          return self.playOn(state: &state, index: 0)
+        }
+
+      case let .playNow(songId):
         if let songIndex = state.playlist.index(by: songId) {
           return self.playOn(state: &state, index: songIndex)
         } else {
           return .run { [currentSong = state.currentSong] send in
             await send(
-              .playSongResponse(
+              .playNowResponse(
                 TaskResult { try await apiClient.addSongToCurrentPlaylist(songId, currentSong, nil) }
               )
             )
@@ -340,7 +379,7 @@ struct PlayerReducer: Reducer {
           )
         }
 
-      case let .playSongResponse(.success(song)):
+      case let .playNowResponse(.success(song)):
         let insertIndex = state.insertSongNextToCurrent(song: song)
         return self.playOn(state: &state, index: insertIndex)
 
@@ -359,8 +398,9 @@ struct PlayerReducer: Reducer {
       case let .deleteSongsResponse(.failure(error)),
         let .moveSongsResponse(.failure(error)),
         let .currentPlaylistResponse(.failure(error)),
-        let .playAllResponse(.failure(error)),
-        let .playSongResponse(.failure(error)),
+        let .playSongsResponse(.failure(error)),
+        let .playSongsBeginWithResponse(.failure(error), _),
+        let .playNowResponse(.failure(error)),
         let .playNextResponse(.failure(error)),
         let .playLastResponse(.failure(error)),
         let .toggleFavoriteResponse(.failure(error)):
