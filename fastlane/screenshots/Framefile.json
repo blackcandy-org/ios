@@ -1,0 +1,44 @@
+{
+  "device_frame_version": "latest",
+  "default": {
+    "title": {
+      "font": "./fonts/GillSans.ttc",
+      "font_size": 45,
+      "font_weight": 300,
+      "color": "#2c2c2e"
+    },
+
+    "background": "./background.jpg",
+    "padding": "7%x7.5%"
+  },
+
+  "data": [
+    {
+      "filter": "iPhone SE",
+      "title": {
+        "font_size": 45
+      },
+      "padding": "7%x9.5%"
+    },
+    {
+      "filter": "iPhone 14 Plus",
+      "title": {
+        "font_size": 80
+      },
+      "padding": "5%x15%"
+    },
+    {
+      "filter": "iPhone 14 Pro Max",
+      "title": {
+        "font_size": 85
+      },
+      "padding": "5%x15%"
+    },
+    {
+      "filter": "iPad Pro",
+      "title": {
+        "font_size": 75
+      }
+    }
+  ]
+}
