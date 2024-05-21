@@ -4,5 +4,9 @@
 *.ipa
 xcuserdata/
 
+/fastlane/screenshots/**/*.png
+/fastlane/screenshots/fonts/*
 /fastlane/report.xml
+
+!/fastlane/screenshots/fonts/.keep
 BlackCandy.xcconfig

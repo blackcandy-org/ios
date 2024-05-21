@@ -13,6 +13,7 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
+skip_docs
 default_platform(:ios)
 
 platform :ios do
@@ -29,14 +30,18 @@ platform :ios do
       force: true
     )
 
+    build_app(scheme: "BlackCandy")
+    upload_to_testflight
+
     add_git_tag(tag: "v#{get_version_number}.beta#{get_build_number}")
     push_to_git_remote
+  end
 
-    build_app(scheme: "BlackCandy")
+  desc "Frame screenshot"
+  lane :frame do
+    # Clear previous framed screenshots
+    sh("find #{ENV['PWD']}/fastlane/screenshots -type f -name '*framed*' -delete")
 
-    changelog_from_git_commits(
-      merge_commit_filtering: "exclude_merges"
-    )
-    upload_to_testflight
+    frameit(path: "./fastlane/screenshots")
   end
 end
