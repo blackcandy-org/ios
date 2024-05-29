@@ -14,11 +14,11 @@
 
   "data": [
     {
-      "filter": "iPhone SE",
+      "filter": "iPhone 8 Plus",
       "title": {
-        "font_size": 45
+        "font_size": 70
       },
-      "padding": "7%x9.5%"
+      "padding": "6%x10%"
     },
     {
       "filter": "iPhone 14 Plus",

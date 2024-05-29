@@ -8,4 +8,4 @@ The official Black Candy iOS app. To use this app, you must have a Black Candy s
 
 ## Get the app
 
-The iOS app of Black Candy in beta now. You can visite [here](https://testflight.apple.com/join/TwMUVmDl) to join beta in TestFlight.
+[<img src="https://raw.githubusercontent.com/blackcandy-org/ios/master/images/appstore_badge.png" alt="Get it on App Store" height="50">](https://apps.apple.com/app/blackcandy/id6444304071)
